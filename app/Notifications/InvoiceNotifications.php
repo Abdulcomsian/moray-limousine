@@ -31,7 +31,7 @@ class InvoiceNotifications extends Notification
      */
     public function via($notifiable)
     {
-        return ['database','mail'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -45,8 +45,12 @@ class InvoiceNotifications extends Notification
         return (new MailMessage)
             ->greeting("hello")
             ->subject("Booking Invoice")
-            ->view('mail.invoicemail',['details'=> $this->details]);
-            /*->line($this->details['body'])
+            ->view('mail.invoicemail', ['details' => $this->details])
+            ->attach(public_path($this->details['body']['filename']), [
+                'as' => 'invoice.pdf',
+                'mime' => 'text/pdf',
+            ]);
+        /*->line($this->details['body'])
             ->action($this->details['action_text'], url($this->details['action_url']))
             ->line($this->details['thanks_text']);*/
     }
@@ -60,7 +64,6 @@ class InvoiceNotifications extends Notification
             'thanks_text' => $this->details['thanks_text'],
             'actionLink' => $this->details['action_text'], $this->details['action_url']
         ];
-
     }
 
     /**
