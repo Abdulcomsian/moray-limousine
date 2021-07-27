@@ -42,11 +42,12 @@ class InvoiceNotifications extends Notification
      */
     public function toMail($notifiable)
     {
+
         return (new MailMessage)
             ->greeting("hello")
             ->subject("Booking Invoice")
             ->view('mail.invoicemail', ['details' => $this->details])
-            ->attach(public_path($this->details['body']['filename']), [
+            ->attach(public_path('pdf/' . $this->details['body']['filename']), [
                 'as' => 'invoice.pdf',
                 'mime' => 'text/pdf',
             ]);

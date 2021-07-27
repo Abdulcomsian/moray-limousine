@@ -588,7 +588,7 @@ class BookingController extends Controller
         $invoice_number = $result->invoice_number;
         //GENERATE PDF FILE AND SEND TO IN EMAIL
         $pdf = PDF::loadView('invoicepdf', ['booking' => $booking, 'invoice_number' => $invoice_number]);
-        $path = public_path('\pdf');
+        $path = public_path('pdf');
         $fileName =  'invoice' . $id . '.' . 'pdf';
         $pdf->save($path . '/' . $fileName);
         //send invoice using email
