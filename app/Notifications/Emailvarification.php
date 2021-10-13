@@ -48,7 +48,7 @@ class Emailvarification extends Notification
     {
         return (new MailMessage)
             ->greeting("")
-            ->subject("Email Varification")
+            ->subject("Email Verification")
             ->view('mail.verifyemail',['token'=> $this->token,'expiredate'=>$this->expire,'email'=>$this->email]);
     }
 
