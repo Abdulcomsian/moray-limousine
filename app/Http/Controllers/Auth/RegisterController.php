@@ -41,7 +41,6 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        
         $this->middleware('guest', ['except' => ['verify', 'showResendVerificationEmailForm', 'resendVerificationEmail']]);
         $this->middleware('auth', ['only' => ['showResendVerificationEmailForm', 'resendVerificationEmail']]);
 //        $this->middleware('guest');
