@@ -86,6 +86,7 @@ class Booking extends Model
         return $this->belongsToMany(User::class,'booking_user',
             'booking_id', 'user_id')
             ->withPivot('status','assigned_at', 'booking_date', 'commission', 'calculated_price' , 'assigned_to');
+
     }
 
     /**

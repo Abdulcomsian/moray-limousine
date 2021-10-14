@@ -20,7 +20,8 @@
 
     {{--    Modal for add driver--}}
 
-    <div class="container position-absolute">
+    <div class="container position-absolute">  
+
         <!-- Modal -->
         <div class="modal fade" id="add-driver-modal" role="dialog">
             <div class="modal-dialog modal-lg w-75 mr-5 mt-5">
@@ -144,6 +145,11 @@
 
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
+                              <ul>
+                                 @foreach ($errors->all() as $error)
+                                     <li class="text-danger">{{ $error }}</li>
+                                 @endforeach
+                            </ul>
                         <div class="card-header">
                             <div class="heading">
                                 <h4> Search Driver By Email To Add As Your Driver. </h4>
