@@ -1,5 +1,6 @@
 @php
 $user_type = Auth()->user()->user_type;
+exit;
 @endphp
 <table id="myTable" class="table myTable table-striped dt-responsive nowrap">
     <thead>

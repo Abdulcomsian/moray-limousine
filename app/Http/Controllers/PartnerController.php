@@ -458,6 +458,12 @@ class PartnerController extends Controller
         $user = $this->user->registerDriver($request->all());
         $driver_id =  $user->id;
         auth()->user()->users()->attach($driver_id,['status' => 'active']);
+        //notify admin
+        $admin=User::where('user_type','admin')->first();
+        $registered_msg = array_merge($this->notifyDriverMsg,['body'=> 'A New Partner On Moray Limousines Added You As Driver For More Details visit web']);
+        $user->notify(new MorayLimousineNotifications($registered_msg));
+        $registered_msg = array_merge($this->adminnotifyDriverMsg,['body'=> 'A New Driver On Moray Limousines is Added']);
+        $admin->notify(new MorayLimousineNotifications($registered_msg));
         return redirect(route('partner.driver.list'))->with('success','"Success... !" New Driver Created Successfully ');
     }
 
@@ -573,9 +579,15 @@ class PartnerController extends Controller
         ];
     }
 
-    protected $notifyDriverMsg = [   'greeting' => 'A New Partner On Moray Limousines Added You As Driver',
+        protected $notifyDriverMsg = [   'greeting' => 'A New Partner On Moray Limousines Added You As Driver',
         'subject' => 'New Partner Added You As Driver',
         'body'   => 'A New Partner On Moray Limousines Added You As Driver For More Details visit web',
+        'thanks_text' => 'Thanks For Using Moray Limousines',
+        'action_text' => 'View My Site',
+        'action_url' => '/driver/dashboard'];
+        protected $adminnotifyDriverMsg = [   'greeting' => 'A New Partner On Moray Limousines Added ',
+        'subject' => 'New Driver is Added by Partner',
+        'body'   => 'A New Partner On Moray Limousines is Added For More Details visit web',
         'thanks_text' => 'Thanks For Using Moray Limousines',
         'action_text' => 'View My Site',
         'action_url' => '/driver/dashboard'];

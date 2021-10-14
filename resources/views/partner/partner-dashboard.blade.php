@@ -3,6 +3,7 @@
 @section('title')
     Partner
 @endsection
+
 @section('content')
     <div class="main-panel">
         <div class="content-wrapper pt-3">

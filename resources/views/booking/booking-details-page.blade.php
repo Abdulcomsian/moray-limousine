@@ -295,7 +295,7 @@ $user_type = auth()->user()->user_type;
                         </div>
                     </div>
                     <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
-                        @php if(!empty($booking)){
+                        @php  if(!empty($booking)){
                 $user = $booking->user;
                                         } @endphp
                         <div class="row">
@@ -350,6 +350,7 @@ $user_type = auth()->user()->user_type;
                       @if(isset($booking->otherUser) and $booking->otherUser != null)
 
                           @php
+
                           if(!empty($booking)){
                             $other_user = $booking->otherUser;
                                 }

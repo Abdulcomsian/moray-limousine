@@ -11,7 +11,11 @@
     </style>
 
 
-
+    <ul>
+     @foreach ($errors->all() as $error)
+         <li>{{ $error }}</li>
+     @endforeach
+       </ul>
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
@@ -19,7 +23,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="heading">
-                                <h4> Search Driver By Email To Add As Your Driver. </h4>
+                                <h4> Search Driver By Email To Add As Your Driver </h4>
                             </div>
                             <div class="card-body">
                                 <form>
