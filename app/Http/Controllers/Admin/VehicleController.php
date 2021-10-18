@@ -142,6 +142,13 @@ class VehicleController extends Controller
         $vehicle->status = 'approved';
         $vehicle->update();
         $data['vehicles'] = $this->vehicle->orderBy('id', 'desc')->get();
+        //send approve vehicle
+        if ($vehicle->creator_id) {
+            $user = User::find($vehicle->creator_id);
+            $registered_msg = $this->notifyvehicleapprovedMsg;
+            $user->notify(new MorayLimousineNotifications($registered_msg));
+        }
+
         return view('parshall-views._vehicle-listing-table', $data);
     }
 
@@ -158,6 +165,12 @@ class VehicleController extends Controller
         $vehicle->status = 'blocked';
         $vehicle->update();
         $data['vehicles'] = $this->vehicle->orderBy('id', 'desc')->get();
+        //send approve vehicle
+        if ($vehicle->creator_id) {
+            $user = User::find($vehicle->creator_id);
+            $registered_msg = $this->notifyvehicledisapprovedMsg;
+            $user->notify(new MorayLimousineNotifications($registered_msg));
+        }
         return view('parshall-views._vehicle-listing-table', $data);
     }
 
@@ -314,4 +327,21 @@ class VehicleController extends Controller
         }
         return view('parshall-views._vehicle-listing-table', $data);
     }
+
+    protected $notifyvehicleapprovedMsg = [
+        'greeting' => 'A New vehicle On Moray Limousines is Approved',
+        'subject' => 'New vehicle is Approved',
+        'body'   => 'A New vehicle On Moray Limousines is Approved',
+        'thanks_text' => 'Thanks For Using Moray Limousines',
+        'action_text' => 'View My Site',
+        'action_url' => '/partner/dashboard'
+    ];
+    protected $notifyvehicledisapprovedMsg = [
+        'greeting' => 'A New vehicle On Moray Limousines is DisApproved',
+        'subject' => 'New vehicle is DisApproved',
+        'body'   => 'A New vehicle On Moray Limousines is DisApproved',
+        'thanks_text' => 'Thanks For Using Moray Limousines',
+        'action_text' => 'View My Site',
+        'action_url' => '/partner/dashboard'
+    ];
 }
