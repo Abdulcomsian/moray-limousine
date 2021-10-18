@@ -27,7 +27,8 @@ class AdminController extends Controller
 {
     private $client;
     private $booking;
-    public function __construct(HappyClient $client ,Booking $booking){
+    public function __construct(HappyClient $client, Booking $booking)
+    {
         $this->client = $client;
         $this->booking = $booking;
     }
@@ -43,30 +44,32 @@ class AdminController extends Controller
      * Admin Index Page
      * @return Factory|\Illuminate\View\View
      */
-    public function index(){
-        $bookings = $this->booking->where('payment_status','paid')
-        ->orderBy('created_at', 'desc')->get();
-        $pending_bookings  = $this->booking->where('payment_status','paid')->where('booking_status','pending')->get();
-        $complete_bookings = Booking::where('booking_status','completed')->get();
+    public function index()
+    {
+        $bookings = $this->booking->where('payment_status', 'paid')
+            ->orderBy('created_at', 'desc')->get();
+        $pending_bookings  = $this->booking->where('payment_status', 'paid')->where('booking_status', 'pending')->get();
+        $complete_bookings = Booking::where('booking_status', 'completed')->get();
         $pending_bookings = count($pending_bookings);
         $complete_bookings = count($complete_bookings);
         $data['bookings'] = $bookings;
         $data['pending_count'] = $pending_bookings;
         $data['completed_count'] = $complete_bookings;
-        return view('admin.admin-index',$data);
+        return view('admin.admin-index', $data);
     }
 
     /**
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function bookingApprove($id){
-        $booking  = Booking::find( $id);
+    public function bookingApprove($id)
+    {
+        $booking  = Booking::find($id);
         $booking->booking_status = 'approved';
         $booking->save();
         $user = $booking->user;
-        $approve_msg = array_merge($this->approve_booking_msg,['body'=> 'Your Booking Request is approved by Moray Limousine which '.
-        $booking['pick_address'].  ' And Pick Time is  '.$booking['pick_time'].' ! Enjoy With Us.  ']);
+        $approve_msg = array_merge($this->approve_booking_msg, ['body' => 'Your Booking Request is approved by Moray Limousine which ' .
+            $booking['pick_address'] .  ' And Pick Time is  ' . $booking['pick_time'] . ' ! Enjoy With Us.  ']);
         $user->notify(new MorayLimousineNotifications($approve_msg));
         return redirect(route('admin.index'));
     }
@@ -75,17 +78,18 @@ class AdminController extends Controller
      * Manage Bookings page
      * @return Factory|\Illuminate\View\View
      */
-    public function manageBookings(){
-        $bookings = Booking::where('payment_status','paid')
+    public function manageBookings()
+    {
+        $bookings = Booking::where('payment_status', 'paid')
             ->orderBy('created_at', 'desc')->get();
-        $pending_bookings  = Booking::where('booking_status','pending')->get();
-        $complete_bookings = Booking::where('booking_status','completed')->get();
+        $pending_bookings  = Booking::where('booking_status', 'pending')->get();
+        $complete_bookings = Booking::where('booking_status', 'completed')->get();
         $pending_bookings = count($pending_bookings);
         $complete_bookings = count($complete_bookings);
         $data['pending_count'] = $pending_bookings;
         $data['bookings'] = $bookings;
         $data['completed_count'] = $complete_bookings;
-        return view('admin.booking.manage-bookings',$data);
+        return view('admin.booking.manage-bookings', $data);
     }
 
 
@@ -93,16 +97,17 @@ class AdminController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registerDriver(Request $request){
+    public function registerDriver(Request $request)
+    {
         $failMsg = 'Fail To add Driver. !  Please Try Another Email ..';
-        $validator =  validator($request->all(),$this->validationRules) ;
+        $validator =  validator($request->all(), $this->validationRules);
         if ($validator->fails()) {
             return response()->json($failMsg);
         }
         $user = new User();
         $user = $user->registerDriver($request->all());
         $successMessage = 'Success !   Driver Created Successfully';
-        $registered_msg = array_merge($this->register_driver_msg,['body'=> 'You are Registered On Moray Limousines by Admin . Please Check your account By using password : " '.$request['password'].' "  ! Enjoy With Us.  ']);
+        $registered_msg = array_merge($this->register_driver_msg, ['body' => 'You are Registered On Moray Limousines by Admin . Please Check your account By using password : " ' . $request['password'] . ' "  ! Enjoy With Us.  ']);
         $user->notify(new MorayLimousineNotifications($registered_msg));
         return response()->json($successMessage);
     }
@@ -113,10 +118,11 @@ class AdminController extends Controller
      * @return Factory|\Illuminate\View\View
      * Driver Details View
      */
-    public function driverDetails($id){
+    public function driverDetails($id)
+    {
         $data['user'] = User::find($id);
         $data['documents'] = $data['user']->uploadedDocuments;
-        return view('admin.drivers-tasks.driver-details',$data);
+        return view('admin.drivers-tasks.driver-details', $data);
     }
 
     /**
@@ -124,107 +130,115 @@ class AdminController extends Controller
      * @return Factory|\Illuminate\View\View
      * Approve Driver
      */
-    public function changeStatus(Request $request){
+    public function changeStatus(Request $request)
+    {
         $id = $request->id;
-      $user =  User::find($id);
-      $user->status = 'approved';
-      $user->save();
-        $approve_msg = array_merge($this->approve_driver_msg,['body'=> 'Your Account is Registered On Moray Limousines is Approved by Admin . ! Enjoy With Us.  ']);
+        $user =  User::find($id);
+        $user->status = 'approved';
+        $user->save();
+        $approve_msg = array_merge($this->approve_driver_msg, ['body' => 'Your Account is Registered On Moray Limousines is Approved by Admin . ! Enjoy With Us.  ']);
         $user->notify(new MorayLimousineNotifications($approve_msg));
-        $drivers = User::where('user_type', 'driver')->orderBy('id','desc')->get();
+        $drivers = User::where('user_type', 'driver')->orderBy('id', 'desc')->get();
         $data['drivers'] = $drivers;
-        return view('parshall-views._driver-list-table',$data);
+        return view('parshall-views._driver-list-table', $data);
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changeTax(Request $request){
+    public function changeTax(Request $request)
+    {
         $tax = Tax::first();
         $tax->tax = $request->tax;
         $tax->save();
         return redirect()->back();
-
     }
 
     /**
      * @param Request $request
      * @return Factory|\Illuminate\View\View
      */
-    public function disapproveStatus(Request $request){
+    public function disapproveStatus(Request $request)
+    {
         $id = $request->id;
         $user =  User::find($id);
         $user->status = 'disapproved';
         $user->save();
-        $disapprove_msg = array_merge($this->disapprove_driver_msg,['body'=> 'Your Account is Registered On Moray Limousines is Not Approved by Admin . ! ']);
+        $disapprove_msg = array_merge($this->disapprove_driver_msg, ['body' => 'Your Account is Registered On Moray Limousines is Not Approved by Admin . ! ']);
         $user->notify(new MorayLimousineNotifications($disapprove_msg));
 
-        $drivers = User::where('user_type', 'driver')->orderBy('id','desc')->get();
+        $drivers = User::where('user_type', 'driver')->orderBy('id', 'desc')->get();
         $data['drivers'] = $drivers;
-        return view('parshall-views._driver-list-table',$data);
+        return view('parshall-views._driver-list-table', $data);
     }
 
     /**
      * @param Request $request
      * @return Factory|\Illuminate\View\View
      */
-    public function blockStatus(Request $request){
+    public function blockStatus(Request $request)
+    {
         $id = $request->id;
         $user =  User::find($id);
         $user->status = 'blocked';
         $user->save();
-        $approve_msg = array_merge($this->block_driver_msg,['body'=> 'Your Account Is Blocked By Admin On Moray Limousine']);
+        $approve_msg = array_merge($this->block_driver_msg, ['body' => 'Your Account Is Blocked By Admin On Moray Limousine']);
         $user->notify(new MorayLimousineNotifications($approve_msg));
 
-        $drivers = User::where('user_type', 'driver')->orderBy('id','desc')->get();
+        $drivers = User::where('user_type', 'driver')->orderBy('id', 'desc')->get();
         $data['drivers'] = $drivers;
-        return view('parshall-views._driver-list-table',$data);
+        return view('parshall-views._driver-list-table', $data);
     }
 
     /** List of all Drivers
      * @return Factory|\Illuminate\View\View
      */
-    public function menageDrivers(){
-        $drivers = User::where('user_type', 'driver')->orderBy('id','desc')->get();
-        return view('admin.drivers-tasks.driver-list')->with('drivers',$drivers);
+    public function menageDrivers()
+    {
+        $drivers = User::where('user_type', 'driver')->orderBy('id', 'desc')->get();
+        return view('admin.drivers-tasks.driver-list')->with('drivers', $drivers);
     }
 
     /** Return a parshall view
      * @return Factory|\Illuminate\View\View
      */
-    public function allDriverList(){
-        $drivers = User::where('user_type', 'driver')->orderBy('id','desc')->get();
+    public function allDriverList()
+    {
+        $drivers = User::where('user_type', 'driver')->orderBy('id', 'desc')->get();
         $data['drivers'] = $drivers;
-        return view('parshall-views._driver-list-table',$data);
+        return view('parshall-views._driver-list-table', $data);
     }
 
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function adminDrivers(){
+    public function adminDrivers()
+    {
         $id = Auth()->id();
         $drivers = User::where('creator_id', $id)
-            ->where('user_type' ,'driver')
-            ->orderBy('id','desc')->get();
+            ->where('user_type', 'driver')
+            ->orderBy('id', 'desc')->get();
         $data['drivers'] = $drivers;
-        return view('parshall-views._driver-list-table',$data);
+        return view('parshall-views._driver-list-table', $data);
     }
 
     /** Driver not registered by the admin
      * @return Factory|\Illuminate\View\View
      */
-    public function registeredDrivers(){
-        $drivers = User::where('user_type','driver')->get();
+    public function registeredDrivers()
+    {
+        $drivers = User::where('user_type', 'driver')->get();
         $data['drivers'] = $drivers;
-        return view('parshall-views._driver-list-table',$data);
+        return view('parshall-views._driver-list-table', $data);
     }
 
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function partnersList(){
-        $partners = User::where('user_type','partner')->get();
+    public function partnersList()
+    {
+        $partners = User::where('user_type', 'partner')->get();
         return view('admin.partner-tasks.partners-list')->with(['partners' => $partners]);
     }
 
@@ -233,13 +247,14 @@ class AdminController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * Register Partner by the Admin
      */
-    public function registerPartner(Request $request){
-       // dd($request->all());
+    public function registerPartner(Request $request)
+    {
+        // dd($request->all());
         $request->validate($this->validationRules);
         $user = new User();
         $partner = $user->registerDriver($request->all());
         $message = 'Success !   Partner Created Successfully';
-        $registered_msg = array_merge($this->register_driver_msg,['body'=> 'You are Registered On Moray Limousines by Admin As a Partner. Please Check your account By using password : " '.$request['password'].' "  ! Enjoy With Us.  ']);
+        $registered_msg = array_merge($this->register_driver_msg, ['body' => 'You are Registered On Moray Limousines by Admin As a Partner. Please Check your account By using password : " ' . $request['password'] . ' "  ! Enjoy With Us.  ']);
         $partner->notify(new MorayLimousineNotifications($registered_msg));
         return redirect(route('partners.list'))->with('success', $message);
     }
@@ -248,16 +263,17 @@ class AdminController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function deletePartner($id){
+    public function deletePartner($id)
+    {
         $partner = User::find($id);
-       $user = $partner->delete();
-       if ($user){
-           $message = 'Success !   Partner Has Been Deleted Successfully';
-           return redirect(route('partners.list'))->with('success', $message);
-       }else{
-           $message = 'Error !   There is a Error While Deleting This User';
-           return redirect(route('partners.list'))->with('error', $message);
-       }
+        $user = $partner->delete();
+        if ($user) {
+            $message = 'Success !   Partner Has Been Deleted Successfully';
+            return redirect(route('partners.list'))->with('success', $message);
+        } else {
+            $message = 'Error !   There is a Error While Deleting This User';
+            return redirect(route('partners.list'))->with('error', $message);
+        }
     }
 
     /**
@@ -265,39 +281,42 @@ class AdminController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * Approve Partner Status
      */
-    public function approvePartner($id){
+    public function approvePartner($id)
+    {
         $partner = User::find($id);
         $partner->status = 'approved';
         $partner->save();
 
-        $approve_msg = array_merge($this->approve_driver_msg,['body'=> 'Your Account is Registered On Moray Limousines as Partner is  Approved by Admin . ! Enjoy With Us ']);
+        $approve_msg = array_merge($this->approve_driver_msg, ['body' => 'Your Account is Registered On Moray Limousines as Partner is  Approved by Admin . ! Enjoy With Us ']);
         $partner->notify(new MorayLimousineNotifications($approve_msg));
 
         $message = 'Success !   Partner Has Approved  Successfully';
-            return redirect(route('partners.list'))->with('success', $message);
+        return redirect(route('partners.list'))->with('success', $message);
     }
 
     /**
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function disapprovePartner($id){
+    public function disapprovePartner($id)
+    {
         $partner = User::find($id);
         $partner->status = 'disapproved';
         $partner->save();
 
-        $disapprove_msg = array_merge($this->disapprove_driver_msg,['body'=> 'Your Account is Registered On Moray Limousines as Partner is Not Approved by Admin . ! ']);
+        $disapprove_msg = array_merge($this->disapprove_driver_msg, ['body' => 'Your Account is Registered On Moray Limousines as Partner is Not Approved by Admin . ! ']);
         $partner->notify(new MorayLimousineNotifications($disapprove_msg));
 
         $message = 'Success ... !   Partner Is Disapproved Successfully';
         return redirect(route('partners.list'))->with('success', $message);
     }
-    public function blockPartner($id){
+    public function blockPartner($id)
+    {
         $partner = User::find($id);
         $partner->status = 'blocked';
         $partner->save();
         $message = 'Success ... !    Partner Is Blocked Successfully';
-        $approve_msg = array_merge($this->block_driver_msg,['body'=> 'Your Account Is Blocked By Admin On Moray Limousine']);
+        $approve_msg = array_merge($this->block_driver_msg, ['body' => 'Your Account Is Blocked By Admin On Moray Limousine']);
         $partner->notify(new MorayLimousineNotifications($approve_msg));
         return redirect(route('partners.list'))->with('success', $message);
     }
@@ -307,10 +326,11 @@ class AdminController extends Controller
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function addOptions(){
+    public function addOptions()
+    {
         $data['categories'] = VehicleCategory::all();
         $data['options'] = ExtraOptions::all();
-        return view('admin.extra-options.add-extra-options',$data);
+        return view('admin.extra-options.add-extra-options', $data);
     }
 
     /**
@@ -318,35 +338,36 @@ class AdminController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function saveOption(Request $request){
+    public function saveOption(Request $request)
+    {
         $categories = $request['categories'];
         $fromData = $request->except('$categories');
-        $optionImg = null; $id = null;
+        $optionImg = null;
+        $id = null;
         $id = $request->id;
-        if($request->hasFile('image_name')){
-            $optionImg = time().$request->image_name->getClientOriginalName();
-            $request->image_name->move(public_path('files/options-images'),$optionImg);
+        if ($request->hasFile('image_name')) {
+            $optionImg = time() . $request->image_name->getClientOriginalName();
+            $request->image_name->move(public_path('files/options-images'), $optionImg);
         }
-        if ($id == null){
-            if (isset($optionImg)){
+        if ($id == null) {
+            if (isset($optionImg)) {
                 $fromData['image_name'] = $optionImg;
             }
             $option = ExtraOptions::create($fromData);
             //add categories in option
-            foreach ($categories as $category){
+            foreach ($categories as $category) {
                 $option->categories()->attach((int)$category);
             }
+        } else {
+            $fromData = $request->except('_token', 'categories');
 
-        }else{
-            $fromData = $request->except('_token','categories');
-
-            if (isset($optionImg)){
+            if (isset($optionImg)) {
                 $fromData['image_name'] = $optionImg;
             }
-            ExtraOptions::where('id',$id)->update($fromData);
+            ExtraOptions::where('id', $id)->update($fromData);
             $options = ExtraOptions::find($id);
             $options->categories()->detach();
-            foreach ($categories as $category){
+            foreach ($categories as $category) {
                 $options->categories()->attach((int)$category);
             }
         }
@@ -357,7 +378,8 @@ class AdminController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function optionUpdate($id){
+    public function optionUpdate($id)
+    {
         $option =  ExtraOptions::find($id);
         $data['option'] = $option;
         $data['categories'] = $option->categories;
@@ -368,10 +390,11 @@ class AdminController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function optionDetails($id){
+    public function optionDetails($id)
+    {
         $option =  ExtraOptions::find($id);
-        $categories =$option->categories;
-        $data = ['option' => $option , 'categories' => $categories ];
+        $categories = $option->categories;
+        $data = ['option' => $option, 'categories' => $categories];
         return response()->json($data);
     }
 
@@ -380,11 +403,12 @@ class AdminController extends Controller
      * @param $id
      * @return Factory|\Illuminate\View\View
      */
-    public function optionDelete($id){
+    public function optionDelete($id)
+    {
         $option = ExtraOptions::where('id', $id)->delete();
         $data['categories'] = VehicleCategory::all();
         $data['options'] = ExtraOptions::all();
-        return view('admin.extra-options.add-extra-options',$data);
+        return view('admin.extra-options.add-extra-options', $data);
     }
 
 
@@ -392,25 +416,28 @@ class AdminController extends Controller
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function manageDiscounts(){
+    public function manageDiscounts()
+    {
         $data['categories'] = VehicleCategory::all();
         $data['discounts'] = Discount::all();
-        return view('admin.discounts.add-discount',$data);
+        return view('admin.discounts.add-discount', $data);
     }
 
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function inquiries(){
+    public function inquiries()
+    {
         $data['inquiries'] = Contactus::all();
-        return view('admin.inquiries.list',$data);
+        return view('admin.inquiries.list', $data);
     }
 
 
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function changePasswordForm(){
+    public function changePasswordForm()
+    {
         return view('admin.change-password');
     }
 
@@ -432,99 +459,107 @@ class AdminController extends Controller
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function adminNotifications(){
-        $notifications = auth()->user()->notifications()->where('read_at','!=' , null)->orderBy('id','desc')->get();
-        return view('admin.admin-notifications')->with('notifications',$notifications);
+    public function adminNotifications()
+    {
+        $notifications = auth()->user()->notifications()->where('read_at', '!=', null)->orderBy('id', 'desc')->get();
+        return view('admin.admin-notifications')->with('notifications', $notifications);
     }
 
 
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function configuration(){
+    public function configuration()
+    {
         $config = Configuration::first();
-        return view('admin.configuration')->with('config',$config);
+        return view('admin.configuration')->with('config', $config);
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function saveConfiguration(Request $request){
+    public function saveConfiguration(Request $request)
+    {
         $config = Configuration::first();
         $form_data = $request->except('_token');
-        if($request->hasFile('service_list_img')){
-            $service_list_img = time().$request->service_list_img->getClientOriginalName();
-            $request->service_list_img->move(public_path('files/pages-images'),$service_list_img);
+        if ($request->hasFile('service_list_img')) {
+            $service_list_img = time() . $request->service_list_img->getClientOriginalName();
+            $request->service_list_img->move(public_path('files/pages-images'), $service_list_img);
             $form_data['service_list_img'] = $service_list_img;
         }
-        if($request->hasFile('service_detail_img')){
-            $service_detail_img = time().$request->service_detail_img->getClientOriginalName();
-            $request->service_detail_img->move(public_path('files/pages-images'),$service_detail_img);
+        if ($request->hasFile('service_detail_img')) {
+            $service_detail_img = time() . $request->service_detail_img->getClientOriginalName();
+            $request->service_detail_img->move(public_path('files/pages-images'), $service_detail_img);
             $form_data['service_detail_img'] = $service_detail_img;
-       }
+        }
 
         $config->update($form_data);
-        return redirect()->back()->with('success','Success .. !  Configuration Saved Successfully...' );
+        return redirect()->back()->with('success', 'Success .. !  Configuration Saved Successfully...');
     }
 
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function happyClients(){
+    public function happyClients()
+    {
         $clint_images = $this->client->all();
-        return view('admin.pages-cms.happy-client')->with('client_images',$clint_images);
+        return view('admin.pages-cms.happy-client')->with('client_images', $clint_images);
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function createClient(Request $request){
+    public function createClient(Request $request)
+    {
         $client_img = null;
-        if($request->hasFile('client_image')){
-            $client_img = time().$request->client_image->getClientOriginalName();
-            $request->client_image->move(public_path('files/clients-images'),$client_img);
+        if ($request->hasFile('client_image')) {
+            $client_img = time() . $request->client_image->getClientOriginalName();
+            $request->client_image->move(public_path('files/clients-images'), $client_img);
         }
         $form_data = $request->all();
         $form_data['client_image'] = $client_img;
-        if ($request['edit_id'] == null){
+        if ($request['edit_id'] == null) {
             $form_data = $request->all();
             $form_data['client_image'] = $client_img;
             $this->client->createClient($form_data);
-        }else{
-            $form_data = $request->except('_token','edit_id');
-           if (isset($client_img)){
-               $form_data['client_image'] = $client_img;
-           }else{
-               $form_data = $request->except('_token','edit_id','client_image');
-           }
+        } else {
+            $form_data = $request->except('_token', 'edit_id');
+            if (isset($client_img)) {
+                $form_data['client_image'] = $client_img;
+            } else {
+                $form_data = $request->except('_token', 'edit_id', 'client_image');
+            }
 
-            $this->client->updateClient($form_data,$request['edit_id']);
+            $this->client->updateClient($form_data, $request['edit_id']);
         }
-        return redirect()->back()->with('success','Clint Image saved Successfully');
+        return redirect()->back()->with('success', 'Clint Image saved Successfully');
     }
 
     /**
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function deleteClient($id){
+    public function deleteClient($id)
+    {
         $clint = HappyClient::find($id);
         $clint->delete();
-        return redirect()->back()->with('success','Clint Image Deleted Successfully');
+        return redirect()->back()->with('success', 'Clint Image Deleted Successfully');
     }
 
     /**
      * @param $id
      * @return Factory|\Illuminate\View\View
      */
-    public function inquiryDetail($id){
+    public function inquiryDetail($id)
+    {
         $inquiry = Contactus::find($id);
-        return view('admin.inquiries.inquiry-details')->with('inquiry' , $inquiry);
+        return view('admin.inquiries.inquiry-details')->with('inquiry', $inquiry);
     }
 
-    public function inquiryDelete($id){
+    public function inquiryDelete($id)
+    {
         $inquiry = Contactus::find($id);
         $inquiry->delete();
         return redirect()->back();
@@ -532,7 +567,8 @@ class AdminController extends Controller
 
 
 
-    public function sendEmailToUser(Request $request){
+    public function sendEmailToUser(Request $request)
+    {
         $user = User::find($request['user_id']);
         $msg = [
             'greeting' => 'You Have a New Notification Moray Limousine',
@@ -543,7 +579,7 @@ class AdminController extends Controller
             'action_url' => '/partner/profile',
         ];
         $user->notify(new MorayLimousineNotifications($msg));
-        return redirect()->back()->with('success','Your Message Is Send Successfully ...');
+        return redirect()->back()->with('success', 'Your Message Is Send Successfully ...');
     }
 
 
@@ -551,7 +587,8 @@ class AdminController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function notifyDriver(Request $request){
+    public function notifyDriver(Request $request)
+    {
         $user = User::find($request['user_id']);
         $msg = [
             'greeting' => 'You Have a New Notification Moray Limousine',
@@ -562,7 +599,7 @@ class AdminController extends Controller
             'action_url' => '/partner/profile',
         ];
         $user->notify(new MorayLimousineNotifications($msg));
-        return redirect()->back()->with('success','Your Message Sent Successfully ...');
+        return redirect()->back()->with('success', 'Your Message Sent Successfully ...');
     }
 
 
@@ -570,11 +607,12 @@ class AdminController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function payOut($id){
+    public function payOut($id)
+    {
         $booking = $this->booking->find($id);
         $booking->partner_payment_status = true;
         $booking->update();
-        return redirect()->back()->with('success','Booking PayOut Successfully ... ');
+        return redirect()->back()->with('success', 'Booking PayOut Successfully ... ');
     }
 
 
@@ -629,4 +667,3 @@ class AdminController extends Controller
         'user_type' => 'required|string|max:15',
     ];
 }
-
