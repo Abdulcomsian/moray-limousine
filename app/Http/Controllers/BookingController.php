@@ -385,21 +385,20 @@ class BookingController extends Controller
             $netAmount = $netAmount - ($amountCommission + $amountTax);
 
             //            $booking->partner()->attach($partnerId);
-                       
+
             //            $user = User::find($partnerId);
             //            if ($user){
             //                $user->notify(new MorayLimousineNotifications($assign_msg));
             //            }
-           
+
             foreach ($partnerIds as $partnerId) {
 
                 $booking->partner()->attach($partnerId, ['commission' => $commission, 'calculated_price' => $netAmount, 'assigned_to' => 'partner']);
-                $assign_msg = array_merge($this->notify_driver_assign,['body' => 'You are assigned a new ride which booking address is : '. $booking->pick_address.' See yor dashboard for more details or click the button blow.. ','action_url' => '/partner/dashboard',]);
+                $assign_msg = array_merge($this->notify_driver_assign, ['body' => 'You are assigned a new ride which booking address is : ' . $booking->pick_address . ' See yor dashboard for more details or click the button blow.. ', 'action_url' => '/partner/dashboard',]);
                 $user = User::find($partnerId);
-                       if ($user){
-                          Notification::send($user , new MorayLimousineNotifications($assign_msg));
-                       }
-                
+                if ($user) {
+                    Notification::send($user, new MorayLimousineNotifications($assign_msg));
+                }
             }
         }
         return redirect()->back();
@@ -530,7 +529,7 @@ class BookingController extends Controller
     {
         $driver = auth()->user();
         $booking = Booking::find($bookingId);
-        $customer_email=Booking::with('user')->first();
+        $customer_email = Booking::with('user')->first();
         if (auth()->user()->user_type == 'partner' && count($booking->driver()->wherePivot('status', 'approved')->get()) > 0) {
             return redirect()->back()->with([
                 'error' => 'This reservation already accepted by someone else'
@@ -565,29 +564,27 @@ class BookingController extends Controller
         ];
         $driver->notify(new MorayLimousineNotifications($notify_driver_msg));
         //admin notify when driver accepted
-        if(auth()->user()->user_type == 'driver')
-        {
-        $notify_admins_msg = [
-            'greeting' => 'A Booking With Booking Id ' . $bookingId . 'Assigned To Driver By a Partner Successfully Accepted By Driver On Moray-Limousines',
-            'subject' => 'Booking Accepted By Driver',
-            'body'   => 'A Booking With Booking Id ' . $bookingId . 'Assigned To Driver By a Partner Successfully Accepted By Driver For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id' . $bookingId,
-            'thanks_text' => 'Thanks For Using Moray Limousines',
-            'action_text' => 'View My Site',
-            'action_url' => '/booking/details/' . $bookingId,
-        ];
-        Notification::send($customer_email->user, new MorayLimousineNotifications($notify_admins_msg));
-       }elseif(auth()->user()->user_type =='partner')
-       {
-        $notify_admins_msg = [
-            'greeting' => 'A Booking With Booking Id ' . $bookingId . 'Assigned To  Partner Successfully Accepted By Partner On Moray-Limousines',
-            'subject' => 'Booking Accepted By Partner',
-            'body'   => 'A Booking With Booking Id ' . $bookingId . 'Assigned Partner Successfully Accepted By Partner For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id' . $bookingId,
-            'thanks_text' => 'Thanks For Using Moray Limousines',
-            'action_text' => 'View My Site',
-            'action_url' => '/booking/details/' . $bookingId,
-        ];
-
-       }
+        if (auth()->user()->user_type == 'driver') {
+            $notify_admins_msg = [
+                'greeting' => 'A Booking With Booking Id ' . $bookingId . 'Assigned To Driver By a Partner Successfully Accepted By Driver On Moray-Limousines',
+                'subject' => 'Booking Accepted By Driver',
+                'body'   => 'A Booking With Booking Id ' . $bookingId . ' Assigned To Driver By a Partner Successfully Accepted By Driver For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id ' . $bookingId . '
+                 Driver name is ' . auth()->user()->first_name . ' ' . auth()->user()->last_name . ' having phone number is ' . auth()->user()->phone_number . ' vehicle is ' . $booking->vehicle[0]->title . ' having plate no is ' . $booking->vehicle[0]->plate,
+                'thanks_text' => 'Thanks For Using Moray Limousines',
+                'action_text' => 'View My Site',
+                'action_url' => '/booking/details/' . $bookingId,
+            ];
+            Notification::send($customer_email->user, new MorayLimousineNotifications($notify_admins_msg));
+        } elseif (auth()->user()->user_type == 'partner') {
+            $notify_admins_msg = [
+                'greeting' => 'A Booking With Booking Id ' . $bookingId . 'Assigned To  Partner Successfully Accepted By Partner On Moray-Limousines',
+                'subject' => 'Booking Accepted By Partner',
+                'body'   => 'A Booking With Booking Id ' . $bookingId . 'Assigned Partner Successfully Accepted By Partner For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id' . $bookingId,
+                'thanks_text' => 'Thanks For Using Moray Limousines',
+                'action_text' => 'View My Site',
+                'action_url' => '/booking/details/' . $bookingId,
+            ];
+        }
         $users = User::where('user_type', 'admin')->get();
         Notification::send($users, new MorayLimousineNotifications($notify_admins_msg));
         return redirect()->back();
