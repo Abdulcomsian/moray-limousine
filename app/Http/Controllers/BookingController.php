@@ -603,7 +603,6 @@ class BookingController extends Controller
         $booking->pending_payment = $request->pending_payment;
         $booking->update();
         $users = user::find($user_id);
-        $users['email'] = "obaidkust@gmail.com";
         $result = invoice::create([
             'booking_id' => $booking->id,
             'invoice_number' => 'ML- ' . mt_rand(100000, 999999)
