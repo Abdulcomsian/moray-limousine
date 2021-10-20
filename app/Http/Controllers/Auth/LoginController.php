@@ -41,24 +41,23 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function authenticated($request, $user) {
-        // if (session('link')){
-        // return redirect(session('link'));
-        //  }
-         if(Session::get('search')!=null)
-        {
-         return redirect()->to('https://moray-limousines.de'.Session::get('search'));
+    protected function authenticated($request, $user)
+    {
+
+        if (session('link')) {
+            return redirect(session('link'));
         }
-        elseif($user->user_type == 'admin') {
+
+        if (Session::get('search') != null) {
+            return redirect()->to(Session::get('search'));
+        } elseif ($user->user_type == 'admin') {
             return redirect('/admin/index');
-        } elseif($user->user_type == 'driver') {
+        } elseif ($user->user_type == 'driver') {
             return redirect('/driver/dashboard');
-        }
-        elseif ($user->user_type == 'partner'){
+        } elseif ($user->user_type == 'partner') {
             return redirect('/partner/dashboard');
-        }
-        else {
+        } else {
             return redirect('/');
         }
-   }
+    }
 }

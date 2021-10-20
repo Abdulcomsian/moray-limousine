@@ -413,6 +413,11 @@ class PartnerController extends Controller
 
             $this->uploadedDocument->updateDocument($documents_data, $edit_id);
         }
+        //mail for admin while attacheing doucment
+        //notify admin
+        $admin = User::where('user_type', 'admin')->first();
+        $registered_msg = $this->notifyDocumentMsg;
+        $admin->notify(new MorayLimousineNotifications($registered_msg));
         return redirect(url('partner/manage-documents'))->with('success', 'Success ! Document Is Saved Successfully');
     }
 
@@ -621,6 +626,14 @@ class PartnerController extends Controller
         'thanks_text' => 'Thanks For Using Moray Limousines',
         'action_text' => 'View My Site',
         'action_url' => '/driver/dashboard'
+    ];
+    protected $notifyDocumentMsg = [
+        'greeting' => 'A New Partner On Moray Limousines Added Document',
+        'subject' => 'New Partner Added Document',
+        'body'   => 'A New Partner On Moray Limousines Added Document For More Details visit web',
+        'thanks_text' => 'Thanks For Using Moray Limousines',
+        'action_text' => 'View My Site',
+        'action_url' => '/admin/index'
     ];
     protected $adminnotifyDriverMsg = [
         'greeting' => 'A New Partner On Moray Limousines Added ',

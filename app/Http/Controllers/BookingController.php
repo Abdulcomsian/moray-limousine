@@ -56,9 +56,9 @@ class BookingController extends Controller
      */
     public function selectClassByDistance(BookingRequest $request)
     {
-        $req_uri = $_SERVER['REQUEST_URI'];
+        $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         if (Auth()->check() == false) {
-            Session::put('search', $req_uri);
+            Session::put('search', $actual_link);
         }
         $validated = $request->validated();
         $dist = (float)$request['total_distance'];
