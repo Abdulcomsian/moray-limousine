@@ -249,10 +249,10 @@
 
             </p>
             <div style="width:85%;">
-                <p>Have a great day,</p>
-                <p>Thanks For Choosing Moray Limousine</p>
-                <p>Regards,</p>
-                <p>Moray Limousines</p>
+                <p style="text-align: center !important;">Have a great day,</p>
+                <p style="text-align: center !important;">Thanks For Choosing Moray Limousine</p>
+                <p style="text-align: center !important;">Regards,</p>
+                <p style="text-align: center !important;">Moray Limousines</p>
             </div>
         </div>
     </div>
