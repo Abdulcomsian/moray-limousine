@@ -257,7 +257,7 @@
  <body>
      <div class="main-container">
 
-         <div class="black-lane">
+         <div class="black-lane" style="background:#bf9c60 !important;">
              <center>
                  <img src="https://moray-limousines.de/images/moray-logo.png" alt="">
              </center>
