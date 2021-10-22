@@ -459,27 +459,12 @@ Extra Options
         }
     });
 
-    function getLatLong() {
-        let pick_latitude = parseFloat({
-            {
-                $booking - > lat_pck
-            }
-        });
-        let pick_longitude = parseFloat({
-            {
-                $booking - > long_pck
-            }
-        });
-        let drop_latitude = parseFloat({
-            {
-                $booking - > lat_drop
-            }
-        });
-        let drop_longitude = parseFloat({
-            {
-                $booking - > long_drop
-            }
-        });
+    function getLatLong() 
+    {
+        let pick_latitude = parseFloat({{$booking->lat_pck}});
+        let pick_longitude = parseFloat({{$booking->long_pck}});
+        let drop_latitude = parseFloat({{$booking->lat_drop}});
+        let drop_longitude = parseFloat({{$booking->long_drop}});
         return [pick_latitude, pick_longitude, drop_latitude, drop_longitude];
     }
 </script>

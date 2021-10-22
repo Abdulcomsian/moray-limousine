@@ -160,8 +160,8 @@
 
          .main-container {
 
-             width: 50%;
-             margin: 0px 25%;
+             width: 80%;
+             margin: 0px 10%;
              background-color: white;
          }
 
@@ -179,7 +179,7 @@
          .driver img {
              height: 30%;
              width: 100%;
-             padding-top: 5px;
+             /* padding-top: 5px; */
 
          }
 
@@ -296,38 +296,10 @@
                  <br>
                  Partner Operations
              </p>
+             <p style="text-align: center;">
+                 <a class="button" style="color:white" href="https://moray-limousines.de/register/verify?email={{$email}}&expiration={{$expiredate}}&token={{$token}}">Complete Registration</a>
+             </p>
          </div>
-
-         <div align="center">
-             <table border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%; background:#1f1f1f">
-                 <tbody>
-                     <tr>
-                         <td style="padding:0cm 0cm 0cm 0cm">
-                             <p class="x_MsoNormal" align="center" style="text-align:center">
-                                 <span style="color:white; text-transform:uppercase">
-                                     <a href="https://www.facebook.com/moraylimousines" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="6">
-                                         <span style="color:white; text-decoration:none">
-                                             <span style="color:blue">
-                                                 <img data-imagetype="External" src="{{asset('images/facebook.png')}}" border="0" width="28" height="28" id="x_m_-728614054202185312_x0000_i1029" alt="Blacklane Facebook" style="width:.2916in; height:.2916in">
-                                             </span>
-                                         </span>
-                                     </a>
-                                     <a href="https://www.instagram.com/accounts/login/" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="7">
-                                         <span style="color:white; text-decoration:none">
-                                             <span style="color:blue">
-                                                 <img data-imagetype="External" src="{{asset('images/instagram.png')}}" border="0" width="28" height="28" id="x_m_-728614054202185312_x0000_i1028" alt="Blacklane Instagram" style="width:.2916in; height:.2916in">
-                                             </span>
-                                         </span>
-                                     </a>
-                                 </span><span style="text-transform:uppercase"><u></u><u></u></span>
-                             </p>
-                         </td>
-                     </tr>
-
-                 </tbody>
-             </table>
-         </div>
-         <p class="x_MsoNormal" align="center" style="text-align:center"><span style="display:none"><u></u>&nbsp;<u></u></span></p>
          <div align="center">
              <table border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%; background:#1f1f1f">
                  <tbody>
@@ -362,7 +334,6 @@
                  </tbody>
              </table>
          </div>
-         <p class="x_MsoNormal" align="center" style="text-align:center"><span style="display:none"><u></u>&nbsp;<u></u></span></p>
          <div align="center">
              <table border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%; background:#1f1f1f">
                  <tbody>
@@ -378,21 +349,37 @@
                  </tbody>
              </table>
          </div>
-         <center>
-             <p>
-                 <a class="button" style="color:white" href="https://moray-limousines.de/register/verify?email={{$email}}&expiration={{$expiredate}}&token={{$token}}">Complete Registration</a>
-             </p>
-             <p>Have a great day,</p>
-             <p>Thanks For Choosing Moray Limousine</p>
-             <p>Regards,</p>
+         <div align="center">
+             <table border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%; background:#1f1f1f">
+                 <tbody>
+                     <tr>
+                         <td style="padding:0cm 0cm 0cm 0cm">
+                             <p class="x_MsoNormal" align="center" style="text-align:center">
+                                 <span style="color:white; text-transform:uppercase">
+                                     <a href="https://www.facebook.com/moraylimousines" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="6">
+                                         <span style="color:white; text-decoration:none">
+                                             <span style="color:blue">
+                                                 <img data-imagetype="External" src="{{asset('images/facebook.png')}}" border="0" width="28" height="28" id="x_m_-728614054202185312_x0000_i1029" alt="Blacklane Facebook" style="width:.2916in; height:.2916in">
+                                             </span>
+                                         </span>
+                                     </a>
+                                     <a href="https://www.instagram.com/accounts/login/" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="7">
+                                         <span style="color:white; text-decoration:none">
+                                             <span style="color:blue">
+                                                 <img data-imagetype="External" src="{{asset('images/instagram.png')}}" border="0" width="28" height="28" id="x_m_-728614054202185312_x0000_i1028" alt="Blacklane Instagram" style="width:.2916in; height:.2916in">
+                                             </span>
+                                         </span>
+                                     </a>
+                                 </span><span style="text-transform:uppercase"><u></u><u></u></span>
+                             </p>
+                         </td>
+                     </tr>
 
-             <p>Moray Limousines</p>
-         </center>
+                 </tbody>
+             </table>
+         </div>
      </div>
-
-
      </div>
-
      </div>
  </body>
 
