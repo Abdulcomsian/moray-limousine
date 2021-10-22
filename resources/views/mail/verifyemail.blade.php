@@ -160,8 +160,8 @@
 
          .main-container {
 
-             width: 80%;
-             margin: 0px 10%;
+             width: 50%;
+             margin: 0px 25%;
              background-color: white;
          }
 
