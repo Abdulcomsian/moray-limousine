@@ -232,8 +232,6 @@
             // autocomplete_location.setComponentRestrictions({'country': ['de']});
             autocomplete_location.setFields(['geometry']);
 
-
-
             let latitude;
             let longitude;
             let country;
