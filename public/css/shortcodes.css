@@ -2474,12 +2474,22 @@ background:#eeead7;
 color:#151515;
 }
 /*========== Template Text Services ==========*/
+.span8.offset2 {
+    display: flex;
+	margin-bottom: 2.5rem;
+}
+.span2.center {
+    width: 180px;
+}
+
+
 .icon-box .tab_services{
 	text-align:center;
 	margin-bottom: 39px;
 }
 .section-iconbox:not(.fix-mtb){
 	padding:0 0 64px;
+	margin-top: 4rem !important;
 }
 .section-iconbox.fix-mtb{
 	padding-top: 40px;
@@ -2492,10 +2502,14 @@ color:#151515;
 }
 .iconbox .iconbox-content h3 {
 	margin-bottom: 15px;
+	font-size: 1.875rem;
+    font-weight: 500;
 }
 
 .iconbox .iconbox-content h3 a {
 	margin-bottom: 15px;
+	font-size: 1.875rem;
+    font-weight: 500;
 }
 
 .icon-box .tab_services li{
@@ -2895,25 +2909,35 @@ hr{
 	background-position: 50% 0px;
 	position: relative;
 }
+hr.new1 {
+	border-top: 1px solid red;
+  }
 .parallax_one{
-	background-image: url('../images/parallax/prl1.jpg');
+	background-image: url('../images/cms/home/become_a_partner_header.jpg');
 	background-repeat: no-repeat;
+    /* background-size: cover; */
 }
 .info-box{
 	text-align:center;
 }
 .info-box .title{
-	font-size: 60px;
+	font-size: 2.5rem;
     line-height: 60px;
-    color: #fff;
+    color: #1e1e1e;
+	font-weight: 300;
+}
+section.info-box.parallax.parallax_one.change_text .wrapper-content h3 .span{
+	font-weight: 500;
+	color: #1e1e1e;
+	font-size: 2.5rem;
 }
 .info-box .content{
     font-weight: 300;
     font-size: 20px;
     line-height: 30px;
-    color: #fff;
+    color: #1e1e1e;
 	max-width: 480px;
-    margin: 30px auto 78px auto;
+    margin: 30px auto 65px auto;
 }
 .info-box .contact{
 	font-weight:400;
@@ -2936,9 +2960,15 @@ hr{
 .info-box .booking:hover {
 	background-color: transparent;
 	border: 2px solid #bf9c60;
+	color: #1e1e1e;
 }
 .info-box .booking img{
 	padding-left:10px;
+	
+}
+.info-box .booking img:hover{
+	padding-left:10px;
+	color:#1e1e1e;
 }
 
 /*========== Emplate About ==========*/
