@@ -23,13 +23,17 @@
             font-weight: bold;
         }
     </style>
+
     <form method="post" action="{{ route('register') }}" id="partner-register-form">
         @csrf
         <input type="hidden" name="user_type" value="partner">
         <main id="step-1" style="margin: top 2px;%">
+
             <div id="general-errors" class="apollo-notification hidden apollo-notification--error">
                 <div class="apollo-notification__content">
-
+                    @if($errors->any())
+                    {{ implode('', $errors->all('<div>:message</div>')) }}
+                    @endif
                 </div>
             </div>
             <div id="registrationData">
@@ -41,6 +45,11 @@
                         <h2 class="lsp-page--title">Want to drive with us?</h2>
                         <h4 class="lsp-page--description">Please tell us about you and your company to get started.</h4>
                     </div>
+                    @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                    <div class="text-danger">{{$error}}</div>
+                    @endforeach
+                    @endif
                     <div class="row validate validate--name">
                         <div class="apollo-input" style="width: 100%;">
                             <div class="input-label">
@@ -55,21 +64,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row validate validate--email">
+                    <div class="row">
                         <div class="apollo-input" style="width: 100%;">
                             <div class="input-label">
                                 <label>Email</label>
                             </div>
                             <div class="input-field">
-                                <input id="email" name="email" placeholder="Email" type="email" required class="input-field__element form-control">
+                                <input type="email" id="email" name="email" placeholder="Email" required class="input-field__element form-control">
                             </div>
                             <span class="text-danger emailerror"></span>
-                            <div class="input-desc hide">
-                                <label></label>
-                            </div>
                         </div>
                     </div>
-                    <div class="row validate validate--email">
+                    <div class="row">
                         <div class="apollo-input" style="width: 100%;">
                             <div class="input-label">
                                 <label>Password</label>
@@ -78,9 +84,6 @@
                                 <input id="password" name="password" placeholder="password" type="password" required class="input-field__element form-control">
                             </div>
                             <span class="text-danger passworderror"></span>
-                            <div class="input-desc hide">
-                                <label></label>
-                            </div>
                         </div>
                     </div>
                     <div class="row subsection">
@@ -89,9 +92,9 @@
                                 <label>Do your drivers have basic English skills?</label>
                             </div>
                             <div class="input-field input-field--grouped">
-                                <label for="language-yes" l10n="" class="input-field__radio">
+                                <label for="language-yes" class="input-field__radio">
                                     <input type="radio" id="language-yes" name="language" value="1" class="input-field__radio-element">Yes</label>
-                                <label for="language-no" l10n="" class="input-field__radio">
+                                <label for="language-no" class="input-field__radio">
                                     <input type="radio" id="language-no" name="language" value="0" class="input-field__radio-element">No</label>
                             </div>
                             <span class="text-danger languageerror"></span>
@@ -101,10 +104,10 @@
                         </div>
                     </div>
                     <div class="actions">
-                        <button type="button" l10n="" class="next-page">Next</button>
+                        <button type="button" class="next-page">Next</button>
                     </div>
                     <div class="row">
-                        <a href="{{url('/login')}}" l10n="">Already a partner?</a>
+                        <a href="{{url('/login')}}">Already a partner?</a>
                     </div>
                 </div>
             </div>
@@ -158,7 +161,7 @@
                         </div>
                     </div>
                     <div id="step-5" class="row subsection" style="display:none">
-                        <h3 l10n="">Do you have one of the following vehicles?</h3>
+                        <h3>Do you have one of the following vehicles?</h3>
                         <div data-template="Maximum _AGE_ years old in _COLOR_" data-or="or" l10n-data-template="" l10n-data-or="" class="content requirements">
 
                         </div>
@@ -169,9 +172,9 @@
                                 <label>Do you have one of the vehicles listed above?</label>
                             </div>
                             <div class="input-field input-field--grouped">
-                                <label for="language-yes" l10n="" class="input-field__radio">
+                                <label for="language-yes" class="input-field__radio">
                                     <input type="radio" id="language-yes" name="vehicleradio" value="1" class="input-field__radio-element">Yes</label>
-                                <label for="language-no" l10n="" class="input-field__radio">
+                                <label for="language-no" class="input-field__radio">
                                     <input type="radio" id="language-no" name="vehicleradio" value="0" class="input-field__radio-element">No</label>
                             </div>
                             <span class="text-danger vehicleerror"></span>
@@ -181,10 +184,10 @@
                         </div>
                     </div>
                     <div class="actions">
-                        <button type="button" l10n="" class="second-next-page">Next</button>
+                        <button type="button" class="second-next-page">Next</button>
                     </div>
                     <div class="row">
-                        <a href="{{url('/login')}}" l10n="">Already a partner?</a>
+                        <a href="{{url('/login')}}">Already a partner?</a>
                     </div>
                 </div>
             </div>
@@ -212,12 +215,12 @@
                             <h4>Please note:</h4>
                         </div>
                         <div class="apollo-infobox--description">
-                            <p l10n="">We only work with registered companies. We will ask you to send specific documents at a later step.</p>
+                            <p>We only work with registered companies. We will ask you to send specific documents at a later step.</p>
                         </div>
                     </div>
 
                     <div id="service-classes" class="row subsection">
-                        <h3 l10n="">Do you have all the following documents?</h3>
+                        <h3>Do you have all the following documents?</h3>
                         <div data-template="Maximum _AGE_ years old in _COLOR_" data-or="or" l10n-data-template="" l10n-data-or="" class="content">
                             <div class="service-class-list">
                                 <h4>Vehicle</h4>
@@ -251,9 +254,9 @@
                                 <label>Do you have all documents listed above?</label>
                             </div>
                             <div class="input-field input-field--grouped">
-                                <label for="language-yes" l10n="" class="input-field__radio">
+                                <label for="language-yes" class="input-field__radio">
                                     <input type="radio" id="language-yes" name="documentradio" value="1" class="input-field__radio-element" required>Yes</label>
-                                <label for="language-no" l10n="" class="input-field__radio">
+                                <label for="language-no" class="input-field__radio">
                                     <input type="radio" id="language-no" name="documentradio" value="0" class="input-field__radio-element">No</label>
                             </div>
                             <span class="text-dagner documenterror"></span>
@@ -263,10 +266,10 @@
                         </div>
                     </div>
                     <div class="actions">
-                        <button type="button" l10n="" class="submit-page">Submit</button>
+                        <button type="button" class="submit-page">Submit</button>
                     </div>
                     <div class="row">
-                        <a href="{{url('/login')}}" l10n="">Already a partner?</a>
+                        <a href="{{url('/login')}}">Already a partner?</a>
                     </div>
                 </div>
             </div>
