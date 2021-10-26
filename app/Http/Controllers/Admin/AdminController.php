@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Contactus;
 use App\Booking;
 use PHPUnit\Framework\Constraint\Count;
+use DB;
 
 class AdminController extends Controller
 {
@@ -616,7 +617,21 @@ class AdminController extends Controller
     }
 
 
-
+    //partner req action
+    public function partner_req()
+    {
+        $cities = DB::table('locations')->get();
+        $city_req = DB::table('locations')
+            ->select('locations.location_city', 'operate_city_requirements.requirements', 'operate_city_requirements.main_heading')
+            ->join('operate_city_requirements', 'operate_city_requirements.city_id', '=', 'locations.id')->get();
+        return view('admin.partner-req.index', compact('city_req', 'cities'));
+    }
+    //save partner req
+    public function partner_req_save(Request $request)
+    {
+        DB::table('operate_city_requirements')->insert(['city_id' => $request->city_id, 'main_heading' => $request->main_heading, 'requirements' => $request->requirements]);
+        return redirect('/partner-registration-req')->with('success', 'Requiremtns against city added Successfully!! ...');
+    }
 
 
 

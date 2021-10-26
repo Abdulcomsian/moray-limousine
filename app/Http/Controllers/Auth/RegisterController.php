@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
+
 use Illuminate\Http\Request;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -23,7 +25,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers ;
+    use RegistersUsers;
     use VerifiesEmail;
 
     /**
@@ -43,7 +45,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest', ['except' => ['verify', 'showResendVerificationEmailForm', 'resendVerificationEmail']]);
         $this->middleware('auth', ['only' => ['showResendVerificationEmailForm', 'resendVerificationEmail']]);
-//        $this->middleware('guest');
+        //        $this->middleware('guest');
     }
 
     /**
@@ -54,7 +56,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-         return Validator::make($data, [
+        return Validator::make($data, [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
             'email' => 'required|string|email|max:255|unique:users',
@@ -62,7 +64,14 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'user_type' => 'required|string|max:15',
         ]);
+    }
 
+    protected function partnervalidator(array $data)
+    {
+        return Validator::make($data, [
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|',
+        ]);
     }
 
     /**
@@ -74,33 +83,33 @@ class RegisterController extends Controller
     //override register method
     public function register(Request $request)
     {
-        $this->validator($request->all())->validate();
-
-        event(new Registered($user = $this->create($request->all())));
-         if($user->user_type!='end_user')
-         {
-          $this->guard()->login($user);
-         }
-
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
-        
+        if ($request->user_type == "partner") {
+            $this->partnervalidator($request->all())->validate();
+            event(new Registered($user = $this->partnercreate($request->all())));
+            return $this->registered($request, $user)
+                ?: redirect($this->redirectPath());
+        } else {
+            $this->validator($request->all())->validate();
+            event(new Registered($user = $this->create($request->all())));
+            if ($user->user_type != 'end_user') {
+                $this->guard()->login($user);
+            }
+            return $this->registered($request, $user)
+                ?: redirect($this->redirectPath());
+        }
     }
-   
-     protected function registered(Request $request, $user)
-    {
-        if (session('link')){
-            return redirect(session('link'));
-        }
-        elseif($user->user_type == 'admin') {
-            return redirect('/admin/index');
-        } elseif($user->user_type == 'driver') {
-            return redirect('/driver/dashboard');
 
-        } elseif ($user->user_type == 'partner'){
+    protected function registered(Request $request, $user)
+    {
+        if (session('link')) {
+            return redirect(session('link'));
+        } elseif ($user->user_type == 'admin') {
+            return redirect('/admin/index');
+        } elseif ($user->user_type == 'driver') {
+            return redirect('/driver/dashboard');
+        } elseif ($user->user_type == 'partner') {
             return redirect('/partner/dashboard');
-        }
-        else {
+        } else {
             Session::flash('message', 'We have e-mailed your account activation link!.');
             return redirect('/login');
         }
@@ -118,5 +127,15 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
-
+    protected function partnercreate(array $data)
+    {
+        return User::create([
+            'first_name' => 'dummy',
+            'last_name' => 'dummy',
+            'phone_number' => '',
+            'email' => $data['email'],
+            'user_type' => $data['user_type'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
 }
