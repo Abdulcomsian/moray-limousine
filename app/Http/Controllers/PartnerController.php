@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
+use DB;
 
 class PartnerController extends Controller
 {
@@ -590,8 +591,24 @@ class PartnerController extends Controller
         return view('parshall-views._partner-list-table')->with('partners', $partners);
     }
 
+    //get city vehicles
+    public function get_city_vehicle(Request $request)
+    {
+        $cityid = $request->cityid;
+        $rquirements = DB::table('operate_city_requirements')->where('city_id', $cityid)->get();
 
-
+        $list = '';
+        foreach ($rquirements as $req) {
+            $myarray = explode(',', $req->requirements);
+            $list .= '<div class="service-class-list"> <h4>' . $req->main_heading . '</h4></div>';
+            $list .= '<ul>';
+            foreach ($myarray as $arr) {
+                $list .= ' <li>' . $arr . '</li>';
+            }
+            $list .= '</ul>';
+        }
+        echo $list;
+    }
 
 
     private  $vehicle_added_partner = [

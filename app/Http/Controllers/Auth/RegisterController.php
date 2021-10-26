@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Lunaweb\EmailVerification\Traits\VerifiesEmail;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\MorayLimousineNotifications;
 use Session;
+use DB;
 
 class RegisterController extends Controller
 {
@@ -86,6 +89,9 @@ class RegisterController extends Controller
         if ($request->user_type == "partner") {
             $this->partnervalidator($request->all())->validate();
             event(new Registered($user = $this->partnercreate($request->all())));
+            //send email to admin
+            $users = User::where('user_type', 'admin')->get();
+            Notification::send($users, new MorayLimousineNotifications($this->notifyAdminMsg));
             return $this->registered($request, $user)
                 ?: redirect($this->redirectPath());
         } else {
@@ -129,7 +135,7 @@ class RegisterController extends Controller
     }
     protected function partnercreate(array $data)
     {
-        return User::create([
+        $user = User::create([
             'first_name' => 'dummy',
             'last_name' => 'dummy',
             'phone_number' => '',
@@ -137,5 +143,24 @@ class RegisterController extends Controller
             'user_type' => $data['user_type'],
             'password' => Hash::make($data['password']),
         ]);
+        if ($user) {
+            DB::table('user_location')->insert([
+                'user_id' => $user->id,
+                'location_id' => $data['city-select'],
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+            return $user;
+        }
     }
+
+    //
+    protected $notifyAdminMsg = [
+        'greeting' => 'A New Partner On Moray Limousines is registered ',
+        'subject' => 'New Partner have Registered',
+        'body'   => 'A New Partner On Moray Limousines is registered please approved. For More Details visit web',
+        'thanks_text' => 'Thanks For Using Moray Limousines',
+        'action_text' => 'View My Site',
+        'action_url' => '/admin/dashboard'
+    ];
 }
