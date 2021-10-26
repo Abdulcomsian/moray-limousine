@@ -2474,12 +2474,22 @@ background:#eeead7;
 color:#151515;
 }
 /*========== Template Text Services ==========*/
+.span8.offset2 {
+    display: flex;
+	margin-bottom: 2.5rem;
+}
+.span2.center {
+    width: 180px;
+}
+
+
 .icon-box .tab_services{
 	text-align:center;
 	margin-bottom: 39px;
 }
 .section-iconbox:not(.fix-mtb){
 	padding:0 0 64px;
+	margin-top: 4rem !important;
 }
 .section-iconbox.fix-mtb{
 	padding-top: 40px;
@@ -2492,10 +2502,14 @@ color:#151515;
 }
 .iconbox .iconbox-content h3 {
 	margin-bottom: 15px;
+	font-size: 1.875rem;
+    font-weight: 500;
 }
 
 .iconbox .iconbox-content h3 a {
 	margin-bottom: 15px;
+	font-size: 1.875rem;
+    font-weight: 500;
 }
 
 .icon-box .tab_services li{
@@ -2895,25 +2909,35 @@ hr{
 	background-position: 50% 0px;
 	position: relative;
 }
+hr.new1 {
+	border-top: 1px solid red;
+  }
 .parallax_one{
-	background-image: url('../images/parallax/prl1.jpg');
+	background-image: url('../images/cms/home/become_a_partner_header.jpg');
 	background-repeat: no-repeat;
+    /* background-size: cover; */
 }
 .info-box{
 	text-align:center;
 }
 .info-box .title{
-	font-size: 60px;
+	font-size: 2.5rem;
     line-height: 60px;
-    color: #fff;
+    color: #1e1e1e;
+	font-weight: 300;
+}
+section.info-box.parallax.parallax_one.change_text .wrapper-content h3 .span{
+	font-weight: 500;
+	color: #1e1e1e;
+	font-size: 2.5rem;
 }
 .info-box .content{
     font-weight: 300;
     font-size: 20px;
     line-height: 30px;
-    color: #fff;
+    color: #1e1e1e;
 	max-width: 480px;
-    margin: 30px auto 78px auto;
+    margin: 30px auto 65px auto;
 }
 .info-box .contact{
 	font-weight:400;
@@ -2936,9 +2960,15 @@ hr{
 .info-box .booking:hover {
 	background-color: transparent;
 	border: 2px solid #bf9c60;
+	color: #1e1e1e;
 }
 .info-box .booking img{
 	padding-left:10px;
+	
+}
+.info-box .booking img:hover{
+	padding-left:10px;
+	color:#1e1e1e;
 }
 
 /*========== Emplate About ==========*/
@@ -3355,4 +3385,226 @@ hr{
 .colorOne{color: #d7d2bd !important;}
 
 
+/* Form Styling */
 
+#general-errors {
+	box-sizing: border-box;
+	position: static;
+}
+main {
+	display: block;
+}
+.lsp-page {
+	position: relative;
+	padding: 1rem;
+	padding-bottom: 3rem;
+	padding-top: 10rem;
+	min-height: calc(100vh- 9.125rem);
+	max-width: 35rem;
+	margin: 0 auto;
+}
+.row.lsp-page--header {
+	margin-bottom: 1.875rem !important;
+}
+.row.validate.validate--name {
+	margin-bottom: 1.875rem;
+}
+input[type="checkbox"], input[type="radio"] {
+	margin-right: 9px;
+}
+.lsp-page--description {
+	font-size: 1.375rem;
+	font-weight: 300;
+	line-height: 1.7;
+}
+.lsp-page--title {
+	font-size: 2.1875rem;
+	font-weight: 300;
+	line-height: 1.17;
+}
+.apollo-input .input-label label {
+	font-size: 1.125rem;
+	font-weight: 500;
+	color:#000000;
+}
+.apollo-input .input-desc label {
+	font-size: 1.125rem;
+	color: #A8A8A8;
+}
+
+.subsection h3, .subsection .apollo-input .input-label label {
+    font-size: 25px;
+    font-weight: 500;
+}
+.lsp-page .actions {
+	padding-bottom: 1.875rem;
+}
+.apollo-input .input-field--grouped .input-field__radio {
+	flex: 1 1 50%;
+}
+.apollo-input .input-field label.input-field__radio {
+	font-size: 1.375rem;
+	margin-right:15%;
+	font-weight:300;
+	color: #303030;
+}
+.input-field__radio {
+	align-items: center;
+	
+}
+input::placeholder {
+	letter-spacing: 0.1rem;
+	font-size: 1.2rem;
+}
+.lsp-page button {
+    text-transform: initial;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1;
+}
+input::placeholder {
+	latter: spaceing 1px;
+}
+
+/* .lsp-page--description {
+	font-size: 1.375rem;
+	font-weight: 300;
+	line-height: 1.27;
+} */
+.lsp-page--title {
+	font-size: 2.1875rem;
+	font-weight: 300;
+	line-height: 1.17;
+}
+/* .lsp-page {
+	position: relative;
+	padding: 1rem;
+	padding-bottom: 3rem;
+	min-height: calc(100vh - 9.125rem);
+	max-width: 35rem;
+	margin: 0 auto;
+} */
+
+#service-classes,
+#city-lsp-documents {
+	margin-top: 2rem;
+}
+.service-class-list h4 {
+    font-size: 23px;
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+#registrationCity .service-class-list,
+#registrationDocuments .lsp-documents-list {
+	margin-top: 1rem;
+}
+#registrationCity .service-class-list, #registrationDocuments .lsp-documents-list {
+    margin-top: 1rem;
+}
+
+.content ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+.content li {
+    /* font-size: 22px;
+    font-weight: 300;
+    line-height: 2.4rem; */
+	font-size: 1.375rem;
+    font-weight: 300;
+	letter-spacing: 2px;
+    line-height: 1.27;
+    margin-bottom: 0.5rem;
+	color: #303030;
+}
+
+.apollo-media img.media-object__picture {
+    margin-top: 1.625rem;
+    margin-bottom: 1.625rem;
+}
+.media-object__picture--rounded {
+    border-radius: 100%;
+    height: 7.49812rem;
+    width: 7.49812rem;
+}
+.media-object__picture {
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+    min-width: 2.99925rem;
+}
+
+.apollo-infobox {
+    position: relative;
+    padding: 1rem;
+    padding-right: 2rem;
+    margin: 1rem 0;
+    color: #303030;
+}
+.apollo-infobox.info:before {
+    content: "i";
+    background-color: #FAB116;
+}
+.apollo-infobox:before {
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.25rem;
+}
+.apollo-infobox.info {
+    background-color: rgba(250, 177, 22, 0.2);
+}
+.apollo-infobox {
+    position: relative;
+    padding: 1rem;
+    padding-right: 2rem;
+    margin: 1rem 0;
+    color: #303030;
+}
+.apollo-infobox.info:before {
+    content: "i";
+    background-color: #FAB116;
+}
+.apollo-infobox:before {
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.25rem;
+}
+.apollo-input .select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url(../images/cms/home/triangle-3.svg);
+}
+input, textarea, keygen, select, button, label, option {
+    font-family: "Source Sans Pro", Helvetica, Arial, "Open Sans", sans-serif !important;
+}
+.select {
+    appearance: none;
+    background: #fff url(/assets/blacklane-apollo/images/arrow-dropdown.svg) no-repeat 100% center;
+    background-origin: content-box;
+}
