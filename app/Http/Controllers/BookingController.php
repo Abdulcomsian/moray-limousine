@@ -277,6 +277,7 @@ class BookingController extends Controller
     }
     public function notificationMsg($booking)
     {
+        $class = VehicleCategory::find($booking['vehicle_type_id ']);
         return  [
             'greeting' => 'You Have a New Booking Request .',
             'subject' => 'Moray Limousine .  New Booking Request',
@@ -288,7 +289,7 @@ class BookingController extends Controller
                 'Pick Date'   =>   $booking->pick_date,
                 'Pick Address'   =>   $booking->pick_address,
                 'Drop Address'   =>   $booking->drop_address,
-                'Selected Class'   =>   $booking->drop_address,
+                'Selected Class'   =>  $class->name,
                 'Travel Amount'   =>  $booking->travel_amount,
                 'Net Amount'     =>  $booking->net_amount,
                 'Payment Status'   =>  $booking->payment_status,
