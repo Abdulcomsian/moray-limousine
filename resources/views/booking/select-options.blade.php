@@ -210,7 +210,7 @@ Extra Options
                             </li>
                             <li class="list-group-item location-list">
                                 <span class="w-100" style="font-size: 1.2rem;"> Datum & Zeit </span>
-                                <span> <i class="fa fa-calendar pr-2" style="color: #b97a57;"></i> {{date('d - M - yy',strtotime($booking['pick_date'])) }}</span>
+                                <span> <i class="fa fa-calendar pr-2" style="color: #b97a57;"></i> {{date('d - M - Y',strtotime($booking['pick_date'])) }}</span>
                                 <span class="pl-4"> <i class="fa fa-clock-o pr-2" style="color: #b97a57;"></i> {{$booking->pick_time }}</span>
                             </li>
                         </ul>

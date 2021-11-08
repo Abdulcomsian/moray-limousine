@@ -61,13 +61,13 @@ $user_type = auth()->user()->user_type;
             <div class="col-md-4">
                 <div class="profile-work">
                     <strong>Booking Date</strong>
-                    <p>{{date('d - M - yy',strtotime($booking->created_at))}}</p>
+                    <p>{{date('d - M - Y',strtotime($booking->created_at))}}</p>
                     <strong>Pickup Address</strong>
                     <p>{{$booking->pick_address}}</p>
                     <strong>Drop Address</strong>
                     <p>{{$booking->drop_address}}</p>
                     <strong>Pickup Date & Time</strong>
-                    <p>{{date('d - M - yy',strtotime($booking->pick_date))}} & {{date('g:i a', strtotime($booking->pick_time))}}  </p>
+                    <p>{{date('d - M - Y',strtotime($booking->pick_date))}} & {{date('g:i a', strtotime($booking->pick_time))}}  </p>
 
                 </div>
             </div>
