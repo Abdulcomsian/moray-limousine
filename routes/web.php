@@ -35,6 +35,9 @@ Route::get('/services-rates','HomeController@servicesrates');
 Route::get('/our-services','HomeController@ourServices');
 Route::get('service/details/{id}','HomeController@serviceDetail');
 Route::get('/become-partner', 'PartnerController@becomePartner');
+Route::get('/partner-registration', function () {
+    return view('home.partner-registration');
+});
 Route::get('/become-driver', 'DriverController@becomeDriver')->name('driver.becomeDriver');
 Route::get('/Faq', 'HomeController@faq');
 Route::get('/mpressum', 'HomeController@footerPageOne');

@@ -25,7 +25,7 @@ Become Partner
                     <span class="span">with Moray Limousines</span>
                 </h3>
                 <p class="content">Sign up to drive with Blacklane and begin earning more money.</p>
-                <a href="" class="booking">Become A Partner<img src="{{asset('images/icon/arrow-white.png')}}" alt=""></a>
+                <a href="{{ url('partner-registration') }}" class="booking">Become A Partner<img src="{{asset('images/icon/arrow-white.png')}}" alt=""></a>
             </div>
         </div>
     </section>
