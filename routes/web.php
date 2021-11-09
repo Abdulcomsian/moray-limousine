@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
-
+Route::get('company-information', function () {
+    return view('home.company-information');
+});
 Route::get('register/verify', 'Auth\RegisterController@verify')->name('verifyEmailLink');
 Route::get('register/verify/resend', 'Auth\RegisterController@showResendVerificationEmailForm')->name('showResendVerificationEmailForm');
 Route::post('register/verify/resend', 'Auth\RegisterController@resendVerificationEmail')->name('resendVerificationEmail');
@@ -404,4 +406,7 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         Route::get('/partner-registration-req', 'Admin\AdminController@partner_req')->name('partner-req');
         Route::post('/partner-reg-req-save', 'Admin\AdminController@partner_req_save');
     });
+
+    
+
 });
