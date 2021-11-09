@@ -235,6 +235,9 @@
 .iconbox .iconbox-content p {
 	line-height: 24px;
 }
+.iconbox-icon img{
+	max-width: 20%;
+}
 /*========== Services Single ==========*/
 .customs-single:not(.fleet-single) {
 	padding: 80px 0 68px;
@@ -2913,18 +2916,19 @@ hr.new1 {
 	border-top: 1px solid red;
   }
 .parallax_one{
-	background-image: url('../images/cms/home/become_a_partner_header.jpg');
+	background-image: url('../images/cms/home/become_a_partner.jpg');
 	background-repeat: no-repeat;
+	background-size: cover;
     /* background-size: cover; */
 }
 .info-box{
 	text-align:center;
 }
 .info-box .title{
-	font-size: 2.5rem;
+	font-size: 60px;
     line-height: 60px;
-    color: #1e1e1e;
-	font-weight: 300;
+    color: #fff;
+}
 }
 section.info-box.parallax.parallax_one.change_text .wrapper-content h3 .span{
 	font-weight: 500;
@@ -2935,7 +2939,7 @@ section.info-box.parallax.parallax_one.change_text .wrapper-content h3 .span{
     font-weight: 300;
     font-size: 20px;
     line-height: 30px;
-    color: #1e1e1e;
+    color: #fff;
 	max-width: 480px;
     margin: 30px auto 65px auto;
 }
@@ -2960,7 +2964,7 @@ section.info-box.parallax.parallax_one.change_text .wrapper-content h3 .span{
 .info-box .booking:hover {
 	background-color: transparent;
 	border: 2px solid #bf9c60;
-	color: #1e1e1e;
+	/* color: #1e1e1e; */
 }
 .info-box .booking img{
 	padding-left:10px;
@@ -3405,6 +3409,7 @@ main {
 }
 .row.lsp-page--header {
 	margin-bottom: 1.875rem !important;
+	display: table-cell;
 }
 .row.validate.validate--name {
 	margin-bottom: 1.875rem;
