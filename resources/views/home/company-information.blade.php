@@ -42,38 +42,99 @@
         background-color: #F6F6F6;
         padding: 1rem0;
         font-size: 1.125rem;
-    }
-    }
+        }
+
+        .lsp-pager {
+        background-color: #F6F6F6;
+        padding: 1rem 0;
+        font-size: 1.125rem; }
+
+        .lsp-pager .wrapper {
+        display: flex;
+        max-width: 35rem;
+        margin: 0 auto;
+        padding: 0 1rem; }
+
+        .lsp-pager .pager-prev,
+        .lsp-pager .pager-data,
+        .lsp-pager .pager-next {
+        display: inline-block; }
+
+        .lsp-pager .pager-data {
+        margin: 0 auto;
+        text-align: center;
+        flex: 1 0 auto; }
+
+        .lsp-pager .pager-data .cur {
+        color: #1F1F1F; }
+
+        .lsp-pager .pager-data .max {
+        color: #A8A8A8; }
+
+        .lsp-pager .pager-prev,
+        .lsp-pager .pager-next {
+        flex: 0 1 auto; }
+
+        .lsp-pager .pager-prev.hidden,
+        .lsp-pager .pager-next.hidden {
+        visibility: hidden; }
+
+        .lsp-pager .pager-prev img,
+        .lsp-pager .pager-next img {
+        width: 1rem;
+        height: 1rem;
+        object-fit: contain; }
+
+        .lsp-pager a {
+        font-size: 1.125rem;
+        font-weight: normal;
+        line-height: normal;
+        text-decoration: none; }
+
+        div#informationCompany {
+            padding-top: 8%;
+        }
+        .lsp-pager .pager-prev img, .lsp-pager .pager-next img {
+            width: 1rem;
+            height: 1rem;
+            object-fit: contain;
+        }
+        .lsp-pager a {
+            font-size: 1.125rem;
+            font-weight: normal;
+            line-height: normal;
+            text-decoration: none;
+        }
+        .lsp-pager .pager-prev, .lsp-pager .pager-next {
+            flex: 0 1 auto;
+        }
+        .lsp-pager .wrapper {
+            display: flex;
+            max-width: 35rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
 
     </style>
 
-    <form method="post" action="{{ route('register') }}" id="partner-register-form">
+    <form method="post"  action="{{ route('register') }}" id="partner-register-form">
         <input type="hidden" name="user_type" value="partner">
         <main id="step-1" class="d-block" style="margin: top 2px;">
-
-            <div id="general-errors" class="apollo-notification hidden apollo-notification--error">
-                <div class="apollo-notification__content">
-                    <div class="top-baner">
-                       <div class="container-fluid">
-                           <div class="row">
-                               <div class="col-md-12">
-                                    <div class="top-baner-content">
-                                        <div class="back-icon"></div>
-                                        <div class="content">Step 1 of 6</div>
-                                        <div class="next-icon"></div>
-                                    </div>
-                                </div>
-                           </div>
-                       </div>
-                    </div>
-                </div>
-            </div>
             <div id="registrationData">
                 <div class="lsp-layout lsp-layout--enabled">
                     <div class="lsp-spinner"><img src="/assets/images/ic-spinner.svg"></div>
                 </div>
-                <div class="lsp-page">
-                <div class="row lsp-page--header " style="    display: block;">
+                <div id="informationCompany" class="paged">
+                    <div class="lsp-pager">
+                        <div class="wrapper">
+                            <!-- <div class="pager-prev"><a id="prev-page-1"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div> -->
+                            <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 6</span></div>
+                            <div class="pager-next"><a id="page-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lsp-page" >
+                    <div class="row lsp-page--header " style="    display: block;">
                         <h2 class="lsp-page--title">Company information</h2>
                         <h4 class="lsp-page--description">Please provide a few more details about your company.</h4>
                     </div>
@@ -84,8 +145,7 @@
                                 <label>Company name</label>
                             </div>
                             <div class="input-field">
-                                <input id="company-name" name="company_name" placeholder="Example Company Inc." type="text" required class="form-control input-field__element">
-
+                                <input id="company-name" name="company_name"  placeholder="Example Company Inc." type="text" class="form-control input-field__element" required >
                             </div>
                             <span class="text-danger companyerror"></span>
                             <div class="input-desc">
@@ -207,8 +267,8 @@
                     <div class="row subsection">
                         
                     </div>
-                    <div class="actions">
-                        <button type="button" class="next-page">Next</button>
+                    <div class="actions pt-5">
+                        <button type="button" class="second-next-page">Next</button>
                     </div>
                     <!-- <div class="row">
                         <a href="{{url('/login')}}">Already a partner?</a>
@@ -219,14 +279,19 @@
             </div>
         </main>       
         <main id="step-2" class="d-none" style="margin: top 2px;">
-            <div id="general-errors" class="apollo-notification hidden apollo-notification--error">
-                <div class="apollo-notification__content">
-
-                </div>
-            </div>
+            <div id="general-errors" class="apollo-notification hidden apollo-notification--error"></div>
             <div id="registrationData">
                 <div class="lsp-layout lsp-layout--enabled">
                     <div class="lsp-spinner"><img src="/assets/images/ic-spinner.svg"></div>
+                </div>
+                <div id="informationCompany" class="paged">
+                    <div class="lsp-pager">
+                        <div class="wrapper">
+                            <div class="pager-prev"><a id="prev-page-2"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
+                            <div class="pager-data"><span l10n class="cur">Step &nbsp; 2 &nbsp; </span><span l10n class="max">of &nbsp; 6</span></div>
+                            <div class="pager-next"><a id="page-3"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="lsp-page">
                     <div class="row lsp-page--header">
@@ -288,14 +353,19 @@
             </div>
         </main>
         <main id="step-3" class="d-none" style="margin: top 2px;">
-            <div id="general-errors" class="apollo-notification hidden apollo-notification--error">
-                <div class="apollo-notification__content">
-
-                </div>
-            </div>
+            <div id="general-errors" class="apollo-notification hidden apollo-notification--error"></div>
             <div id="registrationData">
                 <div class="lsp-layout lsp-layout--enabled">
                     <div class="lsp-spinner"><img src="/assets/images/ic-spinner.svg"></div>
+                </div>
+                <div id="informationCompany" class="paged">
+                    <div class="lsp-pager">
+                        <div class="wrapper">
+                            <div class="pager-prev"><a id="prev-page-3"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
+                            <div class="pager-data"><span l10n class="cur">Step &nbsp; 3	&nbsp; </span><span l10n class="max">of	&nbsp; 6</span></div>
+                            <div class="pager-next"><a id="page-4"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="lsp-page">
                     <div class="row lsp-page--header">
@@ -390,19 +460,19 @@
         </main>
         <main id="step-4" class="d-none" style="margin: top 2px;">
             <div id="general-errors" class="apollo-notification hidden apollo-notification--error">
-                <div class="apollo-notification__content">
-                <div class="lsp-pager">
-                <!-- <div class="wrapper">
-                    <div class="pager-prev"><a href="./vehicle.html"><img src="/assets/images/ic-arrow-left.svg"></a></div>
-                    <div class="pager-data"><span l10n="" class="cur">Step 4 </span><span l10n="" class="max">of 6</span></div>
-                    <div class="pager-next hidden"><a href="./documents.html"><img src="/assets/images/ic-arrow-right.svg"></a></div>
-                </div>
-                </div> -->
-                </div>
-            </div>
+                <div class="apollo-notification__content"></div>
             <div id="registrationData">
                 <div class="lsp-layout lsp-layout--enabled">
                     <div class="lsp-spinner"><img src="/assets/images/ic-spinner.svg"></div>
+                </div>
+                <div id="informationCompany" class="paged">
+                    <div class="lsp-pager">
+                        <div class="wrapper">
+                            <div class="pager-prev"><a id="prev-page-4"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
+                            <div class="pager-data"><span l10n class="cur">Step &nbsp; 4	&nbsp; </span><span l10n class="max">of	&nbsp; 6</span></div>
+                            <div class="pager-next"><a id="page-5"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="lsp-page">
                     <div class="row lsp-page--header">
@@ -477,13 +547,22 @@
         <main id="step-5" class="d-none" style="margin: top 2px;">
             <div id="general-errors" class="apollo-notification hidden apollo-notification--error">
                 <div class="apollo-notification__content">
-                <div class="lsp-pager">
-                
+                    <div class="lsp-pager">
+                    
+                    </div>
                 </div>
-            </div>
-            <div id="registrationData">
+            <div id="registrationData" >
                 <div class="lsp-layout lsp-layout--enabled">
                     <div class="lsp-spinner"><img src="/assets/images/ic-spinner.svg"></div>
+                </div>
+                <div id="informationCompany" class="paged" style="padding-top: 6%;">
+                    <div class="lsp-pager">
+                        <div class="wrapper">
+                            <div class="pager-prev"><a id="prev-page-5"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
+                            <div class="pager-data"><span l10n class="cur">Step &nbsp; 5 &nbsp; </span><span l10n class="max">of	&nbsp; 6</span></div>
+                            <div class="pager-next"><a id="page-6"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="lsp-page">
                     <div class="row lsp-page--header">
@@ -567,14 +646,32 @@
                 
                 </div>
             </div>
-            <div id="registrationData">
-                <div class="lsp-layout lsp-layout--enabled">
-                    <div class="lsp-spinner"><img src="/assets/images/ic-spinner.svg"></div>
+            <div id="registrationData" style="padding-top: 6%;">
+               
+                <div id="informationCompany" class="paged" style="padding-top: 2%;">
+                    <div class="lsp-pager">
+                        <div class="wrapper">
+                            <div class="pager-prev"><a id="prev-page-6"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
+                            <div class="pager-data"><span l10n class="cur">Step &nbsp; 6	&nbsp; </span><span l10n class="max">of	&nbsp; 6</span></div>
+                            <div class="pager-next hidden"><a id=""><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="lsp-page">
                     <div class="row lsp-page--header">
-                        <h2 class="lsp-page--title " style="color:red; font-weight:bold">You Submation is Successfully</h2>
-                        <!-- <h4 class="lsp-page--description">To continue, please complete the sections below.</h4> -->
+                        <div class="apollo-infobox info">
+                            <div class="apollo-infobox--title">
+                                <h3>Congratulation :</h3>
+                            </div>
+                            <div class="apollo-infobox--description">
+                                <h3 class="pl-3 pt-2" style="color:red">We are processing your details. We Will email you once your application is approved.</h3>
+                            </div>
+                            <!-- <div class="apollo-infobox--description">
+                                <h2 class="lsp-page--title " style="color:blue; font-weight:bold">We are processing your details. We Will email you once your application is approved.</h2>
+                            </div> -->
+                        </div>
+                        <div class="submit-form">
+                        </div>
                     </div>
                     <div class="actions pt-5">
                         <button type="button" class="back">Submit</button>
@@ -594,6 +691,51 @@
     @section('js')
      <script>
 
+            $("#page-2").on('click',function(){
+                $("#step-1").removeClass('d-block').hide();
+                $("#step-2").removeClass('d-none').show();
+            })
+            $("#page-3").on('click',function(){
+                $("#step-2").removeClass('d-block').hide();
+                $("#step-3").removeClass('d-none').show();
+            })
+            $("#page-4").on('click',function(){
+                $("#step-3").removeClass('d-block').hide();
+                $("#step-4").removeClass('d-none').show();
+            })
+            $("#page-5").on('click',function(){
+                $("#step-4").removeClass('d-block').hide();
+                $("#step-5").removeClass('d-none').show();
+            })
+            $("#page-6").on('click',function(){
+                $("#step-5").removeClass('d-block').hide();
+                $("#step-6").removeClass('d-none').show();
+            })
+
+            // ***********
+
+            $("#prev-page-2").on('click',function(){
+                $("#step-2").removeClass('d-block').hide();
+                $("#step-1").removeClass('d-none').show();
+            })
+            $("#prev-page-3").on('click',function(){
+                $("#step-3").removeClass('d-block').hide();
+                $("#step-2").removeClass('d-none').show();
+            })
+            $("#prev-page-4").on('click',function(){
+                $("#step-4").removeClass('d-block').hide();
+                $("#step-3").removeClass('d-none').show();
+            })
+            $("#prev-page-5").on('click',function(){
+                $("#step-5").removeClass('d-block').hide();
+                $("#step-4").removeClass('d-none').show();
+            })
+            $("#prev-page-6").on('click',function(){
+                $("#step-6").removeClass('d-block').hide();
+                $("#step-5").removeClass('d-none').show();
+            })
+
+            // *************
             $(".next-page").on('click',function(){
                 $("#step-1").removeClass('d-block').hide();
                 $("#step-2").removeClass('d-none').show();
@@ -619,90 +761,6 @@
                 $('#step-1').removeClass('d-none').show();
             })
   
-        // $(".next-page").on('click', function() {
-        //     if ($("#company-name").val() == "") {
-        //         $(".companyerror").text("Please Enter Company Name");
-        //         return false;
-        //     } else {
-        //         $(".companyerror").text("");
-        //     }
-
-        //     if ($("#email").val() == "") {
-        //         $(".emailerror").text("Please Enter Email");
-        //         return false;
-        //     } else {
-        //         $(".emailerror").text("");
-        //     }
-
-        //     if ($("#password").val() == "") {
-
-        //         $(".passworderror").text("Please Enter Pssword");
-        //         return false;
-        //     } else {
-        //         $(".passworderror").text("");
-        //     }
-
-        //     if ($("#password").val().length < 8) {
-        //         $(".passworderror").text("Please Enter minimum 8 charachter Pssword");
-        //         return false;
-        //     } else {
-        //         $(".passworderror").text("");
-        //     }
-
-        //     if (!$("input[name='language']:checked").val()) {
-        //         $(".languageerror").text("Plese Select Yes for continue");
-        //         return false;
-        //     } else {
-        //         $(".languageerror").text("");
-        //     }
-        //     $('#step-1').hide();
-        //     $('#step-2').show();
-        //     $('#step-3').hide();
-            
-            
-        // });
-        // $(".second-next-page").on('click', function() {
-        //     if ($("#city-select").val() == "") {
-        //         $(".cityerror").text("Plese Select City");
-        //         return false;
-        //     } else {
-        //         $(".cityerror").text("");
-        //     }
-        //     if (!$("input[name='vehicleradio']:checked").val()) {
-        //         $(".vehicleerror").text("Plese Select Yes for continue");
-        //         return false;
-        //     } else {
-        //         $(".vehicleerror").text("");
-        //     }
-        //     $('#step-2').hide();
-        //     $('#step-3').show();
-
-        // });
-        // $(".submit-page").on('click', function() {
-        //     if (!$("input[name='documentradio']:checked").val()) {
-        //         $(".documenterror").text("Plese Select Yes for continue");
-        //         return false;
-        //     } else {
-        //         $(".documenterror").text("");
-        //         $("#partner-register-form").submit();
-        //     }
-        // });
-
-        // $('#city-select').on('change', function() {
-        //     cityid = $(this).val();
-        //     $.ajax({
-        //         url: "{{url('/get-city-vehicle')}}",
-        //         method: "get",
-        //         data: {
-        //             cityid: cityid
-        //         },
-        //         success: function(res) {
-        //             $('#step-4').hide();
-        //             $(".requirements").html(res);
-        //             $('#step-5').show();
-        //         }
-
-        //     })
-        // });
+       
     </script> 
     @endsection

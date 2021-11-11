@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="{{asset('driver/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('driver/fonts/font-awesome/css/font-awesome.min.css')}}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/css/intlTelInput.css" rel="stylesheet" />
+
   <!-- Plugin css for this page -->
   <!-- Plugins css -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
