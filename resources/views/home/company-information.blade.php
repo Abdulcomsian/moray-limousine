@@ -149,7 +149,6 @@ Company Information
                     <div class="wrapper">
                         <!-- <div class="pager-prev"><a id="prev-page-1"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div> -->
                         <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                        <div class="pager-next"><a id="page-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
                     </div>
                 </div>
             </div>
@@ -299,7 +298,6 @@ Company Information
                     <div class="wrapper">
                         <div class="pager-prev"><a id="prev-page-2"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
                         <div class="pager-data"><span l10n class="cur">Step &nbsp; 2 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                        <div class="pager-next"><a id="page-3"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
                     </div>
                 </div>
             </div>
@@ -374,7 +372,7 @@ Company Information
                     <div class="wrapper">
                         <div class="pager-prev"><a id="prev-page-3"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
                         <div class="pager-data"><span l10n class="cur">Step &nbsp; 3 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                        <div class="pager-next"><a id="page-4"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+
                     </div>
                 </div>
             </div>
@@ -519,7 +517,7 @@ Company Information
                         <div class="wrapper">
                             <div class="pager-prev"><a id="prev-page-4"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
                             <div class="pager-data"><span l10n class="cur">Step &nbsp; 4 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                            <div class="pager-next"><a id="page-5"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+
                         </div>
                     </div>
                 </div>
@@ -602,7 +600,7 @@ Company Information
                         <div class="wrapper">
                             <div class="pager-prev"><a id="prev-page-5"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
                             <div class="pager-data"><span l10n class="cur">Step &nbsp; 5 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                            <div class="pager-next"><a id="page-6"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+
                         </div>
                     </div>
                 </div>
@@ -694,27 +692,6 @@ Company Information
 @endsection
 @section('js')
 <script>
-    $("#page-2").on('click', function() {
-        $("#step-1").removeClass('d-block').hide();
-        $("#step-2").removeClass('d-none').show();
-    })
-    $("#page-3").on('click', function() {
-        $("#step-2").removeClass('d-block').hide();
-        $("#step-3").removeClass('d-none').show();
-    })
-    $("#page-4").on('click', function() {
-        $("#step-3").removeClass('d-block').hide();
-        $("#step-4").removeClass('d-none').show();
-    })
-    $("#page-5").on('click', function() {
-        $("#step-4").removeClass('d-block').hide();
-        $("#step-5").removeClass('d-none').show();
-    })
-    $("#page-6").on('click', function() {
-        $("#step-5").removeClass('d-block').hide();
-        $("#step-6").removeClass('d-none').show();
-    })
-
     // ***********
 
     $("#prev-page-2").on('click', function() {
