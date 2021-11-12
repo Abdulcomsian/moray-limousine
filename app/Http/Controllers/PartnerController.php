@@ -314,6 +314,14 @@ class PartnerController extends Controller
      */
     public function partnerReservations()
     {
+        //checking partner doucments partner driver and vehicles
+        $id = Auth::user()->id;
+        $driver = User::where('creator_id', $id)->count();
+        $vehicle = Vehicle::where('creator_id', $id)->count();
+        $UploadedDocument = UploadedDocument::where('user_id', $id)->count();
+        if ($driver <= 0 || $vehicle <= 0 || $UploadedDocument <= 0) {
+            return redirect('company-information');
+        }
         $data['canceled_bookings'] = auth()->user()->booking->where('booking_status', 'canceled');
         $data['pending_bookings'] = auth()->user()->booking->where('booking_status', 'pending');
         $data['completed_bookings'] = auth()->user()->booking->where('booking_status', 'completed');

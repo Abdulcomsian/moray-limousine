@@ -164,7 +164,7 @@ Company Information
                             <label>Company name</label>
                         </div>
                         <div class="input-field">
-                            <input id="companyName" name="company_name" placeholder="Example Company Inc." type="text" class="form-control input-field__element" required>
+                            <input id="companyName" name="company_name" value="{{\Auth::user()->partner->company_name ?? ''}}" placeholder="Example Company Inc." type="text" class="form-control input-field__element" required>
                         </div>
                         <span class="text-danger companyerror"></span>
                         <div class="input-desc">
@@ -199,7 +199,7 @@ Company Information
                             <label>First name of authorised representative</label>
                         </div>
                         <div class="input-field">
-                            <input id="authorizedFname" name="authorizedFname" type="text" required class="form-control input-field__element">
+                            <input id="authorizedFname" name="authorizedFname" value="{{\Auth::user()->first_name ?? ''}}" type="text" required class="form-control input-field__element">
 
                         </div>
                         <span class="text-danger authorizedFnameerror"></span>
@@ -209,7 +209,7 @@ Company Information
                             <label>Last name of authorised representative</label>
                         </div>
                         <div class="input-field">
-                            <input id="authorizedLname" name="authorizedLname" type="text" required class="form-control input-field__element">
+                            <input id="authorizedLname" name="authorizedLname" value="{{\Auth::user()->last_name ?? ''}}" type="text" required class="form-control input-field__element">
 
                         </div>
                         <span class="text-danger authorizedLnameerror"></span>
@@ -219,7 +219,7 @@ Company Information
                             <label>Phone number</label>
                         </div>
                         <div class="input-field">
-                            <input id="phoneNumber" name="phoneNumber" type="number" required class="form-control input-field__element">
+                            <input id="phoneNumber" name="phoneNumber" value="{{\Auth::user()->phone_number ?? ''}}" type="number" required class="form-control input-field__element">
                         </div>
                         <span class="text-danger phoneNumbererror"></span>
                     </div>
@@ -228,7 +228,7 @@ Company Information
                             <label>Company address</label>
                         </div>
                         <div class="input-field">
-                            <input id="companyAddress" name="companyAddress" type="text" required class="form-control input-field__element">
+                            <input id="companyAddress" name="companyAddress" value="{{\Auth::user()->partner->address ?? ''}}" type="text" required class="form-control input-field__element">
                         </div>
                         <span class="text-danger companyAddresserror"></span>
                     </div>
@@ -238,7 +238,7 @@ Company Information
                             <label>City</label>
                         </div>
                         <div class="input-field">
-                            <input id="city" name="city" type="text" required class="form-control input-field__element">
+                            <input id="city" name="city" value="{{\Auth::user()->partner->city ?? ''}}" type="text" required class="form-control input-field__element">
                         </div>
                         <span class="text-danger cityerror"></span>
                         <div class="input-desc">
