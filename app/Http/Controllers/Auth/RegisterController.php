@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\MorayLimousineNotifications;
 use Session;
 use DB;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -136,8 +137,8 @@ class RegisterController extends Controller
     protected function partnercreate(array $data)
     {
         $user = User::create([
-            'first_name' => 'dummy',
-            'last_name' => 'dummy',
+            'first_name' => '',
+            'last_name' => '',
             'phone_number' => '',
             'email' => $data['email'],
             'user_type' => $data['user_type'],
@@ -153,7 +154,6 @@ class RegisterController extends Controller
             return $user;
         }
     }
-
     //
     protected $notifyAdminMsg = [
         'greeting' => 'A New Partner On Moray Limousines is registered ',

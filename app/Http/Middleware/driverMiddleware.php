@@ -16,7 +16,7 @@ class driverMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth()->user()->user_type == "driver"){
+        if (Auth()->user()->user_type == "driver") {
             return $next($request);
         }
         return redirect()->back();

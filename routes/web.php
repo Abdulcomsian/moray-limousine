@@ -12,13 +12,15 @@
 */
 
 //sites home pages roots
+
+use App\Document;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\VehicleCategory;
+use App\VehicleSubtype;
 
 Auth::routes();
-Route::get('company-information', function () {
-    return view('home.company-information');
-});
+
 Route::get('register/verify', 'Auth\RegisterController@verify')->name('verifyEmailLink');
 Route::get('register/verify/resend', 'Auth\RegisterController@showResendVerificationEmailForm')->name('showResendVerificationEmailForm');
 Route::post('register/verify/resend', 'Auth\RegisterController@resendVerificationEmail')->name('resendVerificationEmail');
@@ -198,18 +200,22 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             Route::post('partner/save-new-driver', 'PartnerController@saveNewDriver')->name('partner.save.driver');
             Route::post('partner/store-profile', 'PartnerController@storePartner')->name('store-partner');
             Route::get('partner/update-profile/{id}', 'PartnerController@updateProfile')->name('update-partner-profile');
-
             Route::post('partner/change-password', 'PartnerController@changePassword')->name('partner.change.password');
             Route::get('partner/change-password-form', 'PartnerController@changePasswordForm')->name('partner.edit.password');
-
             Route::get('partner/manage-documents', 'PartnerController@uploadDocuments');
             Route::post('partner/store-documents', 'PartnerController@storeDocuments')->name('store.documents');
             Route::get('partner/delete-document/{id}', 'PartnerController@deleteDocument');
-
-
             Route::get('partner/search-driver', 'PartnerController@addDriver');
             Route::get('partner/add-new-driver/{id}', 'PartnerController@addNewDriverByEmail');
             Route::post('partner/store-vehicle-docs', 'PartnerController@storeVehicleDocs')->name('partner.vehicle.docs');
+
+            Route::get('company-information', function () {
+                $data['category'] = VehicleCategory::all();
+                $documents = Document::orderBy('applied_on', 'asc')->get();
+                $VehicleSubtype = VehicleSubtype::get();
+                return view('home.company-information', compact('data', 'documents', 'VehicleSubtype'));
+            });
+            Route::post('/save-company-info', 'PartnerController@save_company_info')->name('save-company-info');
         });
         Route::group(['middleware' => 'driver'], function () {
 
@@ -406,7 +412,4 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         Route::get('/partner-registration-req', 'Admin\AdminController@partner_req')->name('partner-req');
         Route::post('/partner-reg-req-save', 'Admin\AdminController@partner_req_save');
     });
-
-    
-
 });
