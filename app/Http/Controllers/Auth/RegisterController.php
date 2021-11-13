@@ -145,6 +145,9 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         if ($user) {
+            DB::table('partners')->insert([
+                'company_name' => $data['company_name'],
+            ]);
             DB::table('user_location')->insert([
                 'user_id' => $user->id,
                 'location_id' => $data['city-select'],
