@@ -178,17 +178,17 @@ Company Information
                         </div>
                         <div class="input-field">
                             <select class="custom-select" id="legal-form" name="legal_form">
-                                <option value="">Please select</option>
+                                <option value=" ">Please select</option>
                                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                <option value="Sole Proprietorship">Sole Proprietorship</option>
-                                <option value="S.A.">S.A.</option>
-                                <option value="S.L.">S.L.</option>
-                                <option value="S.L.N.E.">S.L.N.E.</option>
-                                <option value="S.L.L.">S.L.L.</option>
-                                <option value="S.C.">S.C.</option>
-                                <option value="S.C.P.">S.C.P.</option>
-                                <option value="S.Cra.">S.Cra.</option>
-                                <option value="S.Coop.">S.Coop.</option>
+                                <option value="Sole Proprietorship" @if(\Auth::user()->partner->legal_form_company=='Sole Proprietorship'){{'selected'}}@endif>Sole Proprietorship</option>
+                                <option value="S.A." @if(\Auth::user()->partner->legal_form_company=='S.A.'){{"selected"}}@endif>S.A.</option>
+                                <option value="S.L." @if(\Auth::user()->partner->legal_form_company=="S.L."){{'selected'}}@endif>S.L.</option>
+                                <option value="S.L.N.E." @if(\Auth::user()->partner->legal_form_company=="S.L.N.E."){{'selected'}}@endif>S.L.N.E.</option>
+                                <option value="S.L.L." @if(\Auth::user()->partner->legal_form_company=="S.L.L."){{'seleted'}}@endif>S.L.L.</option>
+                                <option value="S.C." @if(\Auth::user()->partner->legal_form_company=="S.C."){{'selected'}}@endif>S.C.</option>
+                                <option value="S.C.P." @if(\Auth::user()->partner->legal_form_company=="S.C.P."){{'selected'}}@endif>S.C.P.</option>
+                                <option value="S.Cra." @if(\Auth::user()->partner->legal_form_company=="S.Cra."){{'selected'}}@endif>S.Cra.</option>
+                                <option value="S.Coop." @if(\Auth::user()->partner->legal_form_company==='S.Coop.'){{'selected'}}@endif>S.Coop.</option>
                             </select>
 
                         </div>
@@ -250,7 +250,7 @@ Company Information
                             <label>Postal code</label>
                         </div>
                         <div class="input-field">
-                            <input id="postalCode" name="postalCode" type="text" required class="form-control input-field__element">
+                            <input id="postalCode" name="postalCode" value="{{\Auth::user()->partner->postal_code ?? ''}}" type="text" required class="form-control input-field__element">
 
                         </div>
                     </div>
@@ -260,7 +260,7 @@ Company Information
                             <label>Country</label>
                         </div>
                         <div class="input-field">
-                            <input id="country" name="country" type="text" required class="form-control input-field__element">
+                            <input id="country" name="country" value="{{\Auth::user()->partner->country ?? ''}}" type="text" required class="form-control input-field__element">
                         </div>
                         <span class="text-danger countryerror"></span>
                     </div>
@@ -269,7 +269,7 @@ Company Information
                             <label>VAT/Sales Tax Number</label>
                         </div>
                         <div class="input-field">
-                            <input id="vat-sales" name="vat_sales" type="text" required class="form-control input-field__element">
+                            <input id="vat-sales" name="vat_sales" value="{{\Auth::user()->partner->vat_sales_tax_no ?? ''}}" type="text" required class="form-control input-field__element">
 
                         </div>
                     </div>
@@ -760,10 +760,11 @@ Company Information
         } else if (city === '') {
             $(".cityerror").html("the field is required");
             return false;
-        } else if (country == '') {
-            $(".countryerror").html("the field is required");
-            return false;
         }
+        // } else if (country == '') {
+        //     $(".countryerror").html("the field is required");
+        //     return false;
+        // }
 
         $("#step-1").removeClass('d-block').hide();
         $("#step-2").removeClass('d-none').show();
