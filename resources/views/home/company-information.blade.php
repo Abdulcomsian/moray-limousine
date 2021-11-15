@@ -260,7 +260,7 @@ Company Information
                             <label>Country</label>
                         </div>
                         <div class="input-field">
-                            <input id="country" name="country" value="{{\Auth::user()->partner->country ?? ''}}" type="text" required class="form-control input-field__element">
+                            <input id="country" name="country" value="{{\Auth::user()->partner->country ?? ''}}" type="text" class="form-control input-field__element">
                         </div>
                         <span class="text-danger countryerror"></span>
                     </div>
@@ -736,7 +736,6 @@ Company Information
         $(".phoneNumbererror").html("");
         $(".companyAddresserror").html("");
         $(".cityerror").html("");
-        $(".countryerror").html("");
 
         if (companyName === '') {
             $(".companyerror").html("The field is required");
@@ -761,10 +760,6 @@ Company Information
             $(".cityerror").html("the field is required");
             return false;
         }
-        // } else if (country == '') {
-        //     $(".countryerror").html("the field is required");
-        //     return false;
-        // }
 
         $("#step-1").removeClass('d-block').hide();
         $("#step-2").removeClass('d-none').show();

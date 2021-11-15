@@ -658,6 +658,7 @@ class PartnerController extends Controller
             $driver->user_type = 'driver';
             $driver->password = bcrypt('driver');
             $driver->save();
+            $driverid = $driver->id;
             //vehicle registration
             $vehicle = new Vehicle();
             $vehicle->title = $request->vehicletitle;
@@ -672,6 +673,7 @@ class PartnerController extends Controller
             $vehicle->engine_capacity = '';
             $vehicle->fuel_type = '';
             $vehicle->save();
+            $vehicleid = $vehicle->id;
 
             //upload doucments for partner and driver and vehicle
             //partner doucment image
@@ -691,8 +693,10 @@ class PartnerController extends Controller
             if (isset($request->$request->company_vehicle)) {
                 for ($j = 0; $j < count($request->company_vehicle ?? []); $j++) {
                     $documents_data['document_title'] =  $request->document_vehicle_title[$i];
+                    $documents_data['vehicle_id'] = $vehicleid;
+                    $documents_data['user_id'] = '';
                     $imageName = null;
-                    if ($request->hasFile('company_driver')) {
+                    if ($request->hasFile('company_vehicle')) {
                         $imageName = time() . $request->company_vehicle[$j]->getClientOriginalName();
                         $request->company_vehicle[$j]->move(public_path('uploaded-user-images/partner-documents'), $imageName);
                         $documents_data['document_img'] = $imageName;
@@ -705,6 +709,7 @@ class PartnerController extends Controller
             if (isset($request->company_driver)) {
                 for ($k = 0; $k < count($request->company_driver ?? []); $k++) {
                     $documents_data['document_title'] =  $request->document_driver_title[$k];
+                    $documents_data['user_id'] = $driverid;
                     $imageName = null;
                     if ($request->hasFile('company_driver')) {
                         $imageName = time() . $request->company_driver[$k]->getClientOriginalName();
