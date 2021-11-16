@@ -3405,7 +3405,7 @@ main {
 	padding-top: 4rem;
 	min-height: calc(100vh- 9.125rem);
 	max-width: 35rem;
-	margin: 0 auto;
+	margin: 80px auto;
 }
 .row.lsp-page--header {
 	margin-bottom: 1.875rem !important;
