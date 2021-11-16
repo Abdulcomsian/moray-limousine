@@ -411,5 +411,7 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         //partner registration requirements
         Route::get('/partner-registration-req', 'Admin\AdminController@partner_req')->name('partner-req');
         Route::post('/partner-reg-req-save', 'Admin\AdminController@partner_req_save');
+        Route::post('/partner-reg-req-update', 'Admin\AdminController@partner_req_update');
+         Route::post('/partner-reg-req-delete', 'Admin\AdminController@partner_req_delete');
     });
 });
