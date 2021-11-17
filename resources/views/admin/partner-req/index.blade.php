@@ -64,6 +64,14 @@ Admin Dashboard
                                         <label for="exampleInputPassword1">Requirements:(Please Enter requirements comma seprated)</label>
                                         <textarea class="form-control" name="requirements" rows="5" required></textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Document Heading:</label>
+                                        <input type="text" name="doc_heading" class="form-control" id="doc-heading" placeholder="Enter Requirement Heading" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Documents:(Please Enter Document requirements comma seprated)</label>
+                                        <textarea class="form-control" name="documents" rows="5" required></textarea>
+                                    </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
                             </div>
@@ -78,6 +86,8 @@ Admin Dashboard
                                             <th>City Name</th>
                                             <th>Main Heading</th>
                                             <th>Requirements</th>
+                                            <th>Document Heading</th>
+                                            <th>Documents</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -91,9 +101,11 @@ Admin Dashboard
                                             <td>
                                                 {{$req->requirements}}
                                             </td>
+                                            <td>{{$req->doc_heading}}</td>
+                                            <td>{{$req->documents}}</td>
                                             <td>
-                                                <span class="fa fa-trash"></span>
-                                                <span class="fa fa-pencil"></span>
+                                                <span class="fa fa-trash" onclick="deletereq('{{$req->id}}')"></span>
+                                                <span class="fa fa-pencil" onclick="editreq('{{json_encode($req)}}')"></span>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -118,4 +130,100 @@ Admin Dashboard
     <!-- partial -->
 </div>
 
+
+
+<!-- edit  Modal -->
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form method="post" action="{{url('partner-reg-req-update')}}">
+                            @csrf
+                            <input type="hidden" id="editid" name="id" value="">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">City:</label>
+                                <select class="form-control" id="editcityid" name="city_id" required>
+                                    <option value="">Select City</option>
+                                    @foreach($cities as $city)
+                                    <option value="{{$city->id}}">{{$city->location_city}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Requirement Heading:</label>
+                                <input type="text" id="editmainheading" name="main_heading" class="form-control" id="req-heading" placeholder="Enter Requirement Heading" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Requirements:(Please Enter requirements comma seprated)</label>
+                                <textarea class="form-control" id="editreq" name="requirements" rows="5" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Document Heading:</label>
+                                <input type="text" id="editdocheading" name="doc_heading" class="form-control" id="req-heading" placeholder="Enter Requirement Heading" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Documents:(Please Enter Documents requirements comma seprated)</label>
+                                <textarea class="form-control" id="editdocuments" name="documents" rows="5" required></textarea>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- delete modal -->
+<div class="modal" tabindex="-1" role="dialog" id="deletemodal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Req</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete.</p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="{{url('partner-reg-req-delete')}}">
+                    @csrf
+                    <input type="hidden" id="deleteid" name="id" value="">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+@section('js')
+<script type="text/javascript">
+    function editreq(data) {
+        var data = JSON.parse(data);
+        $("#editid").val(data.id);
+        $("#editcityid").val(data.city_id);
+        $("#editmainheading").val(data.main_heading);
+        $("#editreq").val(data.requirements);
+        $("#editdocheading").val(data.doc_heading);
+        $("#editdocuments").val(data.documents);
+        $("#editmodal").modal();
+
+    }
+
+    function deletereq(id) {
+        $("#deleteid").val(id);
+        $("#deletemodal").modal();
+    }
+</script>
 @endsection

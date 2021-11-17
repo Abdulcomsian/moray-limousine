@@ -21,7 +21,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Validator;
 use DB;
+use Auth;
+use IBAN\Services\IBANService;
 
 class PartnerController extends Controller
 {
@@ -69,6 +72,9 @@ class PartnerController extends Controller
 
     public function profileView()
     {
+        if (Auth::user()->status != "approved") {
+            return redirect('info/company');
+        }
         $documents = auth()->user()->uploadedDocuments;
         return view('partner.profile-view')->with('documents', $documents);
     }
@@ -313,6 +319,9 @@ class PartnerController extends Controller
      */
     public function partnerReservations()
     {
+        if (Auth::user()->status != "approved") {
+            return redirect('info/company');
+        }
         $data['canceled_bookings'] = auth()->user()->booking->where('booking_status', 'canceled');
         $data['pending_bookings'] = auth()->user()->booking->where('booking_status', 'pending');
         $data['completed_bookings'] = auth()->user()->booking->where('booking_status', 'completed');
@@ -609,7 +618,226 @@ class PartnerController extends Controller
         }
         echo $list;
     }
+    //get doucments
+    public function get_city_document(Request $request)
+    {
+        $cityid = $request->cityid;
+        $rquirements = DB::table('operate_city_requirements')->where('city_id', $cityid)->get();
+        $list = '';
+        foreach ($rquirements as $req) {
+            $myarray = explode(',', $req->documents);
+            $list .= '<div class="service-class-list"> <h4>' . $req->doc_heading . '</h4></div>';
+            $list .= '<ul>';
+            foreach ($myarray as $arr) {
+                $list .= ' <li>' . $arr . '</li>';
+            }
+            $list .= '</ul>';
+        }
+        echo $list;
+    }
 
+    //function for saving partner
+    public function save_company_info(Request $request)
+    {
+
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $user->first_name = $request->authorizedFname;
+        $user->last_name = $request->authorizedLname;
+        $user->phone_number = $request->phoneNumber;
+        if ($user->save()) {
+            $partner = Partner::where('user_id', $id)->first();
+            if (!$partner) {
+                $partner = new Partner();
+            }
+            $partner->address = $request->companyAddress;
+            $partner->company_name = $request->company_name;
+            $partner->legal_form_company = $request->legal_form;
+            $partner->city = $request->city;
+            $partner->postal_code = $request->postalCode;
+            $partner->vat_sales_tax_no = $request->vat_sales;
+            $partner->bank_transfer = 1;
+            $partner->bank_account_owner = $request->bank_account_owner;
+            $partner->type = $request->account_type;
+            $partner->iban = $request->iban;
+            $partner->bic_swift = $request->bicswift;
+            $partner->user_id = $id;
+            $partner->phone_number = $request->phoneNumber;
+            $partner->default_location = '';
+            $partner->save();
+            //driver registration
+            $driver = new User();
+            $driver->first_name = $request->first_name;
+            $driver->last_name = $request->last_name;
+            $driver->email = $request->email;
+            $driver->phone_number = $request->phone_number;
+            $driver->creator_id = $id;
+            $driver->user_type = 'driver';
+            $driver->password = bcrypt('driver');
+            $driver->save();
+            $driverid = $driver->id;
+            //vehicle registration
+            $vehicle = new Vehicle();
+            $vehicle->title = $request->vehicletitle;
+            $vehicle->vehicleCategory_id = $request->vehicleCategory_id;
+            $vehicle->interior_color = $request->interior_color;
+            $vehicle->exterior_color = $request->exterior_color;
+            $vehicle->plate = $request->license_plate;
+            $vehicle->model_no = $request->model_no;
+            $vehicle->standard = $request->standard;
+            $vehicle->creator_id = $id;
+            $vehicle->length = '';
+            $vehicle->engine_capacity = '';
+            $vehicle->fuel_type = '';
+            $vehicle->save();
+            $vehicleid = $vehicle->id;
+
+            //upload doucments for partner and driver and vehicle
+            //partner doucment image
+            if (isset($request->$request->$request->company_doc)) {
+                for ($i = 0; $i < count($request->company_doc ?? []); $i++) {
+                    $documents_data['document_title'] =  $request->document_company_title[$i];
+                    $imageName = null;
+                    if ($request->hasFile('company_doc')) {
+                        $imageName = time() . $request->company_doc[$i]->getClientOriginalName();
+                        $request->company_doc[$i]->move(public_path('uploaded-user-images/partner-documents'), $imageName);
+                        $documents_data['document_img'] = $imageName;
+                        $this->uploadedDocument->saveDocuments($documents_data);
+                    }
+                }
+            }
+            //upload vehicle documents
+            if (isset($request->$request->company_vehicle)) {
+                for ($j = 0; $j < count($request->company_vehicle ?? []); $j++) {
+                    $documents_data['document_title'] =  $request->document_vehicle_title[$i];
+                    $documents_data['vehicle_id'] = $vehicleid;
+                    $documents_data['user_id'] = '';
+                    $imageName = null;
+                    if ($request->hasFile('company_vehicle')) {
+                        $imageName = time() . $request->company_vehicle[$j]->getClientOriginalName();
+                        $request->company_vehicle[$j]->move(public_path('uploaded-user-images/partner-documents'), $imageName);
+                        $documents_data['document_img'] = $imageName;
+                        $this->uploadedDocument->saveDocuments($documents_data);
+                    }
+                }
+            }
+
+            //upload driver documents
+            if (isset($request->company_driver)) {
+                for ($k = 0; $k < count($request->company_driver ?? []); $k++) {
+                    $documents_data['document_title'] =  $request->document_driver_title[$k];
+                    $documents_data['user_id'] = $driverid;
+                    $imageName = null;
+                    if ($request->hasFile('company_driver')) {
+                        $imageName = time() . $request->company_driver[$k]->getClientOriginalName();
+                        $request->company_driver[$k]->move(public_path('uploaded-user-images/partner-documents'), $imageName);
+                        $documents_data['document_img'] = $imageName;
+                        $this->uploadedDocument->saveDocuments($documents_data);
+                    }
+                }
+            }
+            return redirect('/partner/dashboard')->with('success', '"Success... !" Registration completed ');
+        }
+    }
+
+    //save company info
+    public function save_company(Request $request)
+    {
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $user->first_name = $request->authorizedFname;
+        $user->last_name = $request->authorizedLname;
+        $user->phone_number = $request->phoneNumber;
+        if ($user->save()) {
+            $partner = Partner::where('user_id', $id)->first();
+            if (!$partner) {
+                $partner = new Partner();
+            }
+            $partner->address = $request->companyAddress;
+            $partner->company_name = $request->company_name;
+            $partner->legal_form_company = $request->legal_form;
+            $partner->city = $request->city;
+            $partner->postal_code = $request->postalCode;
+            $partner->vat_sales_tax_no = $request->vat_sales;
+            $partner->user_id = $id;
+            $partner->phone_number = $request->phoneNumber;
+            $partner->default_location = '';
+            if ($partner->save()) {
+                return redirect('info/driver');
+            }
+        }
+    }
+    //save driver info
+    public function save_driver(Request $request)
+    {
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone_number' => 'required'
+        ]);
+        if (isset($request->id) && $request->id != '') {
+            $user = User::find($request->id);
+        } else {
+            $user = new User();
+        }
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        if ($user->save()) {
+            return redirect('info/vehicle');
+        }
+    }
+    //save vehicle
+    public function save_vehicle(Request $request)
+    {
+        $this->validate($request, [
+            'vehicleCategory_id' => 'required',
+            'vehicletitle' => 'required',
+            'exterior_color' => 'required',
+            'interior_color' => 'required',
+            'model_no' => 'required',
+            'standard' => 'required',
+            'license_plate' => 'required'
+        ]);
+        if (isset($request->id) && $request->id != '') {
+            $vehicle = Vehicle::find($request->id);
+        } else {
+            $vehicle = new Vehicle();
+        }
+        $vehicle->title = $request->vehicletitle;
+        $vehicle->vehicleCategory_id = $request->vehicleCategory_id;
+        $vehicle->interior_color = $request->interior_color;
+        $vehicle->exterior_color = $request->exterior_color;
+        $vehicle->plate = $request->license_plate;
+        $vehicle->model_no = $request->model_no;
+        $vehicle->standard = $request->standard;
+        $vehicle->creator_id = Auth::user()->id;
+        $vehicle->length = '';
+        $vehicle->engine_capacity = '';
+        $vehicle->fuel_type = '';
+        if ($vehicle->save()) {
+            return redirect('info/payment');
+        }
+    }
+    //save pament info
+    public function save_payment(Request $request)
+    {
+        $this->validate($request, [
+            'bank_account_owner' => 'required',
+            'bicswift' => ['required', 'regex:/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i'],
+        ]);
+        $partner = Partner::where('user_id', Auth::user()->id)->first();
+        $partner->bank_transfer = 1;
+        $partner->bank_account_owner = $request->bank_account_owner;
+        $partner->type = $request->account_type;
+        $partner->iban = $request->iban;
+        $partner->bic_swift = $request->bicswift;
+        if ($partner->save()) {
+            echo "success working on fitth step";
+        }
+    }
 
     private  $vehicle_added_partner = [
         'greeting' => "New Vehicle is Added Successfully",

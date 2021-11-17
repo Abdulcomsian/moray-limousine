@@ -622,20 +622,29 @@ class AdminController extends Controller
     {
         $cities = DB::table('locations')->get();
         $city_req = DB::table('locations')
-            ->select('locations.location_city', 'operate_city_requirements.requirements', 'operate_city_requirements.main_heading')
+            ->select('operate_city_requirements.id', 'operate_city_requirements.city_id', 'locations.location_city', 'operate_city_requirements.requirements', 'operate_city_requirements.documents', 'operate_city_requirements.doc_heading', 'operate_city_requirements.main_heading')
             ->join('operate_city_requirements', 'operate_city_requirements.city_id', '=', 'locations.id')->get();
         return view('admin.partner-req.index', compact('city_req', 'cities'));
+    }
+    //update req
+    public function partner_req_update(Request $request)
+    {
+
+        DB::table('operate_city_requirements')->where('id', $request->id)->update(['city_id' => $request->city_id, 'main_heading' => $request->main_heading, 'requirements' => $request->requirements, 'doc_heading' => $request->doc_heading, 'documents' => $request->documents]);
+        return redirect('/partner-registration-req')->with('success', 'Requiremtns against city Updated Successfully!! ...');
     }
     //save partner req
     public function partner_req_save(Request $request)
     {
-        DB::table('operate_city_requirements')->insert(['city_id' => $request->city_id, 'main_heading' => $request->main_heading, 'requirements' => $request->requirements]);
+        DB::table('operate_city_requirements')->insert(['city_id' => $request->city_id, 'main_heading' => $request->main_heading, 'requirements' => $request->requirements, 'doc_heading' => $request->doc_heading, 'documents' => $request->documents]);
         return redirect('/partner-registration-req')->with('success', 'Requiremtns against city added Successfully!! ...');
     }
-
-
-
-
+    //delete partner req
+    public function partner_req_delete(Request $request)
+    {
+        DB::table('operate_city_requirements')->where('id', $request->id)->delete();
+        return redirect('/partner-registration-req')->with('success', 'Requiremtns against city Deleted Successfully!! ...');
+    }
 
     //    Notification Email Messages
     private $approve_booking_msg = [

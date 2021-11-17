@@ -12,13 +12,17 @@
 */
 
 //sites home pages roots
+
+use App\Document;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\User;
+use App\Vehicle;
+use App\VehicleCategory;
+use App\VehicleSubtype;
 
 Auth::routes();
-Route::get('company-information', function () {
-    return view('home.company-information');
-});
+
 Route::get('register/verify', 'Auth\RegisterController@verify')->name('verifyEmailLink');
 Route::get('register/verify/resend', 'Auth\RegisterController@showResendVerificationEmailForm')->name('showResendVerificationEmailForm');
 Route::post('register/verify/resend', 'Auth\RegisterController@resendVerificationEmail')->name('resendVerificationEmail');
@@ -42,7 +46,15 @@ Route::get('/partner-registration', function () {
     $locations = DB::table('locations')->get();
     return view('home.partner-registration', compact('locations'));
 });
+// Route::get('company-information', function () {
+//     $data['category'] = VehicleCategory::all();
+//     $documents = Document::orderBy('applied_on', 'asc')->get();
+//     $VehicleSubtype = VehicleSubtype::get();
+//     return view('home.company-information', compact('data', 'documents', 'VehicleSubtype'));
+// });
+
 Route::get('/get-city-vehicle', 'PartnerController@get_city_vehicle')->name('get-city-vehicle');
+Route::get('/get-city-document', 'PartnerController@get_city_document')->name('get-city-document');
 Route::get('/become-driver', 'DriverController@becomeDriver')->name('driver.becomeDriver');
 Route::get('/Faq', 'HomeController@faq');
 Route::get('/mpressum', 'HomeController@footerPageOne');
@@ -198,18 +210,35 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             Route::post('partner/save-new-driver', 'PartnerController@saveNewDriver')->name('partner.save.driver');
             Route::post('partner/store-profile', 'PartnerController@storePartner')->name('store-partner');
             Route::get('partner/update-profile/{id}', 'PartnerController@updateProfile')->name('update-partner-profile');
-
             Route::post('partner/change-password', 'PartnerController@changePassword')->name('partner.change.password');
             Route::get('partner/change-password-form', 'PartnerController@changePasswordForm')->name('partner.edit.password');
-
             Route::get('partner/manage-documents', 'PartnerController@uploadDocuments');
             Route::post('partner/store-documents', 'PartnerController@storeDocuments')->name('store.documents');
             Route::get('partner/delete-document/{id}', 'PartnerController@deleteDocument');
-
-
             Route::get('partner/search-driver', 'PartnerController@addDriver');
             Route::get('partner/add-new-driver/{id}', 'PartnerController@addNewDriverByEmail');
             Route::post('partner/store-vehicle-docs', 'PartnerController@storeVehicleDocs')->name('partner.vehicle.docs');
+            Route::get('info/company', function () {
+                return view('information.company');
+            });
+            Route::get('info/driver', function () {
+                $driver = User::where(['user_type' => 'driver', 'creator_id' => Auth::user()->id])->first();
+                return view('information.driver', compact('driver'));
+            });
+            Route::get('info/vehicle', function () {
+                $vehicle = Vehicle::where(['creator_id' => Auth::user()->id])->first();
+                $data['category'] = VehicleCategory::all();
+                $VehicleSubtype = VehicleSubtype::get();
+                return view('information.vehicle', compact('vehicle', 'data', 'VehicleSubtype'));
+            });
+            Route::get('info/payment', function () {
+                return view('information.payment');
+            });
+            Route::post('/save-company', 'PartnerController@save_company')->name('save-company');
+            Route::post('/save-driver', 'PartnerController@save_driver')->name('save-driver');
+            Route::post('/save-vehicle', 'PartnerController@save_vehicle')->name('save-vehicle');
+            Route::post('/save-payment', 'PartnerController@save_payment')->name('save-payment');
+            // Route::post('/save-company-info', 'PartnerController@save_company_info')->name('save-company-info');
         });
         Route::group(['middleware' => 'driver'], function () {
 
@@ -405,8 +434,7 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         //partner registration requirements
         Route::get('/partner-registration-req', 'Admin\AdminController@partner_req')->name('partner-req');
         Route::post('/partner-reg-req-save', 'Admin\AdminController@partner_req_save');
+        Route::post('/partner-reg-req-update', 'Admin\AdminController@partner_req_update');
+        Route::post('/partner-reg-req-delete', 'Admin\AdminController@partner_req_delete');
     });
-
-    
-
 });
