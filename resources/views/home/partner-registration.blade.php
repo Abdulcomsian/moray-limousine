@@ -23,11 +23,10 @@
             font-weight: bold;
         }
     </style>
-
     <form method="post" action="{{ route('register') }}" id="partner-register-form">
         @csrf
         <input type="hidden" name="user_type" value="partner">
-        <main id="step-1" style="margin: top 2px;%">
+        <main id="step-1" style="margin-top:70px;">
 
             <div id="general-errors" class="apollo-notification hidden apollo-notification--error">
                 <div class="apollo-notification__content">
@@ -75,7 +74,7 @@
                             <span class="text-danger emailerror"></span>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="apollo-input" style="width: 100%;">
                             <div class="input-label">
                                 <label>Password</label>
@@ -85,7 +84,7 @@
                             </div>
                             <span class="text-danger passworderror"></span>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row subsection">
                         <div class="apollo-input">
                             <div class="input-label">
@@ -114,7 +113,7 @@
             </div>
             </div>
         </main>
-        <main id="step-2" style="display: none; margin: top 2px;%">
+        <main id="step-2" style="display: none; margin: top 2px;">
             <div id="general-errors" class="apollo-notification hidden apollo-notification--error">
                 <div class="apollo-notification__content">
 
@@ -194,7 +193,7 @@
             </div>
             </div>
         </main>
-        <main id="step-3" style="display: none; margin: top 2px;%">
+        <main id="step-3" style="display: none; margin: top 2px;">
             <div id="general-errors" class="apollo-notification hidden apollo-notification--error">
                 <div class="apollo-notification__content">
 
@@ -221,7 +220,7 @@
 
                     <div id="service-classes" class="row subsection">
                         <h3>Do you have all the following documents?</h3>
-                        <div data-template="Maximum _AGE_ years old in _COLOR_" data-or="or" l10n-data-template="" l10n-data-or="" class="content">
+                        <div data-template="Maximum _AGE_ years old in _COLOR_" data-or="or" l10n-data-template="" l10n-data-or="" class="content documentsreq">
                             <div class="service-class-list">
                                 <h4>Vehicle</h4>
                             </div>
@@ -277,8 +276,6 @@
             </div>
         </main>
     </form>
-
-
     @endsection
     @section('js')
     <script>
@@ -297,20 +294,20 @@
                 $(".emailerror").text("");
             }
 
-            if ($("#password").val() == "") {
+            // if ($("#password").val() == "") {
 
-                $(".passworderror").text("Please Enter Pssword");
-                return false;
-            } else {
-                $(".passworderror").text("");
-            }
+            //     $(".passworderror").text("Please Enter Pssword");
+            //     return false;
+            // } else {
+            //     $(".passworderror").text("");
+            // }
 
-            if ($("#password").val().length < 8) {
-                $(".passworderror").text("Please Enter minimum 8 charachter Pssword");
-                return false;
-            } else {
-                $(".passworderror").text("");
-            }
+            // if ($("#password").val().length < 8) {
+            //     $(".passworderror").text("Please Enter minimum 8 charachter Pssword");
+            //     return false;
+            // } else {
+            //     $(".passworderror").text("");
+            // }
 
             if (!$("input[name='language']:checked").val()) {
                 $(".languageerror").text("Plese Select Yes for continue");
@@ -337,6 +334,21 @@
             }
             $('#step-2').hide();
             $('#step-3').show();
+            //get doucments here
+            cityid = $("#city-select").val();
+            $.ajax({
+                url: "{{url('/get-city-document')}}",
+                method: "get",
+                data: {
+                    cityid: cityid
+                },
+                success: function(res) {
+                    $('#step-4').hide();
+                    $(".documentsreq").html(res);
+                    $('#step-5').show();
+                }
+
+            })
 
         });
         $(".submit-page").on('click', function() {

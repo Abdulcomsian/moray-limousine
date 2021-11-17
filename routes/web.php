@@ -44,7 +44,17 @@ Route::get('/partner-registration', function () {
     $locations = DB::table('locations')->get();
     return view('home.partner-registration', compact('locations'));
 });
+Route::get('/partner-welcome', function () {
+    return view('home.partner-thankyou');
+});
+Route::get('company-information', function () {
+    $data['category'] = VehicleCategory::all();
+    $documents = Document::orderBy('applied_on', 'asc')->get();
+    $VehicleSubtype = VehicleSubtype::get();
+    return view('home.company-information', compact('data', 'documents', 'VehicleSubtype'));
+});
 Route::get('/get-city-vehicle', 'PartnerController@get_city_vehicle')->name('get-city-vehicle');
+Route::get('/get-city-document', 'PartnerController@get_city_document')->name('get-city-document');
 Route::get('/become-driver', 'DriverController@becomeDriver')->name('driver.becomeDriver');
 Route::get('/Faq', 'HomeController@faq');
 Route::get('/mpressum', 'HomeController@footerPageOne');
@@ -209,12 +219,7 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             Route::get('partner/add-new-driver/{id}', 'PartnerController@addNewDriverByEmail');
             Route::post('partner/store-vehicle-docs', 'PartnerController@storeVehicleDocs')->name('partner.vehicle.docs');
 
-            Route::get('company-information', function () {
-                $data['category'] = VehicleCategory::all();
-                $documents = Document::orderBy('applied_on', 'asc')->get();
-                $VehicleSubtype = VehicleSubtype::get();
-                return view('home.company-information', compact('data', 'documents', 'VehicleSubtype'));
-            });
+
             Route::post('/save-company-info', 'PartnerController@save_company_info')->name('save-company-info');
         });
         Route::group(['middleware' => 'driver'], function () {
@@ -412,6 +417,6 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         Route::get('/partner-registration-req', 'Admin\AdminController@partner_req')->name('partner-req');
         Route::post('/partner-reg-req-save', 'Admin\AdminController@partner_req_save');
         Route::post('/partner-reg-req-update', 'Admin\AdminController@partner_req_update');
-         Route::post('/partner-reg-req-delete', 'Admin\AdminController@partner_req_delete');
+        Route::post('/partner-reg-req-delete', 'Admin\AdminController@partner_req_delete');
     });
 });

@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\HtmlString;
+use App\User;
 
 class Emailvarification extends Notification
 {
@@ -15,16 +16,19 @@ class Emailvarification extends Notification
     private $token;
     private $expire;
     private $email;
+    private $user_type;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token,$expiration,$email)
+    public function __construct($token, $expiration, $email)
     {
+
         $this->token = $token;
-        $this->expire=$expiration;
-        $this->email=$email;
+        $this->expire = $expiration;
+        $this->email = $email;
+        $this->user_type = User::where('email', $email)->first();
     }
 
     /**
@@ -35,7 +39,7 @@ class Emailvarification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database','mail'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -49,7 +53,7 @@ class Emailvarification extends Notification
         return (new MailMessage)
             ->greeting("")
             ->subject("Email Verification")
-            ->view('mail.verifyemail',['token'=> $this->token,'expiredate'=>$this->expire,'email'=>$this->email]);
+            ->view('mail.verifyemail', ['token' => $this->token, 'expiredate' => $this->expire, 'email' => $this->email, 'user' => $this->user_type]);
     }
 
 
@@ -61,7 +65,6 @@ class Emailvarification extends Notification
             'thanks_text' => "",
             'actionLink' => ""
         ];
-
     }
 
     /**

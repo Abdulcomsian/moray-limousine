@@ -618,6 +618,23 @@ class PartnerController extends Controller
         }
         echo $list;
     }
+    //get doucments
+    public function get_city_document(Request $request)
+    {
+        $cityid = $request->cityid;
+        $rquirements = DB::table('operate_city_requirements')->where('city_id', $cityid)->get();
+        $list = '';
+        foreach ($rquirements as $req) {
+            $myarray = explode(',', $req->documents);
+            $list .= '<div class="service-class-list"> <h4>' . $req->doc_heading . '</h4></div>';
+            $list .= '<ul>';
+            foreach ($myarray as $arr) {
+                $list .= ' <li>' . $arr . '</li>';
+            }
+            $list .= '</ul>';
+        }
+        echo $list;
+    }
 
     //function for saving partner
     public function save_company_info(Request $request)

@@ -74,7 +74,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|',
+            // 'password' => 'required|string|min:8|',
         ]);
     }
 
@@ -115,7 +115,8 @@ class RegisterController extends Controller
         } elseif ($user->user_type == 'driver') {
             return redirect('/driver/dashboard');
         } elseif ($user->user_type == 'partner') {
-            return redirect('/partner/dashboard');
+            //return redirect('/partner/dashboard');
+            return redirect('/partner-welcome');
         } else {
             Session::flash('message', 'We have e-mailed your account activation link!.');
             return redirect('/login');
@@ -142,11 +143,16 @@ class RegisterController extends Controller
             'phone_number' => '',
             'email' => $data['email'],
             'user_type' => $data['user_type'],
-            'password' => Hash::make($data['password']),
+            'password' => '',
         ]);
         if ($user) {
             DB::table('partners')->insert([
                 'company_name' => $data['company_name'],
+                'user_id' => $user->id,
+                'legal_form_company' => '',
+                'city' => '',
+                'phone_number' => '',
+                'default_location' => '',
             ]);
             DB::table('user_location')->insert([
                 'user_id' => $user->id,
