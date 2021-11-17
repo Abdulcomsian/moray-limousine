@@ -71,6 +71,9 @@ class PartnerController extends Controller
 
     public function profileView()
     {
+        if (Auth::user()->status != "approved") {
+            return redirect('info/company');
+        }
         $documents = auth()->user()->uploadedDocuments;
         return view('partner.profile-view')->with('documents', $documents);
     }
@@ -315,6 +318,9 @@ class PartnerController extends Controller
      */
     public function partnerReservations()
     {
+        if (Auth::user()->status != "approved") {
+            return redirect('info/company');
+        }
         $data['canceled_bookings'] = auth()->user()->booking->where('booking_status', 'canceled');
         $data['pending_bookings'] = auth()->user()->booking->where('booking_status', 'pending');
         $data['completed_bookings'] = auth()->user()->booking->where('booking_status', 'completed');

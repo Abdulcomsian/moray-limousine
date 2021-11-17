@@ -46,9 +46,6 @@ Route::get('/partner-registration', function () {
     $locations = DB::table('locations')->get();
     return view('home.partner-registration', compact('locations'));
 });
-Route::get('/partner-welcome', function () {
-    return view('home.partner-thankyou');
-});
 // Route::get('company-information', function () {
 //     $data['category'] = VehicleCategory::all();
 //     $documents = Document::orderBy('applied_on', 'asc')->get();

@@ -1,4 +1,4 @@
-@extends('layouts.main-home-layout')
+@extends('layouts.partner-main-home-layout')
 @section('title')
 Company Information
 @endsection

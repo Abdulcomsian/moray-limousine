@@ -1,4 +1,4 @@
-@extends('layouts.main-home-layout')
+@extends('layouts.partner-main-home-layout')
 @section('title')
 Company Information
 @endsection
@@ -146,7 +146,7 @@ Company Information
                 <div class="lsp-pager">
                     <div class="wrapper">
                         <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                        <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+                        <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
                     </div>
                 </div>
             </div>
