@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e39c38a700572e9ec24cdc7dcd3a271e",
+    "content-hash": "4b69dbf2d66592b6fbd7db52e2a63dbb",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1861,6 +1861,58 @@
                 }
             ],
             "time": "2021-01-18T20:58:21+00:00"
+        },
+        {
+            "name": "lucasvdh/laravel-iban",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lucasvdh/laravel-iban.git",
+                "reference": "1f9b69186a585a1c1218bbde07fe84f08bc98b6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lucasvdh/laravel-iban/zipball/1f9b69186a585a1c1218bbde07fe84f08bc98b6f",
+                "reference": "1f9b69186a585a1c1218bbde07fe84f08bc98b6f",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.0",
+                "php": ">=5.6.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IBAN\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lucas van der Have",
+                    "email": "lucasvdhave@gmail.com",
+                    "homepage": "http://lucasvdh.codes/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel plugin for IBAN validation",
+            "homepage": "https://github.com/lucasvdh/laravel-iban",
+            "keywords": [
+                "BIC",
+                "Bank",
+                "IBAN",
+                "laravel",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/lucasvdh/laravel-iban/issues",
+                "source": "https://github.com/lucasvdh/laravel-iban/tree/master"
+            },
+            "time": "2017-11-21T09:40:34+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -7191,7 +7243,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "lucasvdh/laravel-iban": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -7199,5 +7253,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

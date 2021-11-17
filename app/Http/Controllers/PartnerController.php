@@ -24,6 +24,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use Auth;
+use IBAN\Services\IBANService;
 
 class PartnerController extends Controller
 {
@@ -825,7 +826,7 @@ class PartnerController extends Controller
     {
         $this->validate($request, [
             'bank_account_owner' => 'required',
-            'bicswift' => ['required', 'regex:/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i']
+            'bicswift' => ['required', 'regex:/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i'],
         ]);
         $partner = Partner::where('user_id', Auth::user()->id)->first();
         $partner->bank_transfer = 1;
@@ -834,7 +835,7 @@ class PartnerController extends Controller
         $partner->iban = $request->iban;
         $partner->bic_swift = $request->bicswift;
         if ($partner->save()) {
-            echo "success";
+            echo "success working on fitth step";
         }
     }
 
