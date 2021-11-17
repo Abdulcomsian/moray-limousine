@@ -19,7 +19,7 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             if (Auth::user()->user_type == "partner") {
-                return redirect()->intended('/company-information');
+                return redirect()->intended('info/company');
             } else {
                 return redirect()->intended('/home');
             }

@@ -16,6 +16,8 @@
 use App\Document;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\User;
+use App\Vehicle;
 use App\VehicleCategory;
 use App\VehicleSubtype;
 
@@ -47,12 +49,13 @@ Route::get('/partner-registration', function () {
 Route::get('/partner-welcome', function () {
     return view('home.partner-thankyou');
 });
-Route::get('company-information', function () {
-    $data['category'] = VehicleCategory::all();
-    $documents = Document::orderBy('applied_on', 'asc')->get();
-    $VehicleSubtype = VehicleSubtype::get();
-    return view('home.company-information', compact('data', 'documents', 'VehicleSubtype'));
-});
+// Route::get('company-information', function () {
+//     $data['category'] = VehicleCategory::all();
+//     $documents = Document::orderBy('applied_on', 'asc')->get();
+//     $VehicleSubtype = VehicleSubtype::get();
+//     return view('home.company-information', compact('data', 'documents', 'VehicleSubtype'));
+// });
+
 Route::get('/get-city-vehicle', 'PartnerController@get_city_vehicle')->name('get-city-vehicle');
 Route::get('/get-city-document', 'PartnerController@get_city_document')->name('get-city-document');
 Route::get('/become-driver', 'DriverController@becomeDriver')->name('driver.becomeDriver');
@@ -218,9 +221,27 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             Route::get('partner/search-driver', 'PartnerController@addDriver');
             Route::get('partner/add-new-driver/{id}', 'PartnerController@addNewDriverByEmail');
             Route::post('partner/store-vehicle-docs', 'PartnerController@storeVehicleDocs')->name('partner.vehicle.docs');
-
-
-            Route::post('/save-company-info', 'PartnerController@save_company_info')->name('save-company-info');
+            Route::get('info/company', function () {
+                return view('information.company');
+            });
+            Route::get('info/driver', function () {
+                $driver = User::where(['user_type' => 'driver', 'creator_id' => Auth::user()->id])->first();
+                return view('information.driver', compact('driver'));
+            });
+            Route::get('info/vehicle', function () {
+                $vehicle = Vehicle::where(['creator_id' => Auth::user()->id])->first();
+                $data['category'] = VehicleCategory::all();
+                $VehicleSubtype = VehicleSubtype::get();
+                return view('information.vehicle', compact('vehicle', 'data', 'VehicleSubtype'));
+            });
+            Route::get('info/payment', function () {
+                return view('information.payment');
+            });
+            Route::post('/save-company', 'PartnerController@save_company')->name('save-company');
+            Route::post('/save-driver', 'PartnerController@save_driver')->name('save-driver');
+            Route::post('/save-vehicle', 'PartnerController@save_vehicle')->name('save-vehicle');
+            Route::post('/save-payment', 'PartnerController@save_payment')->name('save-payment');
+            // Route::post('/save-company-info', 'PartnerController@save_company_info')->name('save-company-info');
         });
         Route::group(['middleware' => 'driver'], function () {
 
