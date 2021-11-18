@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use DB;
 use Auth;
 use IBAN\Services\IBANService;
@@ -773,7 +774,7 @@ class PartnerController extends Controller
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
             'phone_number' => 'required'
         ]);
         if (isset($request->id) && $request->id != '') {
