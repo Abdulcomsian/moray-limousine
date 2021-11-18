@@ -22,15 +22,6 @@ use App\VehicleCategory;
 use App\VehicleSubtype;
 
 Auth::routes();
-Route::get('info/documents', function () {
-    return view('information.documents');
-});
-Route::get('info/session', function () {
-    return view('information.session');
-});
-Route::get('info/upload', function () {
-    return view('information.upload');
-});
 Route::get('register/verify', 'Auth\RegisterController@verify')->name('verifyEmailLink');
 Route::get('register/verify/resend', 'Auth\RegisterController@showResendVerificationEmailForm')->name('showResendVerificationEmailForm');
 Route::post('register/verify/resend', 'Auth\RegisterController@resendVerificationEmail')->name('resendVerificationEmail');
@@ -242,6 +233,10 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             Route::get('info/payment', function () {
                 return view('information.payment');
             });
+            Route::get('info/documents', 'PartnerController@info_documents')->name('info-documents');
+            Route::get('info/session', 'PartnerController@info_session')->name('info-session');
+            Route::get('info/upload', 'PartnerController@info_upload')->name('info-upload');
+            Route::post('info/upload-document', 'PartnerController@info_upload_document')->name('info-upload-document');
             Route::post('/save-company', 'PartnerController@save_company')->name('save-company');
             Route::post('/save-driver', 'PartnerController@save_driver')->name('save-driver');
             Route::post('/save-vehicle', 'PartnerController@save_vehicle')->name('save-vehicle');

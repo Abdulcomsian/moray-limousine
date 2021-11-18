@@ -827,7 +827,7 @@ class PartnerController extends Controller
     {
         $this->validate($request, [
             'bank_account_owner' => 'required',
-            'bicswift' => ['required', 'regex:/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i'],
+            //'bicswift' => ['required', 'regex:/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i'],
         ]);
         $partner = Partner::where('user_id', Auth::user()->id)->first();
         $partner->bank_transfer = 1;
@@ -836,7 +836,43 @@ class PartnerController extends Controller
         $partner->iban = $request->iban;
         $partner->bic_swift = $request->bicswift;
         if ($partner->save()) {
-            echo "success working on fitth step";
+            return redirect('info/documents');
+        }
+    }
+    //get info documents
+    public function info_documents()
+    {
+        $documents = Document::leftjoin("uploadeddocuments", "uploadeddocuments.document_title", "=", "documents.document_title")
+            ->groupBy('documents.applied_on')->select('documents.id', 'documents.applied_on', DB::raw('count(*) as total'), DB::raw('count(uploadeddocuments.document_title) as uploadcount'))->get();
+        return view('information.documents', compact('documents'));
+    }
+    //inof session
+    public function info_session(Request $request)
+    {
+        $documents = Document::where('applied_on', $request->type)->get();
+        return view('information.session', compact('documents'));
+    }
+    //upload view
+    public function info_upload(Request $request)
+    {
+        $title = $request->title;
+        $type = $request->type;
+        $uploadeddoc = UploadedDocument::where(['document_title' => $title, 'user_id' => Auth::user()->id])->first();
+        return view('information.upload', compact('title', 'type', 'uploadeddoc'));
+    }
+    //upload documents\
+    public function info_upload_document(Request $request)
+    {
+        if (isset($request->file)) {
+            $documents_data['document_title'] =  $request->title;
+            $imageName = null;
+            if ($request->hasFile('file')) {
+                $imageName = time() . $request->file->getClientOriginalName();
+                $request->file->move(public_path('uploaded-user-images/partner-documents'), $imageName);
+                $documents_data['document_img'] = $imageName;
+                $this->uploadedDocument->saveDocuments($documents_data);
+                return redirect('info/session?type=' . $request->type . '');
+            }
         }
     }
 

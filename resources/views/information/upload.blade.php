@@ -15,6 +15,7 @@ Company Information
         padding: 0 0 64px;
         margin-top: 10rem;
     }
+
     .btn-secondary:focus {
         background: #1e1e1e;
         color: white;
@@ -132,113 +133,134 @@ Company Information
         margin: 0 auto;
         padding: 0 1rem;
     }
-    .uploadDocuments .lsp-page--title{
+
+    .uploadDocuments .lsp-page--title {
         font-size: 24px;
         margin: 20px 0px;
     }
-    .uploadDocuments ul li{
+
+    .uploadDocuments ul li {
         padding: 10px 5px;
         background: #80808047;
         margin-bottom: 5px;
     }
-    .uploadDocuments ul li a{
+
+    .uploadDocuments ul li a {
         font-size: 18px;
         font-weight: 500;
     }
-    .uploadDocuments ul li .countDiv{
+
+    .uploadDocuments ul li .countDiv {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    .uploadDocuments ul li a{
+
+    .uploadDocuments ul li a {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .uploadDocuments ul li .countDiv p{
-        margin-right:20px;
+
+    .uploadDocuments ul li .countDiv p {
+        margin-right: 20px;
     }
-    .uploadDocuments ul li .countDiv i{
+
+    .uploadDocuments ul li .countDiv i {
         color: #000;
     }
-    .editText{
+
+    .editText {
         color: blue;
     }
-    .itemDiv .textItem{
+
+    .itemDiv .textItem {
         font-size: 18px;
         color: #000;
         font-weight: 600;
     }
-    .itemDiv i{
+
+    .itemDiv i {
         font-weight: 600;
         color: #000;
     }
-    .uploadDocuments{
+
+    .uploadDocuments {
         margin-top: 40px;
     }
-    .uploadDocuments img{
+
+    .uploadDocuments img {
         width: 100%;
     }
-    .note{
+
+    .note {
         font-size: 21px;
         font-weight: 400;
         color: #000;
     }
-    .fileInput{
+
+    .fileInput {
         opacity: 0;
         width: 100%;
         z-index: 10000008;
         height: 80px;
         position: relative;
     }
-    .inputBtn{
+
+    .inputBtn {
         position: absolute;
         top: 0px;
         z-index: 0;
         width: 100%;
     }
-    .inputDiv{
+
+    .inputDiv {
         position: relative;
         margin-top: 20px
     }
-    .inputDiv .inputBtn i{
+
+    .inputDiv .inputBtn i {
         position: absolute;
         right: 15px;
         top: 15px;
     }
-    .btnDiv{
+
+    .btnDiv {
         justify-content: space-between;
     }
 </style>
 <div id="informationCompany" class="paged">
-                <div class="lsp-pager">
-                    <div class="wrapper">
-                        <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                        <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
+    <div class="lsp-pager">
+        <div class="wrapper">
+            <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
+            <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
+        </div>
+    </div>
+    <div class="lsp-page">
+        <div class="row lsp-page--header " style="    display: block;">
+            <h2 class="lsp-page--title">{{$title}}</h2>
+            <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="title" value="{{$title}}" />
+                <input type="hidden" name="type" value="{{$type}}" />
+                <div class="uploadDocuments">
+                    <img src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_img}}@else{{asset('images/download.png')}}@endif" alt="">
+                    <p class="note">Please provide us with an image or scan of your valid document.</p>
+                    <div class="inputDiv">
+                        <input type="file" name="file" class="fileInput">
+                        <div class="inputBtn">
+                            <input type="text" name="" id="" placeholder="JPEG, PNG, PDF">
+                            <i class="fa fa-camera"></i>
+                        </div>
+                        <span>Maximum file size 30 MB</span>
                     </div>
                 </div>
-                <div class="lsp-page">
-                    <div class="row lsp-page--header " style="    display: block;">
-                        <h2 class="lsp-page--title">Picture of a Vehicle with Number Plate</h2>
-                    
-                        
-                        <div class="uploadDocuments">
-                            <img src="{{asset('images/download.png')}}" alt="">
-                            <p class="note">Please provide us with an image or scan of your valid document.</p>
-                            <div class="inputDiv">
-                                <input type="file" class="fileInput">
-                                <div class="inputBtn">
-                                    <input type="text" name="" id="" placeholder="JPEG, PNG, PDF">
-                                    <i class="fa fa-camera"></i>
-                                </div>
-                                <span>Maximum file size 30 MB</span>
-                            </div>
-                        </div>
-                        <div class="d-flex btnDiv">
-                            <button style="margin-top:30px;">Cancel</button>
-                            <button style="margin-top:30px;">Upload</button>
-                        </div>
-                    </div>
+                <div class="d-flex btnDiv">
+                    <button style="margin-top:30px;">Cancel</button>
+                    <button style="margin-top:30px;">Upload</button>
                 </div>
-            </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection

@@ -15,6 +15,7 @@ Company Information
         padding: 0 0 64px;
         margin-top: 10rem;
     }
+
     .btn-secondary:focus {
         background: #1e1e1e;
         color: white;
@@ -132,115 +133,118 @@ Company Information
         margin: 0 auto;
         padding: 0 1rem;
     }
-    .uploadDocuments .lsp-page--title{
+
+    .uploadDocuments .lsp-page--title {
         font-size: 24px;
         margin: 20px 0px;
     }
-    .uploadDocuments ul li{
+
+    .uploadDocuments ul li {
         padding: 10px 5px;
         background: #80808047;
         margin-bottom: 5px;
     }
-    .uploadDocuments ul li a{
+
+    .uploadDocuments ul li a {
         font-size: 18px;
         font-weight: 500;
     }
-    .uploadDocuments ul li .countDiv{
+
+    .uploadDocuments ul li .countDiv {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    .uploadDocuments ul li a{
+
+    .uploadDocuments ul li a {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .uploadDocuments ul li .countDiv p{
-        margin-right:20px;
+
+    .uploadDocuments ul li .countDiv p {
+        margin-right: 20px;
     }
-    .uploadDocuments ul li .countDiv i{
+
+    .uploadDocuments ul li .countDiv i {
         color: #000;
     }
 </style>
 <div id="informationCompany" class="paged">
-                <div class="lsp-pager">
-                    <div class="wrapper">
-                        <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                        <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
-                    </div>
-                </div>
-                <div class="lsp-page">
-                    <div class="row lsp-page--header " style="    display: block;">
-                        <h2 class="lsp-page--title">Documents and Training</h2>
-                        <h4 class="lsp-page--description">To Continue, please complete the section below</h4>
-                        <div class="uploadDocuments">
-                            <h2 class="lsp-page--title">Upload documents</h2>
-                            <div class="listDiv">
-                                <ul>
-                                    <li>
-                                        <a href="">
-                                            <span>Company</span> 
-                                            <div class="countDiv">
-                                                <p>1 / 1</p>
-                                                <i class="fa fa-chevron-right"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <span>Driver</span>
-                                            <div class="countDiv">
-                                                <p>1 / 1</p>
-                                                <i class="fa fa-chevron-right"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <span>Vehicle</span>
-                                            <div class="countDiv">
-                                                <p>1 / 1</p>
-                                                <i class="fa fa-chevron-right"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="uploadDocuments">
-                            <h2 class="lsp-page--title">Complete Traning</h2>
-                            <div class="listDiv">
-                                <ul>
-                                    <li>
-                                        <a href="">
-                                            <span>Patner Traning</span>
-                                            <div class="countDiv">
-                                                <p>0 / 8</p>
-                                                <i class="fa fa-chevron-right"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="uploadDocuments">
-                            <h2 class="lsp-page--title">Sign Contract</h2>
-                            <div class="listDiv">
-                                <ul>
-                                    <li>
-                                        <a href="">
-                                            <span>View and Sign Contract</span>
-                                            <div class="countDiv">
-                                                
-                                                <i class="fa fa-chevron-right"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <button style="margin-top:50px;">Next</button>
-                    </div>
+    <div class="lsp-pager">
+        <div class="wrapper">
+            <div class="pager-data"><span l10n class="cur">Step &nbsp; 5 &nbsp; </span><span l10n class="max">of &nbsp; 6</span></div>
+            <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
+        </div>
+    </div>
+    <div class="lsp-page">
+        <div class="row lsp-page--header " style="display: block;">
+            <h2 class="lsp-page--title">Documents and Training</h2>
+            <h4 class="lsp-page--description">To Continue, please complete the section below</h4>
+            <div class="uploadDocuments">
+                <h2 class="lsp-page--title">Upload documents</h2>
+                <div class="listDiv">
+                    <ul>
+                        @foreach($documents as $document)
+                        <li>
+                            <a href="{{url('info/session?type='.$document->applied_on.'')}}">
+                                @php
+                                if($document->applied_on=="partner")
+                                {
+                                $title="Company";
+                                }elseif($document->applied_on=="driver")
+                                {
+                                $title="Driver";
+                                }elseif($document->applied_on=="vehicle")
+                                {
+                                $title="Vehicle";
+                                }
+                                @endphp
+                                <span>{{$title}}</span>
+                                <div class="countDiv">
+                                    <p>{{$document->uploadcount}}/ {{$document->total}}</p>
+                                    <i class="fa fa-chevron-right"></i>
+                                </div>
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
+            <!-- <div class="uploadDocuments">
+                <h2 class="lsp-page--title">Complete Traning</h2>
+                <div class="listDiv">
+                    <ul>
+                        <li>
+                            <a href="">
+                                <span>Patner Traning</span>
+                                <div class="countDiv">
+                                    <p>0 / 8</p>
+                                    <i class="fa fa-chevron-right"></i>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="uploadDocuments">
+                <h2 class="lsp-page--title">Sign Contract</h2>
+                <div class="listDiv">
+                    <ul>
+                        <li>
+                            <a href="">
+                                <span>View and Sign Contract</span>
+                                <div class="countDiv">
+
+                                    <i class="fa fa-chevron-right"></i>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div> -->
+            <button style="margin-top:50px;">Next</button>
+        </div>
+    </div>
+</div>
 @endsection
