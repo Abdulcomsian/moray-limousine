@@ -22,7 +22,15 @@ use App\VehicleCategory;
 use App\VehicleSubtype;
 
 Auth::routes();
-
+Route::get('info/documents', function () {
+    return view('information.documents');
+});
+Route::get('info/session', function () {
+    return view('information.session');
+});
+Route::get('info/upload', function () {
+    return view('information.upload');
+});
 Route::get('register/verify', 'Auth\RegisterController@verify')->name('verifyEmailLink');
 Route::get('register/verify/resend', 'Auth\RegisterController@showResendVerificationEmailForm')->name('showResendVerificationEmailForm');
 Route::post('register/verify/resend', 'Auth\RegisterController@resendVerificationEmail')->name('resendVerificationEmail');
