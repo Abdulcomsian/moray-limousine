@@ -757,8 +757,8 @@ class PartnerController extends Controller
     public function save_payment(Request $request)
     {
         $this->validate($request, [
-            'bank_account_owner' => 'required',
-            //'bicswift' => ['required', 'regex:/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i'],
+            'bank_account_owner' => ['required', 'regex:^[a-zA-Z]{2}[0-9]{2}\s?[a-zA-Z0-9]{4}\s?[0-9]{4}\s?[0-9]{3}([a-zA-Z0-9]\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,3})?$'],
+            'bicswift' => ['required', 'regex:/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i'],
         ]);
         $partner = Partner::where('user_id', Auth::user()->id)->first();
         $partner->bank_transfer = 1;
@@ -869,6 +869,16 @@ class PartnerController extends Controller
             return view('information.thankyou');
         } else {
             return back();
+        }
+    }
+    //check email
+    public function check_email(Request $request)
+    {
+        $check = User::where('email', $request->email)->count();
+        if ($check > 0) {
+            echo "exist";
+        } else {
+            echo "noexist";
         }
     }
     private  $vehicle_added_partner = [
