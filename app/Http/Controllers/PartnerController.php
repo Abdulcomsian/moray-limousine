@@ -775,6 +775,7 @@ class PartnerController extends Controller
     {
         // $documents = Document::leftjoin("uploadeddocuments", "uploadeddocuments.document_title", "=", "documents.document_title")
         //     ->groupBy('documents.applied_on')->select('documents.id', 'documents.applied_on', DB::raw('count(*) as total'), DB::raw('count(uploadeddocuments.document_title) as uploadcount'))->get();
+        // dd($documents);
         $documents = Document::select('id', 'applied_on', 'document_title', DB::raw('count(document_title) as total'))->groupBy('applied_on')->get();
         return view('information.documents', compact('documents'));
     }

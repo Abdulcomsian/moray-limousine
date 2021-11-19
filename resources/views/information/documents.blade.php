@@ -188,27 +188,43 @@ Company Information
                     <ul>
                         @php
                         $totaldocument=0;
-                        $uploadeddoc=0;
+                        $totaluploaded=0;
                         @endphp
                         @foreach($documents as $document)
                         @php
+                        $uploadeddoc=0;
                         if($document->applied_on=="partner")
                         {
-                        $docuploaded=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
+                        $docs=\App\Document::where('applied_on','partner')->get();
+                        foreach($docs as $doc)
+                        {
+                        $uploadeddoc+= \App\UploadedDocument::where(['document_title'=>$doc->document_title,'user_id'=>\Auth::user()->id])->count();
+                        }
+                        $totaluploaded+=$uploadeddoc;
                         $title="Company";
                         }elseif($document->applied_on=="driver")
                         {
-                        $docuploaded=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
+                        $docs=\App\Document::where('applied_on','driver')->get();
+                        foreach($docs as $doc)
+                        {
+                        $uploadeddoc+= \App\UploadedDocument::where(['document_title'=>$doc->document_title,'user_id'=>\Auth::user()->id])->count();
+                        }
+                        $totaluploaded+=$uploadeddoc;
                         $title="Driver";
                         }elseif($document->applied_on=="vehicle")
                         {
-                        $docuploaded=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
+                        $docs=\App\Document::where('applied_on','vehicle')->get();
+                        foreach($docs as $doc)
+                        {
+                        $uploadeddoc+= \App\UploadedDocument::where(['document_title'=>$doc->document_title,'user_id'=>\Auth::user()->id])->count();
+                        }
+                        $totaluploaded+=$uploadeddoc;
                         $title="Vehicle";
                         }
                         $totaldocument+=$document->total;
-                        $uploadeddoc+= $docuploaded;
+
                         $bg='#80808047';
-                        if((int)$docuploaded==(int)$document->total)
+                        if((int)$uploadeddoc==(int)$document->total)
                         {
                         $bg='#97e2c6';
                         }
@@ -217,7 +233,7 @@ Company Information
                             <a href="{{url('info/session?type='.$document->applied_on.'')}}">
                                 <span>{{$title}}</span>
                                 <div class="countDiv">
-                                    <p>{{$docuploaded}}/ {{$document->total}}</p>
+                                    <p>{{ $uploadeddoc}}/ {{$document->total}}</p>
                                     <i class="fa fa-chevron-right"></i>
                                 </div>
                             </a>
@@ -261,7 +277,7 @@ Company Information
             @php
             $disabled='';
             $style='';
-            if($totaldocument!=$uploadeddoc)
+            if($totaldocument!= $totaluploaded)
             {
             $disabled='disabled';
             $style="opacity:0.5";
