@@ -283,9 +283,8 @@ Company Information
             $style="opacity:0.5";
             }
             @endphp
-            <form method="post" action="{{url('info/thanku')}}">
-                <button type="submit" class="documentbutton" style="margin-top:50px;{{$style}}" {{$disabled}}>Next</button>
-            </form>
+
+            <a href="{{url('info/thanku')}}"><button type="submit" class="documentbutton" style="margin-top:50px;{{$style}}" {{$disabled}}>Next</button></a>
         </div>
     </div>
 </div>

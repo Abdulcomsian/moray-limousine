@@ -852,19 +852,7 @@ class PartnerController extends Controller
     //partner thanku page
     public function info_thanku()
     {
-        $totaldocument = 0;
-        $uploadeddoc = 0;
-        $documents = Document::leftjoin("uploadeddocuments", "uploadeddocuments.document_title", "=", "documents.document_title")
-            ->groupBy('documents.applied_on')->select('documents.id', 'documents.applied_on', DB::raw('count(*) as total'), DB::raw('count(uploadeddocuments.document_title) as uploadcount'))->get();
-        foreach ($documents as $document) {
-            $totaldocument += $document->total;
-            $uploadeddoc += $document->uploadcount;
-        }
-        if ($totaldocument == $uploadeddoc) {
-            return view('information.thankyou');
-        } else {
-            return back();
-        }
+        return view('information.thankyou');
     }
     //check email
     public function check_email(Request $request)
