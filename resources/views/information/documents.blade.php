@@ -194,18 +194,21 @@ Company Information
                         @php
                         if($document->applied_on=="partner")
                         {
+                        $docuploaded=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
                         $title="Company";
                         }elseif($document->applied_on=="driver")
                         {
+                        $docuploaded=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
                         $title="Driver";
                         }elseif($document->applied_on=="vehicle")
                         {
+                        $docuploaded=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
                         $title="Vehicle";
                         }
                         $totaldocument+=$document->total;
-                        $uploadeddoc+=$document->uploadcount;
+                        $uploadeddoc+= $docuploaded;
                         $bg='#80808047';
-                        if((int)$document->uploadcount==(int)$document->total)
+                        if((int)$docuploaded==(int)$document->total)
                         {
                         $bg='#97e2c6';
                         }
@@ -214,7 +217,7 @@ Company Information
                             <a href="{{url('info/session?type='.$document->applied_on.'')}}">
                                 <span>{{$title}}</span>
                                 <div class="countDiv">
-                                    <p>{{$document->uploadcount}}/ {{$document->total}}</p>
+                                    <p>{{$docuploaded}}/ {{$document->total}}</p>
                                     <i class="fa fa-chevron-right"></i>
                                 </div>
                             </a>

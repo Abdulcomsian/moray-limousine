@@ -73,9 +73,6 @@ class PartnerController extends Controller
 
     public function profileView()
     {
-        if (Auth::user()->status != "approved") {
-            return redirect('info/company');
-        }
         $documents = auth()->user()->uploadedDocuments;
         return view('partner.profile-view')->with('documents', $documents);
     }
@@ -757,7 +754,7 @@ class PartnerController extends Controller
     public function save_payment(Request $request)
     {
         $this->validate($request, [
-            'bank_account_owner' => ['required', 'regex:^[a-zA-Z]{2}[0-9]{2}\s?[a-zA-Z0-9]{4}\s?[0-9]{4}\s?[0-9]{3}([a-zA-Z0-9]\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,3})?$'],
+            'iban' => ['required', 'regex:^[a-zA-Z]{2}[0-9]{2}\s?[a-zA-Z0-9]{4}\s?[0-9]{4}\s?[0-9]{3}([a-zA-Z0-9]\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,3})?$^'],
             'bicswift' => ['required', 'regex:/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i'],
         ]);
         $partner = Partner::where('user_id', Auth::user()->id)->first();
@@ -776,13 +773,10 @@ class PartnerController extends Controller
     //get info documents
     public function info_documents()
     {
-        if (Auth::user()->partner->step_url == "info/document") {
-            $documents = Document::leftjoin("uploadeddocuments", "uploadeddocuments.document_title", "=", "documents.document_title")
-                ->groupBy('documents.applied_on')->select('documents.id', 'documents.applied_on', DB::raw('count(*) as total'), DB::raw('count(uploadeddocuments.document_title) as uploadcount'))->get();
-            return view('information.documents', compact('documents'));
-        } else {
-            return back();
-        }
+        // $documents = Document::leftjoin("uploadeddocuments", "uploadeddocuments.document_title", "=", "documents.document_title")
+        //     ->groupBy('documents.applied_on')->select('documents.id', 'documents.applied_on', DB::raw('count(*) as total'), DB::raw('count(uploadeddocuments.document_title) as uploadcount'))->get();
+        $documents = Document::select('id', 'applied_on', 'document_title', DB::raw('count(document_title) as total'))->groupBy('applied_on')->get();
+        return view('information.documents', compact('documents'));
     }
     //inof session
     public function info_session(Request $request)
