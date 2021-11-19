@@ -22,15 +22,6 @@ use App\VehicleCategory;
 use App\VehicleSubtype;
 
 Auth::routes();
-Route::get('info/documents', function () {
-    return view('information.documents');
-});
-Route::get('info/session', function () {
-    return view('information.session');
-});
-Route::get('info/upload', function () {
-    return view('information.upload');
-});
 Route::get('register/verify', 'Auth\RegisterController@verify')->name('verifyEmailLink');
 Route::get('register/verify/resend', 'Auth\RegisterController@showResendVerificationEmailForm')->name('showResendVerificationEmailForm');
 Route::post('register/verify/resend', 'Auth\RegisterController@resendVerificationEmail')->name('resendVerificationEmail');
@@ -54,6 +45,7 @@ Route::get('/partner-registration', function () {
     $locations = DB::table('locations')->get();
     return view('home.partner-registration', compact('locations'));
 });
+
 // Route::get('company-information', function () {
 //     $data['category'] = VehicleCategory::all();
 //     $documents = Document::orderBy('applied_on', 'asc')->get();
@@ -226,6 +218,11 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             Route::get('partner/search-driver', 'PartnerController@addDriver');
             Route::get('partner/add-new-driver/{id}', 'PartnerController@addNewDriverByEmail');
             Route::post('partner/store-vehicle-docs', 'PartnerController@storeVehicleDocs')->name('partner.vehicle.docs');
+        });
+        Route::group(['middleware' => 'partnerstep'], function () {
+            Route::get('info/welcome', function () {
+                return view('information.welcome');
+            });
             Route::get('info/company', function () {
                 return view('information.company');
             });
@@ -242,11 +239,16 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             Route::get('info/payment', function () {
                 return view('information.payment');
             });
+            Route::get('info/thanku', 'PartnerController@info_thanku')->name('info-thanku');
+            Route::post('info-basic-save', 'PartnerController@info_basic_save')->name('info-save-basic');
+            Route::get('info/documents', 'PartnerController@info_documents')->name('info-documents');
+            Route::get('info/session', 'PartnerController@info_session')->name('info-session');
+            Route::get('info/upload', 'PartnerController@info_upload')->name('info-upload');
+            Route::post('info/upload-document', 'PartnerController@info_upload_document')->name('info-upload-document');
             Route::post('/save-company', 'PartnerController@save_company')->name('save-company');
             Route::post('/save-driver', 'PartnerController@save_driver')->name('save-driver');
             Route::post('/save-vehicle', 'PartnerController@save_vehicle')->name('save-vehicle');
             Route::post('/save-payment', 'PartnerController@save_payment')->name('save-payment');
-            // Route::post('/save-company-info', 'PartnerController@save_company_info')->name('save-company-info');
         });
         Route::group(['middleware' => 'driver'], function () {
 

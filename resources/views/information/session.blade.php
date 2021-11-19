@@ -15,6 +15,7 @@ Company Information
         padding: 0 0 64px;
         margin-top: 10rem;
     }
+
     .btn-secondary:focus {
         background: #1e1e1e;
         color: white;
@@ -132,102 +133,100 @@ Company Information
         margin: 0 auto;
         padding: 0 1rem;
     }
-    .uploadDocuments .lsp-page--title{
+
+    .uploadDocuments .lsp-page--title {
         font-size: 24px;
         margin: 20px 0px;
     }
-    .uploadDocuments ul li{
+
+    .uploadDocuments ul li {
         padding: 10px 5px;
         background: #80808047;
         margin-bottom: 5px;
     }
-    .uploadDocuments ul li a{
+
+    .uploadDocuments ul li a {
         font-size: 18px;
         font-weight: 500;
     }
-    .uploadDocuments ul li .countDiv{
+
+    .uploadDocuments ul li .countDiv {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    .uploadDocuments ul li a{
+
+    .uploadDocuments ul li a {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .uploadDocuments ul li .countDiv p{
-        margin-right:20px;
+
+    .uploadDocuments ul li .countDiv p {
+        margin-right: 20px;
     }
-    .uploadDocuments ul li .countDiv i{
+
+    .uploadDocuments ul li .countDiv i {
         color: #000;
     }
-    .editText{
+
+    .editText {
         color: blue;
     }
-    .itemDiv .textItem{
+
+    .itemDiv .textItem {
         font-size: 18px;
         color: #000;
         font-weight: 600;
     }
-    .itemDiv i{
+
+    .itemDiv i {
         font-weight: 600;
         color: #000;
     }
-    .uploadDocuments{
+
+    .uploadDocuments {
         margin-top: 40px;
     }
 </style>
 <div id="informationCompany" class="paged">
-                <div class="lsp-pager">
-                    <div class="wrapper">
-                        <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                        <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
-                    </div>
-                </div>
-                <div class="lsp-page">
-                    <div class="row lsp-page--header " style="    display: block;">
-                        <h2 class="lsp-page--title">Vehicle</h2>
-                        <h4 class="lsp-page--description">Please Upload all Documents</h4>
+    <div class="lsp-pager">
+        <div class="wrapper">
+            <div class="pager-prev"><a href="{{url('info/documents')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i> &nbsp;&nbsp;Documents and Training</a></div>
+        </div>
+    </div>
+    <div class="lsp-page">
+        <div class="row lsp-page--header " style="    display: block;">
+            <h2 class="lsp-page--title">{{ucfirst($documents[0]->applied_on)}}</h2>
+            <h4 class="lsp-page--description">Please Upload all Documents</h4>
 
-                        <div class="itemDiv">
-                            <i class="fa fa-car"></i>
-                            <span class="textItem">Mercedes-Benz S-Class</span>
-                            <p class="editText">
-                                <a href="">Edit</a>
-                            </p>
-                        </div>
-                        <div class="uploadDocuments">
-                            <div class="listDiv">
-                                <ul>
-                                    <li>
-                                        <a href="">
-                                            <span>Picture of a Vichle with number plate</span> 
-                                            <div class="countDiv">
-                                                <i class="fa fa-upload"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <span>Vichle Linence (picture of both of the card only)</span>
-                                            <div class="countDiv">
-                                                <i class="fa fa-upload"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <span>Vehicle Insurance Certificate</span>
-                                            <div class="countDiv">
-                                                <i class="fa fa-upload"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <button style="margin-top:50px;">Next</button>
-                    </div>
+            <div class="itemDiv">
+                <i class="fa fa-car"></i>
+                <span class="textItem">Mercedes-Benz S-Class</span>
+                <p class="editText">
+                    <a href="{{url('info/company')}}">Edit</a>
+                </p>
+            </div>
+            <div class="uploadDocuments">
+                <div class="listDiv">
+                    <ul>
+                        @foreach($documents as $document)
+                        @php
+                        $uploadedcount=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
+                        if($uploadedcount<=0) { $class="fa-upload" ;$bg='#80808047' ; } else { $class="fa-check" ; $bg='#97e2c6' ; } @endphp <li style="background:{{$bg}}">
+                            <a href="{{url('info/upload?type='.$documents[0]->applied_on.'&title='.$document->document_title.'')}}">
+                                <span>{{$document->document_title}}</span>
+                                <div class="countDiv">
+                                    <i class="fa {{$class}}"></i>
+                                </div>
+                            </a>
+                            </li>
+                            @endforeach
+                    </ul>
                 </div>
             </div>
+            <button style="margin-top:50px;">Next</button>
+        </div>
+    </div>
+</div>
 @endsection

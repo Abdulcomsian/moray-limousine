@@ -59,10 +59,11 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'driver'=> \App\Http\Middleware\driverMiddleware::class,
-        'end_user'=> \App\Http\Middleware\end_userMiddleware::class,
-        'partner'=> \App\Http\Middleware\partnerMiddleware::class,
-        'admin'=> \App\Http\Middleware\adminMiddleware::class,
+        'driver' => \App\Http\Middleware\driverMiddleware::class,
+        'end_user' => \App\Http\Middleware\end_userMiddleware::class,
+        'partner' => \App\Http\Middleware\partnerMiddleware::class,
+        'partnerstep' => \App\Http\Middleware\partnerstepMiddleware::class,
+        'admin' => \App\Http\Middleware\adminMiddleware::class,
         'isEmailVerified' => \Lunaweb\EmailVerification\Middleware\IsEmailVerified::class,
     ];
 }
