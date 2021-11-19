@@ -192,8 +192,7 @@ Company Information
 <div id="informationCompany" class="paged">
     <div class="lsp-pager">
         <div class="wrapper">
-            <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-            <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
+            <div class="pager-prev"><a href="{{url('info/documents')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i> &nbsp;&nbsp;Documents and Training</a></div>
         </div>
     </div>
     <div class="lsp-page">
@@ -205,7 +204,7 @@ Company Information
                 <i class="fa fa-car"></i>
                 <span class="textItem">Mercedes-Benz S-Class</span>
                 <p class="editText">
-                    <a href="">Edit</a>
+                    <a href="{{url('info/company')}}">Edit</a>
                 </p>
             </div>
             <div class="uploadDocuments">
@@ -214,16 +213,15 @@ Company Information
                         @foreach($documents as $document)
                         @php
                         $uploadedcount=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
-                        @endphp
-                        <li>
+                        if($uploadedcount<=0) { $class="fa-upload" ;$bg='#80808047' ; } else { $class="fa-check" ; $bg='#97e2c6' ; } @endphp <li style="background:{{$bg}}">
                             <a href="{{url('info/upload?type='.$documents[0]->applied_on.'&title='.$document->document_title.'')}}">
                                 <span>{{$document->document_title}}</span>
                                 <div class="countDiv">
-                                    @if($uploadedcount<=0)<i class="fa fa-upload"></i>@else<i class="fa fa-check"></i>@endif
+                                    <i class="fa {{$class}}"></i>
                                 </div>
                             </a>
-                        </li>
-                        @endforeach
+                            </li>
+                            @endforeach
                     </ul>
                 </div>
             </div>

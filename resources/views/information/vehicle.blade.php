@@ -137,163 +137,165 @@ Company Information
 </style>
 <form method="post" action="{{route('save-vehicle')}}">
     @csrf
-    <input type="hidden" name="id" value="{{$vehicle->id ?? ''}}" <main id="step-3" style="margin: top 2px;">
-    <div id="general-errors" class="apollo-notification hidden apollo-notification--error"></div>
-    <div id="registrationData">
-        <div class="lsp-layout lsp-layout--enabled">
-            <div class="lsp-spinner"><img src="/assets/images/ic-spinner.svg"></div>
-        </div>
-        <div id="informationCompany" class="paged">
-            <div class="lsp-pager">
-                <div class="wrapper">
-                    <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-3"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
-                    <div class="pager-data"><span l10n class="cur">Step &nbsp; 3 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-
-                </div>
+    <input type="hidden" name="id" value="{{$vehicle->id ?? ''}}" />
+    <main id="step-3" style="margin: top 2px;">
+        <div id="general-errors" class="apollo-notification hidden apollo-notification--error"></div>
+        <div id="registrationData">
+            <div class="lsp-layout lsp-layout--enabled">
+                <div class="lsp-spinner"><img src="/assets/images/ic-spinner.svg"></div>
             </div>
-        </div>
-        <div class="lsp-page">
-            <div class="row lsp-page--header">
-                <h2 class="lsp-page--title">Add first vehicle</h2>
-                <h4 class="lsp-page--description">You can add more vehicles later.</h4>
-            </div>
+            <div id="informationCompany" class="paged">
+                <div class="lsp-pager">
+                    <div class="wrapper">
+                        <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-3"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
+                        <div class="pager-data"><span l10n class="cur">Step &nbsp; 3 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
 
-            <div class="apollo-infobox info">
-                <div class="apollo-infobox--title">
-                    <h4>Please note:</h4>
-                </div>
-                <div class="apollo-infobox--description">
-                    <p>You will later be asked to upload documents for this vehicle.</p>
-                </div>
-            </div>
-
-            <div class="apollo-input pt-4" style="width: 100%;">
-                <div class="input-label">
-                    <label>Your vehicle type</label>
-                </div>
-                <div class="input-field">
-                    <select class="custom-select" id="vehicleCategory_id" name="vehicleCategory_id">
-                        <option value="">Select Vehicle Type</option>
-                        @if(count($data['category']) > 0){
-                        @foreach($data['category'] as $c)
-                        <option value="{{$c->id}}" @if($vehicle->id==$c->id){{'selected'}}@endif>{{$c->name}}</option>
-                        @endforeach
-                        @endif
-                    </select>
-                    <div class="input-desc">
-                        <label>Service class:</label>
                     </div>
                 </div>
-                @if($errors->has('vehicleCategory_id'))
-                <div class="text-danger">{{ $errors->first('vehicleCategory_id') }}</div>
-                @endif
             </div>
-            <div class="apollo-input pt-4" style="width: 100%;">
-                <div class="input-label">
-                    <label>vehicle title</label>
+            <div class="lsp-page">
+                <div class="row lsp-page--header">
+                    <h2 class="lsp-page--title">Add first vehicle</h2>
+                    <h4 class="lsp-page--description">You can add more vehicles later.</h4>
                 </div>
-                <div class="input-field">
-                    <select id="vehicletitle" name="vehicletitle" class="form-control">
-                        <option value="">Select Title</option>
-                        @foreach($VehicleSubtype as $type)
-                        <option value="{{$type->title}}" @if($vehicle->title==$type->title){{'selected'}}@endif>{{$type->title}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                @if($errors->has('vehicletitle'))
-                <div class="text-danger">{{ $errors->first('vehicletitle') }}</div>
-                @endif
-            </div>
 
-            <div class="apollo-input pt-3" style="width: 100%;">
-                <div class="input-label">
-                    <label>Vehicle Exterior Color</label>
+                <div class="apollo-infobox info">
+                    <div class="apollo-infobox--title">
+                        <h4>Please note:</h4>
+                    </div>
+                    <div class="apollo-infobox--description">
+                        <p>You will later be asked to upload documents for this vehicle.</p>
+                    </div>
                 </div>
-                <div class="input-field">
-                    <select class="custom-select" id="exterior_color" name="exterior_color">
-                        <option value="">Select Exterior Color</option>
-                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                        <option value="Black" @if($vehicle->exterior_color=="Black"){{'selected'}}@endif>Black</option>
-                    </select>
-                </div>
-                @if($errors->has('exterior_color'))
-                <div class="text-danger">{{ $errors->first('exterior_color') }}</div>
-                @endif
-            </div>
-            <div class="apollo-input pt-3" style="width: 100%;">
-                <div class="input-label">
-                    <label>Vehicle Interior Color</label>
-                </div>
-                <div class="input-field">
-                    <select class="custom-select" id="interior_color" name="interior_color">
-                        <option value="">Select Interior Color</option>
-                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                        <option value="Black" @if($vehicle->interior_color=="Black"){{'selected'}}@endif>Black</option>
-                    </select>
-                </div>
-                @if($errors->has('interior_color'))
-                <div class="text-danger">{{ $errors->first('interior_color') }}</div>
-                @endif
-            </div>
-            <div class="apollo-input pt-3" style="width: 100%;">
-                <div class="input-label">
-                    <label>Year of production</label>
-                </div>
-                <div class="input-field">
-                    <select class="custom-select" id="model_no" name="model_no">
-                        <option value="">Please select</option>
-                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                        <option value="2019" @if($vehicle->model_no=="2019"){{'selected'}}@endif>2019</option>
-                        <option value="2018" @if($vehicle->model_no=="2018"){{'selected'}}@endif>2018</option>
-                        <option value="2017" @if($vehicle->model_no=="2017"){{'selected'}}@endif>2017</option>
-                        <option value="2016" @if($vehicle->model_no=="2016"){{'selected'}}@endif>2016</option>
-                    </select>
 
+                <div class="apollo-input pt-4" style="width: 100%;">
+                    <div class="input-label">
+                        <label>Your vehicle type</label>
+                    </div>
+                    <div class="input-field">
+                        <select class="custom-select" id="vehicleCategory_id" name="vehicleCategory_id" required>
+                            <option value="">Select Vehicle Type</option>
+                            @if(count($data['category']) > 0){
+                            @foreach($data['category'] as $c)
+                            <option value="{{$c->id}}" @if($vehicle->idc ?? ''==$c->id){{'selected'}}@endif>{{$c->name}}</option>
+                            @endforeach
+                            @endif
+                        </select>
+                        <div class="input-desc">
+                            <label>Service class:</label>
+                        </div>
+                    </div>
+                    @if($errors->has('vehicleCategory_id'))
+                    <div class="text-danger">{{ $errors->first('vehicleCategory_id') }}</div>
+                    @endif
                 </div>
-                @if($errors->has('model_no'))
-                <div class="text-danger">{{ $errors->first('model_no') }}</div>
-                @endif
-            </div>
-            <div class="apollo-input pt-3" style="width: 100%;">
-                <div class="input-label">
-                    <label>Standard</label>
+                <div class="apollo-input pt-4" style="width: 100%;">
+                    <div class="input-label">
+                        <label>vehicle title</label>
+                    </div>
+                    <div class="input-field">
+                        <select id="vehicletitle" name="vehicletitle" class="form-control" required>
+                            <option value="">Select Title</option>
+                            @foreach($VehicleSubtype as $type)
+                            <option value="{{$type->title}}" @if($vehicle->title ?? ''==$type->title){{'selected'}}@endif>{{$type->title}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if($errors->has('vehicletitle'))
+                    <div class="text-danger">{{ $errors->first('vehicletitle') }}</div>
+                    @endif
                 </div>
-                <div class="input-field">
-                    <select class="form-control" id="standard" name="standard" required>
-                        <option value="">Select Standard</option>
-                        <option value="1" @if($vehicle->standard=="1"){{'selected'}}@endif>1</option>
-                        <option value="2" @if($vehicle->standard=="2"){{'selected'}}@endif>2</option>
-                        <option value="3" @if($vehicle->standard=="3"){{'selected'}}@endif>3</option>
-                        <option value="4" @if($vehicle->standard=="4"){{'selected'}}@endif>4</option>
-                        <option value="5" @if($vehicle->standard=="5"){{'selected'}}@endif>5</option>
-                    </select>
 
+                <div class="apollo-input pt-3" style="width: 100%;">
+                    <div class="input-label">
+                        <label>Vehicle Exterior Color</label>
+                    </div>
+                    <div class="input-field">
+                        <select class="custom-select" id="exterior_color" name="exterior_color" required>
+                            <option value="">Select Exterior Color</option>
+                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            <option value="Black" @if($vehicle->exterior_color ?? ''=="Black"){{'selected'}}@endif>Black</option>
+                        </select>
+                    </div>
+                    @if($errors->has('exterior_color'))
+                    <div class="text-danger">{{ $errors->first('exterior_color') }}</div>
+                    @endif
                 </div>
-                @if($errors->has('standard'))
-                <div class="text-danger">{{ $errors->first('standard') }}</div>
-                @endif
-            </div>
-
-            <div class="apollo-input pt-3" style="width: 100%;">
-                <div class="input-label">
-                    <label>License plate</label>
+                <div class="apollo-input pt-3" style="width: 100%;">
+                    <div class="input-label">
+                        <label>Vehicle Interior Color</label>
+                    </div>
+                    <div class="input-field">
+                        <select class="custom-select" id="interior_color" name="interior_color" required>
+                            <option value="">Select Interior Color</option>
+                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            <option value="Black" @if($vehicle->interior_color ?? ''=="Black"){{'selected'}}@endif>Black</option>
+                        </select>
+                    </div>
+                    @if($errors->has('interior_color'))
+                    <div class="text-danger">{{ $errors->first('interior_color') }}</div>
+                    @endif
                 </div>
-                <div class="input-field">
-                    <input id="license-plate" name="license_plate" type="text" required class="form-control input-field__element" value="{{$vehicle->plate ?? ''}}">
+                <div class="apollo-input pt-3" style="width: 100%;">
+                    <div class="input-label">
+                        <label>Year of production</label>
+                    </div>
+                    <div class="input-field">
+                        <select class="custom-select" id="model_no" name="model_no" required>
+                            <option value="">Please select</option>
+                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            <option value="2019" @if($vehicle->model_no ?? ''=="2019"){{'selected'}}@endif>2019</option>
+                            <option value="2018" @if($vehicle->model_no ?? ''=="2018"){{'selected'}}@endif>2018</option>
+                            <option value="2017" @if($vehicle->model_no ?? ''=="2017"){{'selected'}}@endif>2017</option>
+                            <option value="2016" @if($vehicle->model_no ?? ''=="2016"){{'selected'}}@endif>2016</option>
+                        </select>
 
+                    </div>
+
+                    @if($errors->has('model_no'))
+                    <div class="text-danger">{{ $errors->first('model_no') }}</div>
+                    @endif
                 </div>
-                @if($errors->has('license_plate'))
-                <div class="text-danger">{{ $errors->first('license_plate') }}</div>
-                @endif
-            </div>
+                <div class="apollo-input pt-3" style="width: 100%;">
+                    <div class="input-label">
+                        <label>Standard</label>
+                    </div>
+                    <div class="input-field">
+                        <select class="form-control" id="standard" name="standard" required>
+                            <option value="">Select Standard</option>
+                            <option value="1" @if($vehicle->standard ?? ''=="1"){{'selected'}}@endif>1</option>
+                            <option value="2" @if($vehicle->standard ?? ''=="2"){{'selected'}}@endif>2</option>
+                            <option value="3" @if($vehicle->standard ?? ''=="3"){{'selected'}}@endif>3</option>
+                            <option value="4" @if($vehicle->standard ?? ''=="4"){{'selected'}}@endif>4</option>
+                            <option value="5" @if($vehicle->standard ?? ''=="5"){{'selected'}}@endif>5</option>
+                        </select>
 
-            <div class="actions pt-5">
-                <button type="submit" class="third-next-page">Next</button>
+                    </div>
+                    @if($errors->has('standard'))
+                    <div class="text-danger">{{ $errors->first('standard') }}</div>
+                    @endif
+                </div>
+
+                <div class="apollo-input pt-3" style="width: 100%;">
+                    <div class="input-label">
+                        <label>License plate</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="license-plate" name="license_plate" type="text" required class="form-control input-field__element" value="{{$vehicle->plate ?? ''}}">
+
+                    </div>
+                    @if($errors->has('license_plate'))
+                    <div class="text-danger">{{ $errors->first('license_plate') }}</div>
+                    @endif
+                </div>
+
+                <div class="actions pt-5">
+                    <button type="submit" class="third-next-page">Next</button>
+                </div>
             </div>
         </div>
-    </div>
-    </div>
-    </div>
+        </div>
+        </div>
     </main>
 </form>
 @endsection

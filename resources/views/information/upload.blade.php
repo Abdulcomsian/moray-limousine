@@ -232,32 +232,51 @@ Company Information
 <div id="informationCompany" class="paged">
     <div class="lsp-pager">
         <div class="wrapper">
-            <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-            <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
+            <div class="pager-prev"><a href="{{url('info/session?type='.$type.'')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i> &nbsp;&nbsp;{{ucfirst($type)}}</a></div>
         </div>
     </div>
     <div class="lsp-page">
-        <div class="row lsp-page--header " style="    display: block;">
+        <div class="row lsp-page--header ">
             <h2 class="lsp-page--title">{{$title}}</h2>
             <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data">
                 @csrf
+                @if(isset($uploadeddoc) && isset($uploadeddoc->document_img))
+                <input type="hidden" name="form_type" value="Edit" />
+                <input type="hidden" name="editid" value="{{$uploadeddoc->id}}" />
+                @else
+                <input type="hidden" name="form_type" value="Add" />
+                @endif
                 <input type="hidden" name="title" value="{{$title}}" />
                 <input type="hidden" name="type" value="{{$type}}" />
+                @if(isset($driver->id))
+                <input type="hidden" name="driverid" value="{{$driver->id}}" />
+                @elseif(isset($vehicle->id))
+                <input type="hidden" name="vehicleid" value="{{$vehicle->id}}" />
+                @endif
                 <div class="uploadDocuments">
                     <img src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_img}}@else{{asset('images/download.png')}}@endif" alt="">
                     <p class="note">Please provide us with an image or scan of your valid document.</p>
                     <div class="inputDiv">
-                        <input type="file" name="file" class="fileInput">
+                        <input type="file" name="file" class="fileInput" accept="image/jpeg,image/png,application/pdf">
                         <div class="inputBtn">
                             <input type="text" name="" id="" placeholder="JPEG, PNG, PDF">
                             <i class="fa fa-camera"></i>
                         </div>
+                        @if($errors->has('file'))
+                        <div class="text-danger">{{ $errors->first('file') }}</div>
+                        @endif
                         <span>Maximum file size 30 MB</span>
                     </div>
+                    @if($title=="Driving License")
+                    <div class="inputDiv">
+                        <label>Expiry Date</label>
+                        <input type="date" name="expiry_date" value="{{$uploadeddoc->expiry_date ?? ''}}" class="form-control" required>
+                    </div>
+                    @endif
                 </div>
                 <div class="d-flex btnDiv">
                     <button style="margin-top:30px;">Cancel</button>
-                    <button style="margin-top:30px;">Upload</button>
+                    <button type="submit" style="margin-top:30px;">Upload</button>
                 </div>
             </form>
         </div>

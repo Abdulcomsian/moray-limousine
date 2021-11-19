@@ -146,7 +146,6 @@ Company Information
                 <div class="lsp-pager">
                     <div class="wrapper">
                         <div class="pager-data"><span l10n class="cur">Step &nbsp; 1 &nbsp; </span><span l10n class="max">of &nbsp; 5</span></div>
-                        <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
                     </div>
                 </div>
             </div>
@@ -164,6 +163,9 @@ Company Information
                         <div class="input-field">
                             <input id="companyName" name="company_name" value="{{\Auth::user()->partner->company_name ?? ''}}" placeholder="Example Company Inc." type="text" class="form-control input-field__element" required>
                         </div>
+                        @if($errors->has('company_name'))
+                        <div class="text-danger">{{ $errors->first('company_name') }}</div>
+                        @endif
                         <span class="text-danger companyerror"></span>
                         <div class="input-desc">
                             <label>Legal name of your company. Sole proprietors enter first and last name.</label>
@@ -190,7 +192,9 @@ Company Information
                             </select>
 
                         </div>
-                        <span class="text-danger leagalformerror"></span>
+                        @if($errors->has('legal_form'))
+                        <div class="text-danger">{{ $errors->first('legal_form') }}</div>
+                        @endif
                     </div>
                     <div class="apollo-input pt-3" style="width: 100%;">
                         <div class="input-label">
@@ -200,7 +204,9 @@ Company Information
                             <input id="authorizedFname" name="authorizedFname" value="{{\Auth::user()->first_name ?? ''}}" type="text" required class="form-control input-field__element">
 
                         </div>
-                        <span class="text-danger authorizedFnameerror"></span>
+                        @if($errors->has('authorizedFname'))
+                        <div class="text-danger">{{ $errors->first('authorizedFname') }}</div>
+                        @endif
                     </div>
                     <div class="apollo-input pt-3" style="width: 100%;">
                         <div class="input-label">
@@ -208,9 +214,10 @@ Company Information
                         </div>
                         <div class="input-field">
                             <input id="authorizedLname" name="authorizedLname" value="{{\Auth::user()->last_name ?? ''}}" type="text" required class="form-control input-field__element">
-
                         </div>
-                        <span class="text-danger authorizedLnameerror"></span>
+                        @if($errors->has('authorizedLname'))
+                        <div class="text-danger">{{ $errors->first('authorizedLname') }}</div>
+                        @endif
                     </div>
                     <div class="apollo-input pt-3" style="width: 100%;">
                         <div class="input-label">
@@ -219,7 +226,9 @@ Company Information
                         <div class="input-field">
                             <input id="phoneNumber" name="phoneNumber" value="{{\Auth::user()->phone_number ?? ''}}" type="number" required class="form-control input-field__element">
                         </div>
-                        <span class="text-danger phoneNumbererror"></span>
+                        @if($errors->has('phoneNumber'))
+                        <div class="text-danger">{{ $errors->first('phoneNumber') }}</div>
+                        @endif
                     </div>
                     <div class="apollo-input pt-3" style="width: 100%;">
                         <div class="input-label">
@@ -228,7 +237,9 @@ Company Information
                         <div class="input-field">
                             <input id="companyAddress" name="companyAddress" value="{{\Auth::user()->partner->address ?? ''}}" type="text" required class="form-control input-field__element">
                         </div>
-                        <span class="text-danger companyAddresserror"></span>
+                        @if($errors->has('companyAddress'))
+                        <div class="text-danger">{{ $errors->first('companyAddress') }}</div>
+                        @endif
                     </div>
 
                     <div class="apollo-input pt-3" style="width: 100%;">
@@ -238,7 +249,9 @@ Company Information
                         <div class="input-field">
                             <input id="city" name="city" value="{{\Auth::user()->partner->city ?? ''}}" type="text" required class="form-control input-field__element">
                         </div>
-                        <span class="text-danger cityerror"></span>
+                        @if($errors->has('city'))
+                        <div class="text-danger">{{ $errors->first('city') }}</div>
+                        @endif
                         <div class="input-desc">
                             <label>Enter the city where your company is based, which may differ from where you operate.</label>
                         </div>
@@ -249,8 +262,10 @@ Company Information
                         </div>
                         <div class="input-field">
                             <input id="postalCode" name="postalCode" value="{{\Auth::user()->partner->postal_code ?? ''}}" type="text" required class="form-control input-field__element">
-
                         </div>
+                        @if($errors->has('postalCode'))
+                        <div class="text-danger">{{ $errors->first('postalCode') }}</div>
+                        @endif
                     </div>
 
                     <div class="apollo-input pt-3" style="width: 100%;">
@@ -260,7 +275,9 @@ Company Information
                         <div class="input-field">
                             <input id="country" name="country" value="{{\Auth::user()->partner->country ?? ''}}" type="text" class="form-control input-field__element" required>
                         </div>
-                        <span class="text-danger countryerror"></span>
+                        @if($errors->has('country'))
+                        <div class="text-danger">{{ $errors->first('country') }}</div>
+                        @endif
                     </div>
                     <div class="apollo-input pt-3" style="width: 100%;">
                         <div class="input-label">
@@ -268,8 +285,10 @@ Company Information
                         </div>
                         <div class="input-field">
                             <input id="vat-sales" name="vat_sales" value="{{\Auth::user()->partner->vat_sales_tax_no ?? ''}}" type="text" required class="form-control input-field__element">
-
                         </div>
+                        @if($errors->has('vat_sales'))
+                        <div class="text-danger">{{ $errors->first('vat_sales') }}</div>
+                        @endif
                     </div>
 
                 </div>

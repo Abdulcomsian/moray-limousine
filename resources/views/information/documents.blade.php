@@ -173,6 +173,7 @@ Company Information
 <div id="informationCompany" class="paged">
     <div class="lsp-pager">
         <div class="wrapper">
+            <div class="pager-prev"><a href="{{url('info/payment')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></div>
             <div class="pager-data"><span l10n class="cur">Step &nbsp; 5 &nbsp; </span><span l10n class="max">of &nbsp; 6</span></div>
             <!-- <div class="pager-prev"><a href="{{url('info/driver')}}" id="prev-page-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></div> -->
         </div>
@@ -185,21 +186,32 @@ Company Information
                 <h2 class="lsp-page--title">Upload documents</h2>
                 <div class="listDiv">
                     <ul>
+                        @php
+                        $totaldocument=0;
+                        $uploadeddoc=0;
+                        @endphp
                         @foreach($documents as $document)
-                        <li>
+                        @php
+                        if($document->applied_on=="partner")
+                        {
+                        $title="Company";
+                        }elseif($document->applied_on=="driver")
+                        {
+                        $title="Driver";
+                        }elseif($document->applied_on=="vehicle")
+                        {
+                        $title="Vehicle";
+                        }
+                        $totaldocument+=$document->total;
+                        $uploadeddoc+=$document->uploadcount;
+                        $bg='#80808047';
+                        if((int)$document->uploadcount==(int)$document->total)
+                        {
+                        $bg='#97e2c6';
+                        }
+                        @endphp
+                        <li style="background: {{$bg}};">
                             <a href="{{url('info/session?type='.$document->applied_on.'')}}">
-                                @php
-                                if($document->applied_on=="partner")
-                                {
-                                $title="Company";
-                                }elseif($document->applied_on=="driver")
-                                {
-                                $title="Driver";
-                                }elseif($document->applied_on=="vehicle")
-                                {
-                                $title="Vehicle";
-                                }
-                                @endphp
                                 <span>{{$title}}</span>
                                 <div class="countDiv">
                                     <p>{{$document->uploadcount}}/ {{$document->total}}</p>
@@ -243,7 +255,18 @@ Company Information
                     </ul>
                 </div>
             </div> -->
-            <button style="margin-top:50px;">Next</button>
+            @php
+            $disabled='';
+            $style='';
+            if($totaldocument!=$uploadeddoc)
+            {
+            $disabled='disabled';
+            $style="opacity:0.5";
+            }
+            @endphp
+            <form method="post" action="{{url('info/thanku')}}">
+                <button type="submit" class="documentbutton" style="margin-top:50px;{{$style}}" {{$disabled}}>Next</button>
+            </form>
         </div>
     </div>
 </div>

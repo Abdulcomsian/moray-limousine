@@ -116,7 +116,7 @@ class RegisterController extends Controller
             return redirect('/driver/dashboard');
         } elseif ($user->user_type == 'partner') {
             //return redirect('/partner/dashboard');
-            return redirect('/partner-welcome', compact('user'));
+            return view('home.partner-thankyou', compact('user'));
         } else {
             Session::flash('message', 'We have e-mailed your account activation link!.');
             return redirect('/login');
