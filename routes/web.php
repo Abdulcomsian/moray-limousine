@@ -20,6 +20,7 @@ use App\User;
 use App\Vehicle;
 use App\VehicleCategory;
 use App\VehicleSubtype;
+use GuzzleHttp\Psr7\Request;
 
 Auth::routes();
 Route::get('register/verify', 'Auth\RegisterController@verify')->name('verifyEmailLink');
@@ -45,6 +46,7 @@ Route::get('/partner-registration', function () {
     $locations = DB::table('locations')->get();
     return view('home.partner-registration', compact('locations'));
 });
+Route::get('check-email', 'PartnerController@check_email');
 
 // Route::get('company-information', function () {
 //     $data['category'] = VehicleCategory::all();

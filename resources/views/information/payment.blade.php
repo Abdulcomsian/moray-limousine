@@ -206,7 +206,7 @@ Company Information
                             <label>Iban</label>
                         </div>
                         <div class="input-field">
-                            <input id="iban" name="iban" type="text" onblur="checkiban()" required class="form-control input-field__element" value="{{\Auth::user()->partner->iban ?? ''}}">
+                            <input id="iban" name="iban" type="text" required class="form-control input-field__element" value="{{\Auth::user()->partner->iban ?? ''}}">
                         </div>
                         @if($errors->has('iban'))
                         <div class="text-danger">{{ $errors->first('iban') }}</div>

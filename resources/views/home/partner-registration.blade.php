@@ -286,38 +286,38 @@
             } else {
                 $(".companyerror").text("");
             }
-
             if ($("#email").val() == "") {
                 $(".emailerror").text("Please Enter Email");
                 return false;
             } else {
                 $(".emailerror").text("");
             }
-
-            // if ($("#password").val() == "") {
-
-            //     $(".passworderror").text("Please Enter Pssword");
-            //     return false;
-            // } else {
-            //     $(".passworderror").text("");
-            // }
-
-            // if ($("#password").val().length < 8) {
-            //     $(".passworderror").text("Please Enter minimum 8 charachter Pssword");
-            //     return false;
-            // } else {
-            //     $(".passworderror").text("");
-            // }
-
             if (!$("input[name='language']:checked").val()) {
                 $(".languageerror").text("Plese Select Yes for continue");
                 return false;
             } else {
                 $(".languageerror").text("");
             }
-            $('#step-1').hide();
-            $('#step-2').show();
-            $('#step-3').hide();
+            //ajax to check email
+            email = $("#email").val();
+            $.ajax({
+                url: '{{url("check-email")}}',
+                method: 'get',
+                data: {
+                    email: email
+                },
+                success: function(res) {
+                    if (res == "exist") {
+                        $(".emailerror").text("Email Already Exist");
+                        return false;
+                    } else {
+                        $('#step-1').hide();
+                        $('#step-2').show();
+                        $('#step-3').hide();
+                    }
+                }
+            })
+
         });
         $(".second-next-page").on('click', function() {
             if ($("#city-select").val() == "") {
