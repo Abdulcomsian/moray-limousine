@@ -184,6 +184,7 @@
                     </div>
                     <div class="actions">
                         <button type="button" class="second-next-page">Next</button>
+                        <button type="button" class="second-pravious-page">Pravious</button>
                     </div>
                     <div class="row">
                         <a href="{{url('/login')}}">Already a partner?</a>
@@ -266,6 +267,7 @@
                     </div>
                     <div class="actions">
                         <button type="button" class="submit-page">Submit</button>
+                        <button type="button" class="third-pravious-page">Pravious</button>
                     </div>
                     <div class="row">
                         <a href="{{url('/login')}}">Already a partner?</a>
@@ -351,6 +353,16 @@
             })
 
         });
+        //pravious click button
+        $(".second-pravious-page").on('click', function() {
+            $('#step-2').hide();
+            $('#step-1').show();
+        })
+        // third page pravious
+        $(".third-pravious-page").on('click', function() {
+            $('#step-3').hide();
+            $('#step-2').show();
+        })
         $(".submit-page").on('click', function() {
             if (!$("input[name='documentradio']:checked").val()) {
                 $(".documenterror").text("Plese Select Yes for continue");
@@ -360,7 +372,6 @@
                 $("#partner-register-form").submit();
             }
         });
-
         $('#city-select').on('change', function() {
             cityid = $(this).val();
             $.ajax({
