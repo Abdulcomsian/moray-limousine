@@ -690,12 +690,18 @@ class PartnerController extends Controller
     //save driver info
     public function save_driver(Request $request)
     {
-        $this->validate($request, [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
-            'phone_number' => 'required'
-        ]);
+        $this->validate(
+            $request,
+            [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
+                'phone_number' => 'required'
+            ],
+            [
+                'email.unique' => 'Please use different email for First Driver',
+            ]
+        );
         if (isset($request->id) && $request->id != '') {
             $user = User::find($request->id);
         } else {
