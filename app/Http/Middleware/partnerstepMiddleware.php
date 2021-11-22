@@ -15,7 +15,7 @@ class partnerstepMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth()->user()->user_type == "partner" && Auth()->user()->status == "pending") {
+        if (Auth()->user()->user_type == "partner") {
             return $next($request);
         } else {
             return redirect()->back();

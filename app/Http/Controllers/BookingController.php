@@ -543,6 +543,10 @@ class BookingController extends Controller
         if (auth()->user()->user_type == 'partner') {
             $driver->booking()->where('booking_id', $bookingId)
                 ->updateExistingPivot($bookingId, ['status' => $status]);
+            if ($status == "rejected") {
+                $driver->booking()->where('booking_id', $bookingId)
+                    ->wherePivot('booking_id', '=', $bookingId)->detach();
+            }
         } else {
             $driver->booking()->where('booking_id', $bookingId)
                 ->updateExistingPivot($bookingId, ['driver_status' => $status]);
@@ -556,9 +560,9 @@ class BookingController extends Controller
         }
         //driver notification and partner notification here according to user id
         $notify_driver_msg = [
-            'greeting' => 'You Successfully Accept a Booking With Booking Id = ' . $bookingId,
-            'subject' => 'Booking Accepted By You',
-            'body'   => 'A Booking With Booking Id ' . $bookingId . 'Assigned To You By Moray Limousines Successfully Accepted By You For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id' . $bookingId,
+            'greeting' => 'You ' . $status . ' a Booking With Booking Id = ' . $bookingId,
+            'subject' => 'Booking ' . $status . ' By You',
+            'body'   => 'A Booking With Booking Id ' . $bookingId . ' Assigned To You By Moray Limousines ' . $status . ' By You For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id' . $bookingId,
             'thanks_text' => 'Thanks For Using Moray Limousines',
             'action_text' => 'View My Site',
             'action_url' => '/booking/details/' . $bookingId,
@@ -567,9 +571,9 @@ class BookingController extends Controller
         //admin notify when driver accepted
         if (auth()->user()->user_type == 'driver') {
             $notify_admins_msg = [
-                'greeting' => 'A Booking With Booking Id ' . $bookingId . 'Assigned To Driver By a Partner Successfully Accepted By Driver On Moray-Limousines',
-                'subject' => 'Booking Accepted By Driver',
-                'body'   => 'A Booking With Booking Id ' . $bookingId . ' Assigned To Driver By a Partner Successfully Accepted By Driver For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id ' . $bookingId . '
+                'greeting' => 'A Booking With Booking Id ' . $bookingId . ' Assigned To Driver By a Partner ' . $status . ' By Driver On Moray-Limousines',
+                'subject' => 'Booking ' . $status . ' By Driver',
+                'body'   => 'A Booking With Booking Id ' . $bookingId . ' Assigned To Driver By a Partner ' . $status . ' By Driver For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id ' . $bookingId . '
                  Driver name is ' . auth()->user()->first_name . ' ' . auth()->user()->last_name . ' having phone number is ' . auth()->user()->phone_number . ' vehicle is ' . $booking->vehicle[0]->title . ' having plate no is ' . $booking->vehicle[0]->plate,
                 'thanks_text' => 'Thanks For Using Moray Limousines',
                 'action_text' => 'View My Site',
@@ -578,9 +582,9 @@ class BookingController extends Controller
             Notification::send($customer_email->user, new MorayLimousineNotifications($notify_admins_msg));
         } elseif (auth()->user()->user_type == 'partner') {
             $notify_admins_msg = [
-                'greeting' => 'A Booking With Booking Id ' . $bookingId . 'Assigned To  Partner Successfully Accepted By Partner On Moray-Limousines',
-                'subject' => 'Booking Accepted By Partner',
-                'body'   => 'A Booking With Booking Id ' . $bookingId . 'Assigned Partner Successfully Accepted By Partner For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id' . $bookingId,
+                'greeting' => 'A Booking With Booking Id ' . $bookingId . ' Assigned To  Partner ' . $status . ' By Partner On Moray-Limousines',
+                'subject' => 'Booking ' . $status . ' By Partner',
+                'body'   => 'A Booking With Booking Id ' . $bookingId . ' Assigned Partner ' . $status . ' By Partner For Details Of booking Follow The link Given Blow Or Login And check Booking Details With Booking Id' . $bookingId,
                 'thanks_text' => 'Thanks For Using Moray Limousines',
                 'action_text' => 'View My Site',
                 'action_url' => '/booking/details/' . $bookingId,

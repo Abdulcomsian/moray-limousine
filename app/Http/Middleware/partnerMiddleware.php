@@ -22,7 +22,7 @@ class partnerMiddleware
             if ($url) {
                 return redirect()->intended($url);
             } else {
-                if (Auth::user()->password) {
+                if (Auth()->user()->password) {
                     return redirect()->intended('info/company');
                 } else {
                     return redirect()->intended('info/welcome');
