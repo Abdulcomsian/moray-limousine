@@ -183,8 +183,8 @@
                         </div>
                     </div>
                     <div class="actions">
+                        <button type="button" class="second-pravious-page">Previous</button>
                         <button type="button" class="second-next-page">Next</button>
-                        <button type="button" class="second-pravious-page">Pravious</button>
                     </div>
                     <div class="row">
                         <a href="{{url('/login')}}">Already a partner?</a>
@@ -266,8 +266,8 @@
                         </div>
                     </div>
                     <div class="actions">
+                        <button type="button" class="third-pravious-page">Previous</button>
                         <button type="button" class="submit-page">Submit</button>
-                        <button type="button" class="third-pravious-page">Pravious</button>
                     </div>
                     <div class="row">
                         <a href="{{url('/login')}}">Already a partner?</a>

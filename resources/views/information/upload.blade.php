@@ -240,6 +240,7 @@ Company Information
             <h2 class="lsp-page--title">{{$title}}</h2>
             <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" id="slug" name="slug" value="{{$doc->slug}}" />
                 @if(isset($uploadeddoc) && isset($uploadeddoc->document_img))
                 <input type="hidden" name="form_type" value="Edit" />
                 <input type="hidden" name="editid" value="{{$uploadeddoc->id}}" />
@@ -267,7 +268,7 @@ Company Information
                         @endif
                         <span>Maximum file size 30 MB</span>
                     </div>
-                    @if($title=="Driving License")
+                    @if($doc->expiry_date_input==1)
                     <div class="inputDiv">
                         <label>Expiry Date</label>
                         <input type="date" name="expiry_date" value="{{$uploadeddoc->expiry_date ?? ''}}" class="form-control" required>

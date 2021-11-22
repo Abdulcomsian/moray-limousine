@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
+use Illuminate\Auth\Events\Registered;
 // use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use DB;
@@ -317,9 +318,6 @@ class PartnerController extends Controller
      */
     public function partnerReservations()
     {
-        if (Auth::user()->status != "approved") {
-            return redirect('info/company');
-        }
         $data['canceled_bookings'] = auth()->user()->booking->where('booking_status', 'canceled');
         $data['pending_bookings'] = auth()->user()->booking->where('booking_status', 'pending');
         $data['completed_bookings'] = auth()->user()->booking->where('booking_status', 'completed');
@@ -692,12 +690,18 @@ class PartnerController extends Controller
     //save driver info
     public function save_driver(Request $request)
     {
-        $this->validate($request, [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
-            'phone_number' => 'required'
-        ]);
+        $this->validate(
+            $request,
+            [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
+                'phone_number' => 'required'
+            ],
+            [
+                'email.unique' => 'Please use different email for First Driver',
+            ]
+        );
         if (isset($request->id) && $request->id != '') {
             $user = User::find($request->id);
         } else {
@@ -707,8 +711,11 @@ class PartnerController extends Controller
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
+        $user->user_type = 'driver';
+        $user->creator_id = Auth::user()->id;
         $user->password = Hash::make('driver');
         if ($user->save()) {
+            event(new Registered($user));
             $partner = Partner::where('user_id', Auth::user()->id)->first();
             $partner->step_url = 'info/vehicle';
             $partner->save();
@@ -773,9 +780,6 @@ class PartnerController extends Controller
     //get info documents
     public function info_documents()
     {
-        // $documents = Document::leftjoin("uploadeddocuments", "uploadeddocuments.document_title", "=", "documents.document_title")
-        //     ->groupBy('documents.applied_on')->select('documents.id', 'documents.applied_on', DB::raw('count(*) as total'), DB::raw('count(uploadeddocuments.document_title) as uploadcount'))->get();
-        // dd($documents);
         $documents = Document::select('id', 'applied_on', 'document_title', DB::raw('count(document_title) as total'))->groupBy('applied_on')->get();
         return view('information.documents', compact('documents'));
     }
@@ -798,7 +802,8 @@ class PartnerController extends Controller
             $vehicle = Vehicle::where(['creator_id' => Auth::user()->id])->first();
         }
         $uploadeddoc = UploadedDocument::where(['document_title' => $title, 'user_id' => Auth::user()->id])->first();
-        return view('information.upload', compact('title', 'type', 'uploadeddoc', 'driver', 'vehicle'));
+        $doc = Document::where('document_title', $title)->first();
+        return view('information.upload', compact('title', 'type', 'uploadeddoc', 'driver', 'vehicle', 'doc'));
     }
     //upload documents\
     public function info_upload_document(Request $request)
@@ -809,20 +814,22 @@ class PartnerController extends Controller
         if ($request->form_type == "Add") {
             if (isset($request->file)) {
                 $documents_data['document_title'] =  $request->title;
-                if ($request->title == "Driving License") {
+                $documents_data['slug'] =  $request->slug;
+                if (isset($request->expiry_date)) {
                     $documents_data['expiry_date'] = $request->expiry_date;
-                }
-                if ($request->type == "driver") {
-                    $documents_data['user_id'] = $request->driverid;
-                } elseif ($request->type == "vehicle") {
-                    $documents_data['vehicle_id'] = $request->vehicleid;
                 }
                 $imageName = null;
                 if ($request->hasFile('file')) {
                     $imageName = time() . $request->file->getClientOriginalName();
                     $request->file->move(public_path('uploaded-user-images/partner-documents'), $imageName);
                     $documents_data['document_img'] = $imageName;
-                    $this->uploadedDocument->saveDocuments($documents_data);
+                    if ($request->type == "driver") {
+                        $this->uploadedDocument->saveDriverDocuments($documents_data, $request->driverid);
+                    } elseif ($request->type == "vehicle") {
+                        $this->uploadedDocument->saveVehicleDocuments($documents_data, $request->vehicleid);
+                    } else {
+                        $this->uploadedDocument->saveDocuments($documents_data);
+                    }
                     return redirect('info/session?type=' . $request->type . '');
                 }
             }
@@ -830,20 +837,22 @@ class PartnerController extends Controller
             if (isset($request->file)) {
                 $edit_id = $request->editid;
                 $documents_data['document_title'] =  $request->title;
-                if ($request->title == "Driving License") {
+                $documents_data['slug'] =  $request->slug;
+                if (isset($request->expiry_date)) {
                     $documents_data['expiry_date'] = $request->expiry_date;
-                }
-                if ($request->type == "driver") {
-                    $documents_data['user_id'] = $request->driverid;
-                } elseif ($request->type == "vehicle") {
-                    $documents_data['vehicle_id'] = $request->vehicleid;
                 }
                 $imageName = null;
                 if ($request->hasFile('file')) {
                     $imageName = time() . $request->file->getClientOriginalName();
                     $request->file->move(public_path('uploaded-user-images/partner-documents'), $imageName);
                     $documents_data['document_img'] = $imageName;
-                    $this->uploadedDocument->updateDocument($documents_data, $edit_id);
+                    if ($request->type == "driver") {
+                        $this->uploadedDocument->updateDriverDocuments($documents_data, $edit_id, $request->driverid);
+                    } elseif ($request->type == "vehicle") {
+                        $this->uploadedDocument->updateVehicleDocument($documents_data, $edit_id, $request->vehicleid);
+                    } else {
+                        $this->uploadedDocument->updateDocument($documents_data, $edit_id);
+                    }
                     return redirect('info/session?type=' . $request->type . '');
                 }
             }

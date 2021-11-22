@@ -198,7 +198,7 @@ Company Information
                         $docs=\App\Document::where('applied_on','partner')->get();
                         foreach($docs as $doc)
                         {
-                        $uploadeddoc+= \App\UploadedDocument::where(['document_title'=>$doc->document_title,'user_id'=>\Auth::user()->id])->count();
+                        $uploadeddoc+= \App\UploadedDocument::where(['slug'=>$doc->slug,'user_id'=>\Auth::user()->id])->count();
                         }
                         $totaluploaded+=$uploadeddoc;
                         $title="Company";
@@ -207,7 +207,8 @@ Company Information
                         $docs=\App\Document::where('applied_on','driver')->get();
                         foreach($docs as $doc)
                         {
-                        $uploadeddoc+= \App\UploadedDocument::where(['document_title'=>$doc->document_title,'user_id'=>\Auth::user()->id])->count();
+                        $driver = \App\User::where(['user_type' => 'driver', 'creator_id' => Auth::user()->id])->first();
+                        $uploadeddoc+= \App\UploadedDocument::where(['slug'=>$doc->slug,'user_id'=>$driver->id])->count();
                         }
                         $totaluploaded+=$uploadeddoc;
                         $title="Driver";
@@ -216,7 +217,7 @@ Company Information
                         $docs=\App\Document::where('applied_on','vehicle')->get();
                         foreach($docs as $doc)
                         {
-                        $uploadeddoc+= \App\UploadedDocument::where(['document_title'=>$doc->document_title,'user_id'=>\Auth::user()->id])->count();
+                        $uploadeddoc+= \App\UploadedDocument::where(['slug'=>$doc->slug,'user_id'=>\Auth::user()->id])->count();
                         }
                         $totaluploaded+=$uploadeddoc;
                         $title="Vehicle";

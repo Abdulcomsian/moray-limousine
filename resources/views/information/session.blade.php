@@ -212,7 +212,14 @@ Company Information
                     <ul>
                         @foreach($documents as $document)
                         @php
+                        if($document->applied_on=='driver')
+                        {
+                        $driver=\App\User::where('creator_id',\Auth::user()->id)->first();
+                        $uploadedcount=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>$driver->id])->count();
+                        }else{
                         $uploadedcount=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
+                        }
+
                         if($uploadedcount<=0) { $class="fa-upload" ;$bg='#80808047' ; } else { $class="fa-check" ; $bg='#97e2c6' ; } @endphp <li style="background:{{$bg}}">
                             <a href="{{url('info/upload?type='.$documents[0]->applied_on.'&title='.$document->document_title.'')}}">
                                 <span>{{$document->document_title}}</span>
@@ -225,7 +232,7 @@ Company Information
                     </ul>
                 </div>
             </div>
-            <button style="margin-top:50px;">Next</button>
+            <a href="{{url('info/documents')}}"><button style="margin-top:50px;">Next</button></a>
         </div>
     </div>
 </div>
