@@ -372,7 +372,6 @@
                 $("#partner-register-form").submit();
             }
         });
-
         $('#city-select').on('change', function() {
             cityid = $(this).val();
             $.ajax({
