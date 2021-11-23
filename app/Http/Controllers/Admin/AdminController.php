@@ -108,12 +108,10 @@ class AdminController extends Controller
         $user = new User();
         $user = $user->registerDriver($request->all());
         $successMessage = 'Success !   Driver Created Successfully';
-        $registered_msg = array_merge($this->register_driver_msg, ['body' => 'You are Registered On Moray Limousines by Admin . Please Check your account By using password : " ' . $request['password'] . ' "  ! Enjoy With Us.  ']);
+        $registered_msg = array_merge($this->register_driver_msg, ['body' => 'You  Registered On Moray Limousine by Admin . Please Check your account By using password : " ' . $request['password'] . ' "  ! Enjoy With Us.  ']);
         $user->notify(new MorayLimousineNotifications($registered_msg));
         return response()->json($successMessage);
     }
-
-
     /**
      * @param $id
      * @return Factory|\Illuminate\View\View
@@ -655,28 +653,28 @@ class AdminController extends Controller
         'action_url' => '/home',
     ];
     private $register_driver_msg = [
-        'greeting' => 'Your Account Is Registered on Moray Limousine By Using This Email Address',
+        'greeting' => 'Your Account is Registered on Moray Limousine By Using This Email Address',
         'subject' => 'Account Registered',
         'thanks_text' => 'Thanks For Using Moray Limousine',
         'action_text' => 'View My Site',
         'action_url' => '/home',
     ];
     private $block_driver_msg = [
-        'greeting' => 'Your Account Is Blocked on Moray Limousine',
+        'greeting' => 'Your Account has been Blocked on Moray Limousine',
         'subject' => 'Account Blocked',
         'thanks_text' => 'Thanks For Using Moray Limousine',
         'action_text' => 'View My Site',
         'action_url' => '/home',
     ];
     private $approve_driver_msg = [
-        'greeting' => 'Your Account Is Approved by Moray Limousine',
+        'greeting' => 'Your Account has been Approved by Moray Limousine.',
         'subject' => 'Account Approved',
         'thanks_text' => 'Thanks For Using Moray Limousine',
         'action_text' => 'View My Site',
         'action_url' => '/driver/dashboard',
     ];
     private $disapprove_driver_msg = [
-        'greeting' => 'Your Account Is Not Approved by Moray Limousine',
+        'greeting' => 'Your Account has Not been Approved by Moray Limousine',
         'subject' => 'Account Disapproved',
         'thanks_text' => 'Thanks For Using Moray Limousine',
         'action_text' => 'View My Site',
@@ -690,4 +688,50 @@ class AdminController extends Controller
         'password' => 'required|string|min:6|confirmed',
         'user_type' => 'required|string|max:15',
     ];
+
+
+
+    // Legal form of company
+
+
+    //req action
+    public function legal_req()
+    {
+
+
+        $cities = DB::table('locations')->get();
+        $legal_form_data = DB::table('locations')
+            ->select('legal.id', 'legal.city_id', 'legal.legal_form', 'locations.location_city')
+            ->join('legal_form_of_company as legal', 'legal.city_id', '=', 'locations.id')->get();
+        return view('admin.legal-form-of-company.index', compact('legal_form_data', 'cities'));
+    }
+
+
+    //save partner req
+    public function legal_req_save(Request $request)
+    {
+        // dd($request->all());
+        $legal_form = $request->legal_form;
+        foreach ($legal_form as $data) {
+
+            DB::table('legal_form_of_company')->insert(['city_id' => $request->city_id, 'legal_form' => $data]);
+        }
+
+        return redirect('/legal-form-of-company')->with('success', 'Legal form against city added Successfully!! ...');
+    }
+
+
+    //update req
+    public function legal_req_update(Request $request)
+    {
+        DB::table('legal_form_of_company')->where('id', $request->id)->update(['city_id' => $request->city_id, 'legal_form' => $request->legal_form]);
+        return redirect('/legal-form-of-company')->with('success', 'Legal form against city Updated Successfully!! ...');
+    }
+
+    //delete partner req
+    public function legal_req_delete(Request $request)
+    {
+        DB::table('legal_form_of_company')->where('id', $request->id)->delete();
+        return redirect('/legal-form-of-company')->with('success', 'Legal form against city Deleted Successfully!! ...');
+    }
 }

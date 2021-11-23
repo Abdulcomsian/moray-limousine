@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Session;
+use DB;
 
 class HomeController extends Controller
 {
@@ -42,7 +43,7 @@ class HomeController extends Controller
     protected $notify_user_enquiry = [
         'greeting' => 'Your enquiry is received on Moray Limousines',
         'subject' => 'Enquiry Is Received',
-        'body'=> 'Your enquiry is received on Moray Limousines Thanks for your response we will respond you ( if needed ) soon.',
+        'body' => 'Your enquiry is received on Moray Limousines Thanks for your response we will respond you ( if needed ) soon.',
         'thanks_text' => 'Thanks For Using Moray Limousine',
         'action_text' => 'View My Site',
         'action_url' => 'user/profile',
@@ -55,19 +56,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-      
+
         $data['categories'] = VehicleCategory::all();
         $data['config'] = Configuration::first();
-        $data['logos'] = HappyClient::all() ;
+        $data['logos'] = HappyClient::all();
 
-        return view('home.index',$data);
+        return view('home.index', $data);
     }
 
 
     /**
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function userLogout(){
+    public function userLogout()
+    {
         Auth()->logout();
         return redirect(route('login'));
     }
@@ -77,14 +79,14 @@ class HomeController extends Controller
     {
         $homeCMS = CmsHomePage::all();
         $home_content = [];
-        foreach ($homeCMS as $home){
+        foreach ($homeCMS as $home) {
             $item_name = $home->item_name;
             $home_content += [$item_name => $home->item_content];
         }
         $data['home_content'] = $home_content;
         $categories = VehicleCategory::all();
         $data['categories'] = $categories;
-        return view('siteheader.our-feet',$data);
+        return view('siteheader.our-feet', $data);
     }
 
     /**
@@ -95,12 +97,12 @@ class HomeController extends Controller
     {
         $homeCMS = CmsHomePage::all();
         $home_content = [];
-        foreach ($homeCMS as $home){
+        foreach ($homeCMS as $home) {
             $item_name = $home->item_name;
             $home_content += [$item_name => $home->item_content];
         }
         $data['home_content'] = $home_content;
-        return view('siteheader.about-us',$data);
+        return view('siteheader.about-us', $data);
     }
 
     /**
@@ -110,12 +112,12 @@ class HomeController extends Controller
     {
         $homeCMS = CmsHomePage::all();
         $home_content = [];
-        foreach ($homeCMS as $home){
+        foreach ($homeCMS as $home) {
             $item_name = $home->item_name;
             $home_content += [$item_name => $home->item_content];
         }
         $data['home_content'] = $home_content;
-        return view('siteheader.contact-us',$data);
+        return view('siteheader.contact-us', $data);
     }
 
     /**
@@ -132,11 +134,11 @@ class HomeController extends Controller
         ]);
         $from_data = request()->all();
         $enquiry_msg =  Contactus::create($from_data);
-        $admin = $this->user->where('user_type' ,'admin')->get();
-        $notify_admin_enquiry = array_merge($this->notify_admin_enquiry,['body'=> $enquiry_msg->comment]);
+        $admin = $this->user->where('user_type', 'admin')->get();
+        $notify_admin_enquiry = array_merge($this->notify_admin_enquiry, ['body' => $enquiry_msg->comment]);
         Notification::send($admin, new MorayLimousineNotifications($notify_admin_enquiry));
         $user->notify(new MorayLimousineNotifications($this->notify_user_enquiry));
-        return redirect()->back()->with('success','Success ... !  Your Message is Submitted Successfully .');
+        return redirect()->back()->with('success', 'Success ... !  Your Message is Submitted Successfully .');
     }
 
     /**
@@ -154,14 +156,15 @@ class HomeController extends Controller
     {
         $services = CmsService::all();
         $config = Configuration::all()->first();
-        return view('siteheader.airport-transfer')->with('services',$services)->with('config',$config);
+        return view('siteheader.airport-transfer')->with('services', $services)->with('config', $config);
     }
 
-    public function serviceDetail($id){
+    public function serviceDetail($id)
+    {
         $service = CmsService::find($id);
         $services = CmsService::all()->take(10);
         $config = Configuration::all()->first();
-        return view('siteheader.service-detail')->with('service',$service)->with('services',$services)->with('config',$config);
+        return view('siteheader.service-detail')->with('service', $service)->with('services', $services)->with('config', $config);
     }
 
     public function ariporttransfer()
@@ -184,17 +187,59 @@ class HomeController extends Controller
     /**
      * @return Factory|\Illuminate\View\View
      */
-    public function faq(){
-        $faqs =CmsFaq::all();
-        return view('home.faq')->with('faqs',$faqs);
+    public function faq()
+    {
+        $faqs = CmsFaq::all();
+        return view('home.faq')->with('faqs', $faqs);
     }
 
 
-    public function footerPageOne(){
+    public function footerPageOne()
+    {
         return view('siteheader.footer-page-one');
     }
 
-    public function footerPageTwo(){
+    public function footerPageTwo()
+    {
         return view('siteheader.footer-page-two');
     }
+
+    //send expiry date doc notificatin
+    public function send_expiry_date_notify()
+    {
+        $current = Carbon::now()->toDateString();
+        $notifydata = DB::table('uploadeddocuments')
+            ->join('users', 'users.id', '=', 'uploadeddocuments.user_id')
+            ->whereNotNull('expiry_date')->get();
+        $admin = User::where('user_type', 'admin')->first();
+        foreach ($notifydata as $data) {
+            $to = \Carbon\Carbon::createFromFormat('Y-m-d', $data->expiry_date);
+            $diff_in_days = $to->diffInDays($current);
+            $user = new User();
+            $user->id = $data->id;
+            $user->email = $data->email;
+            if ($diff_in_days == 14) {
+                $approve_msg =  array_merge($this->approve_driver_msg, ['body' => 'Your Document will be expired After 14 days please renew your docuemt. ']);
+                $user->notify(new MorayLimousineNotifications($approve_msg));
+            }
+            if ($diff_in_days == 1) {
+                $approve_msg =  array_merge($this->admin_notify_expiry_msg, ['body' => 'Hi Admin the User ' . $data->first_name . ' ' . $data->last_name . ' doucemnts will expired soon']);
+                $admin->notify(new MorayLimousineNotifications($approve_msg));
+            }
+        }
+    }
+    private $approve_driver_msg = [
+        'greeting' => 'Document expired.',
+        'subject' => 'Document Expired Notify',
+        'thanks_text' => 'Thanks For Using Moray Limousine',
+        'action_text' => 'View My Site',
+        'action_url' => '/driver/dashboard',
+    ];
+    private $admin_notify_expiry_msg = [
+        'greeting' => 'Document expired.',
+        'subject' => 'Document Expired',
+        'thanks_text' => 'Thanks For Using Moray Limousine',
+        'action_text' => 'View My Site',
+        'action_url' => '/driver/dashboard',
+    ];
 }

@@ -26,58 +26,65 @@ class User extends Authenticatable implements CanVerifyEmailContract
      * @var array
      */
     protected $fillable = [
-        'first_name','last_name', 'email', 'password','phone_number','user_type','creator_id','status'
+        'first_name', 'last_name', 'email', 'password', 'phone_number', 'user_type', 'creator_id', 'status'
     ];
 
     /**
      * @return HasOne
      */
-      public function sendEmailVerificationNotification($token, $expiration)
+    public function sendEmailVerificationNotification($token, $expiration)
     {
-        $this->notify(new Emailvarification($token, $expiration,$this->email));
+        $this->notify(new Emailvarification($token, $expiration, $this->email));
     }
-    public function partner(){
+    public function partner()
+    {
         return $this->hasOne(Partner::class);
     }
 
     /**
      * @return HasOne
      */
-    public function driver(){
+    public function driver()
+    {
         return $this->hasOne(Driver::class);
     }
 
     /**
      * @return HasMany
      */
-    public function uploadedDocuments(){
+    public function uploadedDocuments()
+    {
         return $this->hasMany(UploadedDocument::class);
     }
 
     /**
      * @return HasOne
      */
-    public function endUser(){
+    public function endUser()
+    {
         return $this->hasOne(Enduser::class);
     }
 
     /**
      * @return HasOne
      */
-    public function userMedia(){
-       return $this->hasOne(UsersMedia::class);
+    public function userMedia()
+    {
+        return $this->hasOne(UsersMedia::class);
     }
 
     /**
      * @return HasMany
      */
-    public function bookings(){
+    public function bookings()
+    {
         return $this->hasMany(Booking::class);
     }
 
 
 
-    public function userName(){
+    public function userName()
+    {
         return $this->first_name . ' ' . $this->last_name;
     }
 
@@ -85,23 +92,30 @@ class User extends Authenticatable implements CanVerifyEmailContract
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
 
-    public function locations(){
-        return $this->belongsToMany(Location::class, 'user_location',
-            'user_id', 'location_id')->withTimestamps();
+    public function locations()
+    {
+        return $this->belongsToMany(
+            Location::class,
+            'user_location',
+            'user_id',
+            'location_id'
+        )->withTimestamps();
     }
 
     /**
      * @return BelongsToMany
      */
-    public function users(){
-        return $this->belongsToMany(User::class,'user_user','creator_id','user_id')->withPivot('status')->withTimestamps();
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_user', 'creator_id', 'user_id')->withPivot('status')->withTimestamps();
     }
 
     /**
      * @return BelongsToMany
      */
-    public function addedByUsers(){
-        return $this->belongsToMany(User::class,'user_user','user_id','creator_id')->withPivot('status')->withTimestamps();
+    public function addedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'user_user', 'user_id', 'creator_id')->withPivot('status')->withTimestamps();
     }
 
 
@@ -109,7 +123,8 @@ class User extends Authenticatable implements CanVerifyEmailContract
      * @param $data
      * @return mixed
      */
-    public function registerDriver($data){
+    public function registerDriver($data)
+    {
         return $this::create([
 
             'first_name' => $data['first_name'],
@@ -134,17 +149,23 @@ class User extends Authenticatable implements CanVerifyEmailContract
     /**
      * @return BelongsToMany
      */
-    public function booking(){
-        return $this->belongsToMany(Booking::class, 'booking_user',
-            'user_id', 'booking_id')
-            ->withPivot('status','assigned_at', 'booking_date', 'commission', 'calculated_price', 'assigned_to');
+    public function booking()
+    {
+        return $this->belongsToMany(
+            Booking::class,
+            'booking_user',
+            'user_id',
+            'booking_id'
+        )
+            ->withPivot('status', 'assigned_at', 'booking_date', 'commission', 'calculated_price', 'assigned_to');
     }
 
     /**
      * @param $id
      * @return mixed
      */
-    public function findPartner($id){
+    public function findPartner($id)
+    {
         return $this::find($id);
     }
 
@@ -152,7 +173,8 @@ class User extends Authenticatable implements CanVerifyEmailContract
      * @param $duration_In_Sec
      * @return float|int
      */
-    public function durationInHour($duration_In_Sec){
+    public function durationInHour($duration_In_Sec)
+    {
         $minutes = floor($duration_In_Sec / 60);
         $inHour = $minutes / 60;
         return $inHour;
@@ -167,14 +189,15 @@ class User extends Authenticatable implements CanVerifyEmailContract
      * @param $grand_total
      * @return mixed
      */
-    public function storeExtendedBooking($form_data ,$booking, $extended_amount, $grand_total){
+    public function storeExtendedBooking($form_data, $booking, $extended_amount, $grand_total)
+    {
         $tax_rate = 0.0;
         if (!empty(Configuration::first()->tax_rate)) {
             $tax_rate = Configuration::first()->tax_rate;
         }
-        if ($booking->booking_type == 'time'){
-             $form_data['new_drop_lat'] = 0.000;
-             $form_data['new_drop_long'] = 0.000;
+        if ($booking->booking_type == 'time') {
+            $form_data['new_drop_lat'] = 0.000;
+            $form_data['new_drop_long'] = 0.000;
             $form_data['new_drop_location'] = "This Booking is in hours";
             $form_data['extended_duration'] = $form_data['selected_hour'];
         }

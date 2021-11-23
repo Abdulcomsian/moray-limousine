@@ -28,7 +28,7 @@ Become Partner
         <div class="lsp-page">
             <div class="row lsp-page--header">
                 <h2 class="lsp-page--title">Thank you!</h2>
-                <h4 class="lsp-page--description">Your registration process has been completed Admin will check and Approved your account.</h4>
+                <h4 class="lsp-page--description">Your registration process has been completed Admin will check and Approve your account.</h4>
             </div>
         </div>
     </div>

@@ -283,6 +283,12 @@
         <i class="icon-eye menu-icon"></i>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{url('/legal-form-of-company')}}" aria-expanded="false" aria-controls="ui-basic">
+        <span class="menu-title">Legal Form of Company</span>
+        <i class="icon-eye menu-icon"></i>
+      </a>
+    </li>
 
     </ul>
     </nav>
