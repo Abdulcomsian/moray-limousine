@@ -247,7 +247,7 @@ Company Information
                 @else
                 <input type="hidden" name="form_type" value="Add" />
                 @endif
-                <input type="hidden" name="title" value="{{$title}}" />
+                <input type="hidden" name="title" value="{{$doc->document_title}}" />
                 <input type="hidden" name="type" value="{{$type}}" />
                 @if(isset($driver->id))
                 <input type="hidden" name="driverid" value="{{$driver->id}}" />

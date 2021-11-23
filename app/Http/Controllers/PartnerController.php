@@ -727,7 +727,7 @@ class PartnerController extends Controller
         $user->password = Hash::make('driver');
         if ($user->save()) {
             event(new Registered($user));
-            $approve_msg =  array_merge($this->temporay_driver_message, ['body' => 'Your Temporary password is driver ']);
+            $approve_msg =  array_merge($this->temporay_driver_message, ['body' => 'Your Temporary password is driver you can change your password after login. ']);
             $user->notify(new MorayLimousineNotifications($approve_msg));
             $partner = Partner::where('user_id', Auth::user()->id)->first();
             $partner->step_url = 'info/vehicle';
