@@ -276,7 +276,7 @@ Company Information
                     @endif
                 </div>
                 <div class="d-flex btnDiv">
-                    <button style="margin-top:30px;">Cancel</button>
+                    <a href="{{url('info/session?type='.$type.'')}}"><button type="button" style="margin-top:30px;">Cancel</button></a>
                     <button type="submit" style="margin-top:30px;">Upload</button>
                 </div>
             </form>
