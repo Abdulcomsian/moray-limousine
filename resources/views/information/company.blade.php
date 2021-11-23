@@ -171,7 +171,27 @@ Company Information
                             <label>Legal name of your company. Sole proprietors enter first and last name.</label>
                         </div>
                     </div>
+                    <div class="apollo-input pt-3" style="width: 100%;">
+                        <div class="input-label">
+                            <label>City</label>
+                        </div>
+                        <div class="input-field">
+                            <select id="city" name="city" class="form-control" required>
+                                <option value="">Select City</option>
+                                @foreach($cities as $city)
+                                <option value="{{$city->id}}" @if(\Auth::user()->partner->city == $city->id){{'selected'}}@endif>{{$city->location_city}}</option>
+                                @endforeach
+                            </select>
 
+                            <!-- <input id="city" name="city" value="{{\Auth::user()->partner->city ?? ''}}" type="text" required class="form-control input-field__element"> -->
+                        </div>
+                        @if($errors->has('city'))
+                        <div class="text-danger">{{ $errors->first('city') }}</div>
+                        @endif
+                        <div class="input-desc">
+                            <label>Enter the city where your company is based, which may differ from where you operate.</label>
+                        </div>
+                    </div>
                     <div class="apollo-input pt-4" style="width: 100%;">
                         <div class="input-label">
                             <label>Legal form of company</label>
@@ -180,15 +200,9 @@ Company Information
                             <select class="custom-select" id="legal-form" name="legal_form">
                                 <option value=" ">Please select</option>
                                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                <option value="Sole Proprietorship" @if(\Auth::user()->partner->legal_form_company=='Sole Proprietorship'){{'selected'}}@endif>Sole Proprietorship</option>
-                                <option value="S.A." @if(\Auth::user()->partner->legal_form_company=='S.A.'){{"selected"}}@endif>S.A.</option>
-                                <option value="S.L." @if(\Auth::user()->partner->legal_form_company=="S.L."){{'selected'}}@endif>S.L.</option>
-                                <option value="S.L.N.E." @if(\Auth::user()->partner->legal_form_company=="S.L.N.E."){{'selected'}}@endif>S.L.N.E.</option>
-                                <option value="S.L.L." @if(\Auth::user()->partner->legal_form_company=="S.L.L."){{'seleted'}}@endif>S.L.L.</option>
-                                <option value="S.C." @if(\Auth::user()->partner->legal_form_company=="S.C."){{'selected'}}@endif>S.C.</option>
-                                <option value="S.C.P." @if(\Auth::user()->partner->legal_form_company=="S.C.P."){{'selected'}}@endif>S.C.P.</option>
-                                <option value="S.Cra." @if(\Auth::user()->partner->legal_form_company=="S.Cra."){{'selected'}}@endif>S.Cra.</option>
-                                <option value="S.Coop." @if(\Auth::user()->partner->legal_form_company==='S.Coop.'){{'selected'}}@endif>S.Coop.</option>
+                                @foreach($legalform as $form)
+                                <option value="{{$form->id}}" @if(\Auth::user()->partner->legal_form_company==$form->id){{'selected'}}@endif>{{$form->legal_form}}</option>
+                                @endforeach
                             </select>
 
                         </div>
@@ -241,21 +255,6 @@ Company Information
                         <div class="text-danger">{{ $errors->first('companyAddress') }}</div>
                         @endif
                     </div>
-
-                    <div class="apollo-input pt-3" style="width: 100%;">
-                        <div class="input-label">
-                            <label>City</label>
-                        </div>
-                        <div class="input-field">
-                            <input id="city" name="city" value="{{\Auth::user()->partner->city ?? ''}}" type="text" required class="form-control input-field__element">
-                        </div>
-                        @if($errors->has('city'))
-                        <div class="text-danger">{{ $errors->first('city') }}</div>
-                        @endif
-                        <div class="input-desc">
-                            <label>Enter the city where your company is based, which may differ from where you operate.</label>
-                        </div>
-                    </div>
                     <div class="apollo-input pt-3" style="width: 100%;">
                         <div class="input-label">
                             <label>Postal code</label>
@@ -305,4 +304,22 @@ Company Information
         </div>
     </main>
 </form>
+@endsection
+@section('js')
+<script>
+    $("#city").on('change', function() {
+        cityid = $("#city").val();
+        $.ajax({
+            url: "{{url('/get-city-legal-form')}}",
+            method: "get",
+            data: {
+                cityid: cityid
+            },
+            success: function(res) {
+                $("#legal-form").html(res);
+            }
+
+        })
+    })
+</script>
 @endsection

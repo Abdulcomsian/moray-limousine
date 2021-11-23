@@ -631,6 +631,17 @@ class PartnerController extends Controller
         }
         echo $list;
     }
+    //get leagal form
+    public function get_city_legal_form(Request $request)
+    {
+        $cityid = $request->cityid;
+        $legal_form_data = DB::table('legal_form_of_company')->where('city_id', $cityid)->get();
+        $list = '<option value="">Select Legal Form</option>';
+        foreach ($legal_form_data as $data) {
+            $list .= '<option value=' . $data->id . '>' . $data->legal_form . '</option>';
+        }
+        echo $list;
+    }
     //save basic 
     public function info_basic_save(Request $request)
     {
@@ -716,12 +727,21 @@ class PartnerController extends Controller
         $user->password = Hash::make('driver');
         if ($user->save()) {
             event(new Registered($user));
+            $approve_msg =  array_merge($this->temporay_driver_message, ['body' => 'Your Temporary password is driver ']);
+            $user->notify(new MorayLimousineNotifications($approve_msg));
             $partner = Partner::where('user_id', Auth::user()->id)->first();
             $partner->step_url = 'info/vehicle';
             $partner->save();
             return redirect('info/vehicle');
         }
     }
+    private $temporay_driver_message = [
+        'greeting' => 'Temporary Password',
+        'subject' => 'Temporary Password',
+        'thanks_text' => 'Thanks For Using Moray Limousine',
+        'action_text' => 'View My Site',
+        'action_url' => '/driver/dashboard',
+    ];
     //save vehicle
     public function save_vehicle(Request $request)
     {
@@ -796,13 +816,14 @@ class PartnerController extends Controller
         $type = $request->type;
         $driver = [];
         $vehicle = [];
+        $uploadeddoc = UploadedDocument::where(['slug' => $title, 'user_id' => Auth::user()->id])->first();
         if ($request->type == "driver") {
             $driver = User::where(['user_type' => 'driver', 'creator_id' => Auth::user()->id])->first();
+            $uploadeddoc = UploadedDocument::where(['slug' => $title, 'user_id' => $driver->id])->first();
         } elseif ($request->type == "vehicle") {
             $vehicle = Vehicle::where(['creator_id' => Auth::user()->id])->first();
         }
-        $uploadeddoc = UploadedDocument::where(['document_title' => $title, 'user_id' => Auth::user()->id])->first();
-        $doc = Document::where('document_title', $title)->first();
+        $doc = Document::where('slug', $title)->first();
         return view('information.upload', compact('title', 'type', 'uploadeddoc', 'driver', 'vehicle', 'doc'));
     }
     //upload documents\

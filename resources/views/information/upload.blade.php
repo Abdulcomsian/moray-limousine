@@ -237,7 +237,7 @@ Company Information
     </div>
     <div class="lsp-page">
         <div class="row lsp-page--header ">
-            <h2 class="lsp-page--title">{{$title}}</h2>
+            <h2 class="lsp-page--title">{{$doc->document_title}}</h2>
             <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" id="slug" name="slug" value="{{$doc->slug}}" />

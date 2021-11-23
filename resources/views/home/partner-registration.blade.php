@@ -267,7 +267,7 @@
                     </div>
                     <div class="actions">
                         <button type="button" class="third-pravious-page">Previous</button>
-                        <button type="button" class="submit-page">Submit</button>
+                        <button type="button" class="submit-page lastsubmit" disabled>Submit</button>
                     </div>
                     <div class="row">
                         <a href="{{url('/login')}}">Already a partner?</a>
@@ -387,6 +387,14 @@
                 }
 
             })
+        });
+        //check if radio button is yes or no
+        $('input[type=radio][name=documentradio]').change(function() {
+            if ($(this).val() == '0') {
+                return false;
+            } else {
+                $(".lastsubmit").removeAttr('disabled');
+            }
         });
     </script>
     @endsection

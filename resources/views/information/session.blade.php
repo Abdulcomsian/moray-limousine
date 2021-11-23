@@ -215,13 +215,13 @@ Company Information
                         if($document->applied_on=='driver')
                         {
                         $driver=\App\User::where('creator_id',\Auth::user()->id)->first();
-                        $uploadedcount=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>$driver->id])->count();
+                        $uploadedcount=\App\UploadedDocument::where(['document_title'=>$document->slug,'user_id'=>$driver->id])->count();
                         }else{
-                        $uploadedcount=\App\UploadedDocument::where(['document_title'=>$document->document_title,'user_id'=>\Auth::user()->id])->count();
+                        $uploadedcount=\App\UploadedDocument::where(['document_title'=>$document->slug,'user_id'=>\Auth::user()->id])->count();
                         }
 
                         if($uploadedcount<=0) { $class="fa-upload" ;$bg='#80808047' ; } else { $class="fa-check" ; $bg='#97e2c6' ; } @endphp <li style="background:{{$bg}}">
-                            <a href="{{url('info/upload?type='.$documents[0]->applied_on.'&title='.$document->document_title.'')}}">
+                            <a href="{{url('info/upload?type='.$documents[0]->applied_on.'&title='.$document->slug.'')}}">
                                 <span>{{$document->document_title}}</span>
                                 <div class="countDiv">
                                     <i class="fa {{$class}}"></i>

@@ -23,6 +23,8 @@ use App\VehicleSubtype;
 use GuzzleHttp\Psr7\Request;
 
 Auth::routes();
+//work for cron job here
+Route::get('send/expiry/notify', 'HomeController@send_expiry_date_notify')->name('send.expiry.notify');
 Route::get('register/verify', 'Auth\RegisterController@verify')->name('verifyEmailLink');
 Route::get('register/verify/resend', 'Auth\RegisterController@showResendVerificationEmailForm')->name('showResendVerificationEmailForm');
 Route::post('register/verify/resend', 'Auth\RegisterController@resendVerificationEmail')->name('resendVerificationEmail');
@@ -47,16 +49,9 @@ Route::get('/partner-registration', function () {
     return view('home.partner-registration', compact('locations'));
 });
 Route::get('check-email', 'PartnerController@check_email');
-
-// Route::get('company-information', function () {
-//     $data['category'] = VehicleCategory::all();
-//     $documents = Document::orderBy('applied_on', 'asc')->get();
-//     $VehicleSubtype = VehicleSubtype::get();
-//     return view('home.company-information', compact('data', 'documents', 'VehicleSubtype'));
-// });
-
 Route::get('/get-city-vehicle', 'PartnerController@get_city_vehicle')->name('get-city-vehicle');
 Route::get('/get-city-document', 'PartnerController@get_city_document')->name('get-city-document');
+Route::get('/get-city-legal-form', 'PartnerController@get_city_legal_form')->name('get-city-legal-form');
 Route::get('/become-driver', 'DriverController@becomeDriver')->name('driver.becomeDriver');
 Route::get('/Faq', 'HomeController@faq');
 Route::get('/mpressum', 'HomeController@footerPageOne');
@@ -226,7 +221,9 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
                 return view('information.welcome');
             });
             Route::get('info/company', function () {
-                return view('information.company');
+                $cities = DB::table('locations')->get();
+                $legalform = DB::table('legal_form_of_company')->get();
+                return view('information.company', compact('cities', 'legalform'));
             });
             Route::get('info/driver', function () {
                 $driver = User::where(['user_type' => 'driver', 'creator_id' => Auth::user()->id])->first();
@@ -448,5 +445,14 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         Route::post('/partner-reg-req-save', 'Admin\AdminController@partner_req_save');
         Route::post('/partner-reg-req-update', 'Admin\AdminController@partner_req_update');
         Route::post('/partner-reg-req-delete', 'Admin\AdminController@partner_req_delete');
+
+
+        // Legal form of Company
+
+        //partner registration requirements
+        Route::get('/legal-form-of-company', 'Admin\AdminController@legal_req')->name('legal-form-of-company');
+        Route::post('/legal-form-of-company-save', 'Admin\AdminController@legal_req_save');
+        Route::post('/legal-form-of-company-update', 'Admin\AdminController@legal_req_update');
+        Route::post('/legal-form-of-company-delete', 'Admin\AdminController@legal_req_delete');
     });
 });
