@@ -800,7 +800,7 @@ class PartnerController extends Controller
     //get info documents
     public function info_documents()
     {
-        $documents = Document::select('id', 'applied_on', 'document_title', DB::raw('count(document_title) as total'))->groupBy('applied_on')->get();
+        $documents = Document::select('id', 'applied_on', 'document_title', 'slug', DB::raw('count(document_title) as total'))->groupBy('applied_on')->get();
         return view('information.documents', compact('documents'));
     }
     //inof session
