@@ -219,11 +219,11 @@ class HomeController extends Controller
             $user->id = $data->id;
             $user->email = $data->email;
             if ($diff_in_days == 14) {
-                $approve_msg =  array_merge($this->approve_driver_msg, ['body' => 'Your Document will be expired After 14 days please renew your docuemt. ']);
+                $approve_msg =  array_merge($this->approve_driver_msg, ['body' => 'Your uploaded document expiry date is in 14 days. Please renew your document.']);
                 $user->notify(new MorayLimousineNotifications($approve_msg));
             }
             if ($diff_in_days == 1) {
-                $approve_msg =  array_merge($this->admin_notify_expiry_msg, ['body' => 'Hi Admin the User ' . $data->first_name . ' ' . $data->last_name . ' doucemnts will expired soon']);
+                $approve_msg =  array_merge($this->admin_notify_expiry_msg, ['body' => 'Expiry date of document ' . $data->document_title . ' for User ' . $data->first_name . ' ' . $data->last_name . '  is in 1 day. Please take necessary action']);
                 $admin->notify(new MorayLimousineNotifications($approve_msg));
             }
         }
