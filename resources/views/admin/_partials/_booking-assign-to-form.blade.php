@@ -28,8 +28,9 @@
         <input type="hidden" name="type" value="partner">
         <div class="col-md-4">
             <label for="partner">Select Partners: </label>
-            <select data-placeholder="Select Partner" multiple class="assign-booking" id="partner" name="partner_id[]">
+            <select data-placeholder="Select Partner" multiple  class="assign-booking" id="partner" name="partner_id[]">
                 <option></option>
+
                 @foreach($partners as $partner)
                     <option value="{{$partner->id}}">{{$partner->userName()}}</option>
                 @endforeach
