@@ -238,7 +238,20 @@ Company Information
                             <label>Phone number</label>
                         </div>
                         <div class="input-field">
-                            <input id="phoneNumber" name="phoneNumber" value="{{\Auth::user()->phone_number ?? ''}}" type="number" required class="form-control input-field__element">
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                    <select  class="custom-select" name="code" style="height: 50px">
+                                        <option value="">Select Code</option>
+                                         <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                        @php $i=1;@endphp
+                                        @foreach($coutnrycode as $code)
+                                         <option value="{{$code->phonecode}}" @if(\Auth::user()->partner->country_code==$code->phonecode){{'selected'}}@elseif($i==1){{'selected'}}@endif>{{$code->phonecode}}</option>
+                                         @php $i++ @endphp
+                                        @endforeach
+                                    </select>
+                              </div>
+                              <input id="phoneNumber" name="phoneNumber" value="{{\Auth::user()->phone_number ?? ''}}" type="text" required class="form-control input-field__element">
+                            </div>
                         </div>
                         @if($errors->has('phoneNumber'))
                         <div class="text-danger">{{ $errors->first('phoneNumber') }}</div>

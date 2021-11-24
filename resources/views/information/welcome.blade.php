@@ -47,11 +47,23 @@ Become Partner
                                 <label>Password</label>
                             </div>
                             <div class="input-field">
-                                <input id="password" name="password" type="password" required class="form-control input-field__element" value="{{$driver->first_name ?? ''}}">
+                                <input id="password" name="password" type="password" required class="form-control input-field__element">
                                 <span>minimum 8 character length</span>
                             </div>
                             @if($errors->has('password'))
                             <div class="text-danger">{{ $errors->first('password') }}</div>
+                            @endif
+                        </div>
+                        <div class="apollo-input pt-3" style="width: 100%;">
+                            <div class="input-label">
+                                <label>Confirm Password</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="cpassword" name="password_confirmation" type="password" required class="form-control input-field__element">
+                                <span>minimum 8 character length</span>
+                            </div>
+                            @if($errors->has('password_confirmation'))
+                            <div class="text-danger">{{ $errors->first('password_confirmation') }}</div>
                             @endif
                         </div>
                         <div class="actions pt-5">

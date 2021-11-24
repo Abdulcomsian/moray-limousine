@@ -646,7 +646,7 @@ class PartnerController extends Controller
     public function info_basic_save(Request $request)
     {
         $this->validate($request, [
-            'password' => 'required|string|min:8|',
+            'password' => 'required|string|min:8|confirmed',
         ]);
         $user = User::find(Auth::user()->id);
         $user->password = Hash::make($request->password);
@@ -690,6 +690,7 @@ class PartnerController extends Controller
             $partner->vat_sales_tax_no = $request->vat_sales;
             $partner->user_id = $id;
             $partner->phone_number = $request->phoneNumber;
+            $partner->country_code=$request->code;
             $partner->default_location = '';
             $partner->country = $request->country;
             $partner->step_url = 'info/driver';

@@ -18,6 +18,7 @@ use App\VehicleModel;
 use App\VehicleType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use DB;
 
 class VehicleController extends Controller
 {
@@ -326,6 +327,44 @@ class VehicleController extends Controller
                 ->orderBy('id', 'desc')->get();
         }
         return view('parshall-views._vehicle-listing-table', $data);
+    }
+
+    //production list year
+    public function productionList()
+    {
+        $production_years = DB::table('year_production')->get();
+        $standards = DB::table('standard')->get();
+        return view('admin.production.production-list', compact('production_years', 'standards'));
+    }
+    public function productionSave(Request $request)
+    {
+        DB::table('year_production')->insert(['production_year' => $request->year]);
+        return redirect('admin/production-list')->with('success', 'Year Added Successfully ');
+    }
+    public function productionUpdate(Request $request)
+    {
+        DB::table('year_production')->update(['production_year' => $request->year]);
+        return redirect('admin/production-list')->with('success', 'Year Updated Successfully ');
+    }
+    public function productionDelete(Request $request)
+    {
+        DB::table('year_production')->delete(['id' => $request->id]);
+        return redirect('admin/production-list')->with('success', 'Year Deleted Successfully ');
+    }
+    public function standardSave(Request $request)
+    {
+        DB::table('standard')->insert(['standard' => $request->standard]);
+        return redirect('admin/production-list')->with('success', 'Standard Added Successfully ');
+    }
+    public function standardUpdate(Request $request)
+    {
+        DB::table('standard')->update(['standard' => $request->standard]);
+        return redirect('admin/production-list')->with('success', 'Standard Updated Successfully ');
+    }
+    public function standardDelete(Request $request)
+    {
+        DB::table('standard')->delete(['id' => $request->id]);
+        return redirect('admin/production-list')->with('success', 'Standard Deleted Successfully ');
     }
 
     protected $notifyvehicleapprovedMsg = [

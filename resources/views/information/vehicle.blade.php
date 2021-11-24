@@ -244,7 +244,10 @@ Company Information
                         <select class="custom-select" id="model_no" name="model_no" required>
                             <option value="">Please select</option>
                             <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                            <option value="2019" @if($vehicle->model_no ?? ''=="2019"){{'selected'}}@endif>2019</option>
+                            @foreach($proudctionyear as $year)
+                            <option value="{{$year->id}}" @if($vehicle->model_no ?? ''==$year->production_year){{'selected'}}@endif>{{$year->production_year}}</option>
+                            @endforeach
+
                             <option value="2018" @if($vehicle->model_no ?? ''=="2018"){{'selected'}}@endif>2018</option>
                             <option value="2017" @if($vehicle->model_no ?? ''=="2017"){{'selected'}}@endif>2017</option>
                             <option value="2016" @if($vehicle->model_no ?? ''=="2016"){{'selected'}}@endif>2016</option>
@@ -263,11 +266,9 @@ Company Information
                     <div class="input-field">
                         <select class="form-control" id="standard" name="standard" required>
                             <option value="">Select Standard</option>
-                            <option value="1" @if($vehicle->standard ?? ''=="1"){{'selected'}}@endif>1</option>
-                            <option value="2" @if($vehicle->standard ?? ''=="2"){{'selected'}}@endif>2</option>
-                            <option value="3" @if($vehicle->standard ?? ''=="3"){{'selected'}}@endif>3</option>
-                            <option value="4" @if($vehicle->standard ?? ''=="4"){{'selected'}}@endif>4</option>
-                            <option value="5" @if($vehicle->standard ?? ''=="5"){{'selected'}}@endif>5</option>
+                            @foreach($standards as $standard)
+                            <option value="{{$standard->id}}" @if($vehicle->standard ?? ''==$standard->id){{'selected'}}@endif>{{$standard->standard}}</option>
+                            @endforeach
                         </select>
 
                     </div>
