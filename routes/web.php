@@ -222,8 +222,9 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             });
             Route::get('info/company', function () {
                 $cities = DB::table('locations')->get();
+                $coutnrycode=DB::table('country')->get();
                 $legalform = DB::table('legal_form_of_company')->get();
-                return view('information.company', compact('cities', 'legalform'));
+                return view('information.company', compact('cities', 'legalform','coutnrycode'));
             });
             Route::get('info/driver', function () {
                 $driver = User::where(['user_type' => 'driver', 'creator_id' => Auth::user()->id])->first();
@@ -233,7 +234,9 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
                 $vehicle = Vehicle::where(['creator_id' => Auth::user()->id])->first();
                 $data['category'] = VehicleCategory::all();
                 $VehicleSubtype = VehicleSubtype::get();
-                return view('information.vehicle', compact('vehicle', 'data', 'VehicleSubtype'));
+                $proudctionyear=DB::table('year_production')->get();
+                $standards=DB::table('standard')->get();
+                return view('information.vehicle', compact('vehicle', 'data', 'VehicleSubtype','standards','proudctionyear'));
             });
             Route::get('info/payment', function () {
                 return view('information.payment');
@@ -356,6 +359,14 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         // Vehicle Listing
         Route::get('admin/add-vehicle', 'Admin\VehicleController@addVehicle');
         Route::get('admin/vehicle-list', 'Admin\VehicleController@vehicleList');
+        Route::get('admin/production-list', 'Admin\VehicleController@productionList');
+        Route::post('admin/production-save', 'Admin\VehicleController@productionSave');
+        Route::post('admin/update-production-year', 'Admin\VehicleController@productionUpdate');
+        Route::post('admin/production-delete', 'Admin\VehicleController@productionDelete');
+        //standard route
+        Route::post('admin/standard-save', 'Admin\VehicleController@standardSave');
+        Route::post('admin/update-standard', 'Admin\VehicleController@standardUpdate');
+        Route::post('admin/standard-delete', 'Admin\VehicleController@standardDelete');
         Route::post('admin/vehicle-save', 'Admin\VehicleController@saveVehicle')->name('vehicle.save');
         Route::get('admin/editVehicle/{id}', 'Admin\VehicleController@editVehicle');
         Route::post('admin/updateVehicle', 'Admin\VehicleController@update');

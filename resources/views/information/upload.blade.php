@@ -255,12 +255,12 @@ Company Information
                 <input type="hidden" name="vehicleid" value="{{$vehicle->id}}" />
                 @endif
                 <div class="uploadDocuments">
-                    <img src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_img}}@else{{asset('images/download.png')}}@endif" alt="">
+                    <img id="previewimg" src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_img}}@else{{asset('images/download.png')}}@endif" alt="">
                     <p class="note">Please provide us with an image or scan of your valid document.</p>
                     <div class="inputDiv">
-                        <input type="file" name="file" class="fileInput" accept="image/jpeg,image/png,application/pdf">
+                        <input type="file" name="file" class="fileInput" accept="image/jpeg,image/png,application/pdf" onchange="loadFile(event)">
                         <div class="inputBtn">
-                            <input type="text" name="" id="" placeholder="JPEG, PNG, PDF">
+                            <input type="text" name="" id="nameofimage" placeholder="JPEG, PNG, PDF">
                             <i class="fa fa-camera"></i>
                         </div>
                         @if($errors->has('file'))
@@ -283,4 +283,17 @@ Company Information
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script>
+    var loadFile = function(event) {
+        $("#nameofimage").val(event.target.files[0].name);
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('previewimg');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+</script>
 @endsection

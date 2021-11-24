@@ -172,6 +172,7 @@
           </li>--}}
           <li class="nav-item"> <a class="nav-link" href="{{route('admin.vehicleSubtype.list')}}">Vehicle Model</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{url('admin/vehicle-list')}}">Vehicles List</a></li>
+           <li class="nav-item"> <a class="nav-link" href="{{url('admin/production-list')}}">Vehicle Production</a></li>
         </ul>
     </div>
     </li>

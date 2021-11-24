@@ -204,7 +204,19 @@ Company Information
                 <i class="fa fa-car"></i>
                 <span class="textItem">Mercedes-Benz S-Class</span>
                 <p class="editText">
-                    <a href="{{url('info/company')}}">Edit</a>
+                    @php
+                    if($_GET['type']=='driver')
+                    {
+                    $url='info/driver';
+                    }elseif($_GET['type']=='vehicle')
+                    {
+                    $url='info/vehicle';
+                    }
+                    else{
+                    $url='info/company';
+                    }
+                    @endphp
+                    <a href="{{url($url)}}">Edit</a>
                 </p>
             </div>
             <div class="uploadDocuments">
