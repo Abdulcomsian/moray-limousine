@@ -272,7 +272,7 @@ Company Information
                         <div class="text-danger">{{ $errors->first('file') }}</div>
                         @endif
                     </div>
-                    @if($doc->back_image==1)
+                    @if(isset($doc->back_image) && $doc->back_image==1)
                     <img id="previewimgback" src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_backimage}}@else{{asset('images/download.png')}}@endif" alt="">
                     <p class="note">{{$doc->image_below_text ?? ''}}</p>
                      <div class="inputDiv">
