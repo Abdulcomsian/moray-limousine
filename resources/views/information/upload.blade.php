@@ -244,7 +244,7 @@ Company Information
             <h2>{{$doc->document_sub_heading ?? ''}}</h2>
             <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" id="slug" name="slug" value="{{$doc->slug}}" />
+                <input type="hidden" id="slug" name="slug" value="{{$doc->slug ?? ''}}" />
                 @if(isset($uploadeddoc) && isset($uploadeddoc->document_img))
                 <input type="hidden" name="form_type" value="Edit" />
                 <input type="hidden" name="editid" value="{{$uploadeddoc->id}}" />
