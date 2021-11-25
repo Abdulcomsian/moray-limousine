@@ -259,7 +259,7 @@ Company Information
                 <input type="hidden" name="vehicleid" value="{{$vehicle->id}}" />
                 @endif
                 <div class="uploadDocuments">
-                     <h4 class="lsp-page--title">{{$doc->document_title}}</h4>
+                     <h4 class="lsp-page--title">{{$doc->document_title ?? ''}}</h4>
                     <img id="previewimg" src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_img}}@else{{asset('images/download.png')}}@endif" alt="">
                     <p class="note">{{$doc->image_below_text?? ''}}</p>
                     <div class="inputDiv">
