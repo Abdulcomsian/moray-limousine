@@ -289,7 +289,7 @@ Company Information
                              <option value="">Select Country</option>
                              <i class="fa fa-chevron-down" aria-hidden="true"></i>
                              @foreach($countries as $code)
-                            <option value="{{$code->name}}" @if(\Auth::user()->partner->country==$code->name){{'selected'}}@endif>{{$code->name}}</option>        
+                            <option value="{{$code->nicename}}" @if(\Auth::user()->partner->country==$code->nicename){{'selected'}}@endif>{{$code->nicename}}</option>        
                             @endforeach
                             </select>
                         </div>

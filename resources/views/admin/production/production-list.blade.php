@@ -28,7 +28,7 @@ Production List
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="d-sm-flex align-items-baseline report-summary-header">
-                                    <h3>Year Of Production</h3>
+                                    <h3>Production , Standard </h3>
                                 </div>
                             </div>
                         </div>
@@ -42,12 +42,18 @@ Production List
                     <div class="container">
                         <br>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <form method="post" action="{{url('admin/production-save')}}">
                                     @csrf
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Year:</label>
-                                        <input type="number" id="year" name="year" required class="form-control" placeholder="Enter year" />
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Year:</label>
+                                            <input type="number" id="year" name="year" required class="form-control" placeholder="Enter year" />
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Label for Year:</label>
+                                            <input type="number" id="labelyear" name="labelyear" class="form-control" placeholder="Enter Label for year" />
+                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
@@ -127,10 +133,67 @@ Production List
                                 </table>
                             </div>
                         </div>
+                        <!-- work for label -->
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="post" action="{{url('admin/label-save')}}">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Label:</label>
+                                            <input type="text" id="labelstandard" name="label" required class="form-control" placeholder="Enter Label Name" />
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Type:</label>
+                                            <select name="labeltype" class="form-control">
+                                                <option value="">Select Label for</option>
+                                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                                <option value="year">Year</option>
+                                                <option value="standard">Standard</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#No</th>
+                                            <th>Label Name</th>
+                                            <th>Type</th>
+                                            <th>Created at</th>
+                                            <th>update at</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($labels as $label)
+                                        <tr>
+                                            <td>{{$loop->index+1}}</td>
+                                            <td>{{$label->label_name}}</td>
+                                            <td>{{$label->type}}</td>
+                                            <td>{{$year->created_at}}</td>
+                                            <td>{{$year->updated_at}}</td>
+                                            <td>
+                                                <span class="fa fa-pencil" onclick="editreql('{{json_encode($label)}}')"></span>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
     <!-- content-wrapper ends -->
     <!-- partial:partials/_footer.html -->
@@ -253,6 +316,46 @@ Production List
         </div>
     </div>
 </div>
+
+<!-- modal for label -->
+<div class="modal fade" id="editmodallabel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Label</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form method="post" action="{{url('admin/update-label')}}">
+                            @csrf
+                            <input type="hidden" id="editidlabel" name="id" value="">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Label:</label>
+                                    <input type="text" id="labeledit" name="label" required class="form-control" placeholder="Enter Label Name" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Type:</label>
+                                    <select name="labeltype" id="editlabeltype" class="custom-class">
+                                        <option>Select Label for</option>
+                                        <option value="year">Year</option>
+                                        <option value="standard">Standard</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('js')
 <script type="text/javascript">
@@ -280,6 +383,16 @@ Production List
     function deletereqs(id) {
         $("#deleteidstandard").val(id);
         $("#deletemodalstandard").modal();
+    }
+
+    //work for label
+    function editreql(data) {
+        var data = JSON.parse(data);
+        $("#editidlabel").val(data.id);
+        $("#labeledit").val(data.label_name);
+        $("#editlabeltype").val(data.type);
+        $("#editmodallabel").modal();
+
     }
 </script>
 @endsection
