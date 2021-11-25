@@ -223,8 +223,9 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             Route::get('info/company', function () {
                 $cities = DB::table('locations')->get();
                 $coutnrycode=DB::table('country')->groupBy('phonecode')->orderBy('phonecode','asc')->get();
+                $countries=DB::table('country')->get();
                 $legalform = DB::table('legal_form_of_company')->get();
-                return view('information.company', compact('cities', 'legalform','coutnrycode'));
+                return view('information.company', compact('cities', 'legalform','coutnrycode','countries'));
             });
             Route::get('info/driver', function () {
                 $driver = User::where(['user_type' => 'driver', 'creator_id' => Auth::user()->id])->first();
