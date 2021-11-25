@@ -199,23 +199,28 @@ Company Information
         <div class="row lsp-page--header " style="    display: block;">
             <h2 class="lsp-page--title">{{ucfirst($documents[0]->applied_on)}}</h2>
             <h4 class="lsp-page--description">Please Upload all Documents</h4>
-
+             @php
+                if($_GET['type']=='driver')
+                {
+                $url='info/driver';
+                $name=$driver->first_name .' '.$driver->last_name;
+                $class='fa-user';
+                }elseif($_GET['type']=='vehicle')
+                {
+                $url='info/vehicle';
+                 $name= $vehicle->title ?? '';
+                  $class='fa-car';
+                }
+                else{
+                $url='info/company';
+                $name=\Auth::user()->first_name.' '.\Auth::user()->last_name;
+                $class='fa-user';
+                }
+                @endphp
             <div class="itemDiv">
-                <i class="fa fa-car"></i>
-                <span class="textItem">Mercedes-Benz S-Class</span>
+                <i class="fa {{$class}}"></i>
+                <span class="textItem">{{$name}}</span>
                 <p class="editText">
-                    @php
-                    if($_GET['type']=='driver')
-                    {
-                    $url='info/driver';
-                    }elseif($_GET['type']=='vehicle')
-                    {
-                    $url='info/vehicle';
-                    }
-                    else{
-                    $url='info/company';
-                    }
-                    @endphp
                     <a href="{{url($url)}}">Edit</a>
                 </p>
             </div>

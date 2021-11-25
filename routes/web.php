@@ -236,7 +236,7 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
                 $data['category'] = VehicleCategory::all();
                 $VehicleSubtype = VehicleSubtype::get();
                 $proudctionyear=DB::table('year_production')->orderBy('production_year','asc')->get();
-                $standards=DB::table('standard')->get();
+                $standards=DB::table('standard')->orderBy('standard','asc')->get();
                 return view('information.vehicle', compact('vehicle', 'data', 'VehicleSubtype','standards','proudctionyear'));
             });
             Route::get('info/payment', function () {
