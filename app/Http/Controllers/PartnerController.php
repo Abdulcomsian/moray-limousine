@@ -841,10 +841,11 @@ class PartnerController extends Controller
     //upload documents\
     public function info_upload_document(Request $request)
     {
-        $this->validate($request, [
-            'file' => 'required',
-        ]);
+
         if ($request->form_type == "Add") {
+            $this->validate($request, [
+                'file' => 'required',
+            ]);
             if (isset($request->file)) {
                 $documents_data['document_title'] =  $request->title;
                 $documents_data['slug'] =  $request->slug;
@@ -874,13 +875,13 @@ class PartnerController extends Controller
                 return redirect('info/session?type=' . $request->type . '');
             }
         } else {
+            $edit_id = $request->editid;
+            $documents_data['document_title'] =  $request->title;
+            $documents_data['slug'] =  $request->slug;
+            if (isset($request->expiry_date)) {
+                $documents_data['expiry_date'] = $request->expiry_date;
+            }
             if (isset($request->file)) {
-                $edit_id = $request->editid;
-                $documents_data['document_title'] =  $request->title;
-                $documents_data['slug'] =  $request->slug;
-                if (isset($request->expiry_date)) {
-                    $documents_data['expiry_date'] = $request->expiry_date;
-                }
                 $imageName = null;
                 $imageName1 = null;
                 //back image file upload
@@ -893,7 +894,6 @@ class PartnerController extends Controller
                     $imageName = time() . $request->file->getClientOriginalName();
                     $request->file->move(public_path('uploaded-user-images/partner-documents'), $imageName);
                     $documents_data['document_img'] = $imageName;
-                    return redirect('info/session?type=' . $request->type . '');
                 }
                 if ($request->type == "driver") {
                     $this->uploadedDocument->updateDriverDocuments($documents_data, $edit_id, $request->driverid);
@@ -903,6 +903,7 @@ class PartnerController extends Controller
                     $this->uploadedDocument->updateDocument($documents_data, $edit_id);
                 }
             }
+            return redirect('info/session?type=' . $request->type . '');
         }
     }
     //partner thanku page
