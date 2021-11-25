@@ -287,7 +287,7 @@ Company Information
                         @endif
                     </div>
                     @endif
-                    @if($doc->expiry_date_input==1)
+                    @if(isset($doc->expiry_date_input) && $doc->expiry_date_input==1)
                     <div class="inputDiv">
                         <label>Expiry Date</label>
                         <input type="date" name="expiry_date" value="{{$uploadeddoc->expiry_date ?? ''}}" class="form-control" required>
