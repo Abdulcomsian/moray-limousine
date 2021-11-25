@@ -716,8 +716,10 @@ class PartnerController extends Controller
         );
         if (isset($request->id) && $request->id != '') {
             $user = User::find($request->id);
+            $option = "edit";
         } else {
             $user = new User();
+            $option = "add";
         }
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -727,9 +729,11 @@ class PartnerController extends Controller
         $user->creator_id = Auth::user()->id;
         $user->password = Hash::make('driver');
         if ($user->save()) {
-            event(new Registered($user));
-            $approve_msg =  array_merge($this->temporay_driver_message, ['body' => 'Your Temporary password is driver you can change your password after login. ']);
-            $user->notify(new MorayLimousineNotifications($approve_msg));
+            if ($option == "add") {
+                event(new Registered($user));
+                $approve_msg =  array_merge($this->temporay_driver_message, ['body' => 'Your Temporary password is driver you can change your password after login. ']);
+                $user->notify(new MorayLimousineNotifications($approve_msg));
+            }
             $partner = Partner::where('user_id', Auth::user()->id)->first();
             $partner->step_url = 'info/vehicle';
             $partner->save();
