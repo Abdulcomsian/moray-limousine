@@ -690,7 +690,7 @@ class PartnerController extends Controller
             $partner->vat_sales_tax_no = $request->vat_sales;
             $partner->user_id = $id;
             $partner->phone_number = $request->phoneNumber;
-            $partner->country_code=$request->code;
+            $partner->country_code = $request->code;
             $partner->default_location = '';
             $partner->country = $request->country;
             $partner->step_url = 'info/driver';
@@ -841,19 +841,26 @@ class PartnerController extends Controller
                     $documents_data['expiry_date'] = $request->expiry_date;
                 }
                 $imageName = null;
+                $imageName1 = null;
+                //back image file upload
+                if ($file = $request->file('backimage')) {
+                    $imageName1 = time() . $file->getClientOriginalName();
+                    $file->move(public_path('uploaded-user-images/partner-documents'), $imageName1);
+                    $documents_data['document_backimage'] = $imageName1;
+                }
                 if ($request->hasFile('file')) {
                     $imageName = time() . $request->file->getClientOriginalName();
                     $request->file->move(public_path('uploaded-user-images/partner-documents'), $imageName);
                     $documents_data['document_img'] = $imageName;
-                    if ($request->type == "driver") {
-                        $this->uploadedDocument->saveDriverDocuments($documents_data, $request->driverid);
-                    } elseif ($request->type == "vehicle") {
-                        $this->uploadedDocument->saveVehicleDocuments($documents_data, $request->vehicleid);
-                    } else {
-                        $this->uploadedDocument->saveDocuments($documents_data);
-                    }
-                    return redirect('info/session?type=' . $request->type . '');
                 }
+                if ($request->type == "driver") {
+                    $this->uploadedDocument->saveDriverDocuments($documents_data, $request->driverid);
+                } elseif ($request->type == "vehicle") {
+                    $this->uploadedDocument->saveVehicleDocuments($documents_data, $request->vehicleid);
+                } else {
+                    $this->uploadedDocument->saveDocuments($documents_data);
+                }
+                return redirect('info/session?type=' . $request->type . '');
             }
         } else {
             if (isset($request->file)) {
@@ -864,18 +871,25 @@ class PartnerController extends Controller
                     $documents_data['expiry_date'] = $request->expiry_date;
                 }
                 $imageName = null;
+                $imageName1 = null;
+                //back image file upload
+                if ($file = $request->file('backimage')) {
+                    $imageName1 = time() . $file->getClientOriginalName();
+                    $file->move(public_path('uploaded-user-images/partner-documents'), $imageName1);
+                    $documents_data['document_backimage'] = $imageName1;
+                }
                 if ($request->hasFile('file')) {
                     $imageName = time() . $request->file->getClientOriginalName();
                     $request->file->move(public_path('uploaded-user-images/partner-documents'), $imageName);
                     $documents_data['document_img'] = $imageName;
-                    if ($request->type == "driver") {
-                        $this->uploadedDocument->updateDriverDocuments($documents_data, $edit_id, $request->driverid);
-                    } elseif ($request->type == "vehicle") {
-                        $this->uploadedDocument->updateVehicleDocument($documents_data, $edit_id, $request->vehicleid);
-                    } else {
-                        $this->uploadedDocument->updateDocument($documents_data, $edit_id);
-                    }
                     return redirect('info/session?type=' . $request->type . '');
+                }
+                if ($request->type == "driver") {
+                    $this->uploadedDocument->updateDriverDocuments($documents_data, $edit_id, $request->driverid);
+                } elseif ($request->type == "vehicle") {
+                    $this->uploadedDocument->updateVehicleDocument($documents_data, $edit_id, $request->vehicleid);
+                } else {
+                    $this->uploadedDocument->updateDocument($documents_data, $edit_id);
                 }
             }
         }

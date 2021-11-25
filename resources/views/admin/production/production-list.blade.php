@@ -47,24 +47,7 @@ Production List
                                     @csrf
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Year:</label>
-                                        <select class="custom-select" id="year" name="year" required>
-                                            <option value="">Select Year</option>
-                                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                            <option value="2009">2009</option>
-                                            <option value="2010">2010</option>
-                                            <option value="2011">2011</option>
-                                            <option value="2012">2012</option>
-                                            <option value="2013">2013</option>
-                                            <option value="2014">2014</option>
-                                            <option value="2015">2015</option>
-                                            <option value="2016">2016</option>
-                                            <option value="2017">2017</option>
-                                            <option value="2018">2018</option>
-                                            <option value="2019">2019</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2021">2021</option>
-
-                                        </select>
+                                        <input type="number" id="year" name="year" required class="form-control" placeholder="Enter year" />
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
@@ -108,15 +91,7 @@ Production List
                                     @csrf
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Standard:</label>
-                                        <select class="custom-select" id="standard" name="standard" required>
-                                            <option value="">Select Standard</option>
-                                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
+                                        <input type="text" id="standard" name="standard" required class="form-control" placeholder="Enter Standard" />
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
@@ -188,24 +163,7 @@ Production List
                             <input type="hidden" id="editid" name="id" value="">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Production Year:</label>
-                                <select class="custom-select form-control" id="edityear" name="year" required>
-                                    <option value="">Select Year</option>
-                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                    <option value="2009">2009</option>
-                                    <option value="2010">2010</option>
-                                    <option value="2011">2011</option>
-                                    <option value="2012">2012</option>
-                                    <option value="2013">2013</option>
-                                    <option value="2014">2014</option>
-                                    <option value="2015">2015</option>
-                                    <option value="2016">2016</option>
-                                    <option value="2017">2017</option>
-                                    <option value="2018">2018</option>
-                                    <option value="2019">2019</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2021">2021</option>
-
-                                </select>
+                                <input type="number" id="edityear" name="year" required class="form-control" placeholder="Enter year" />
                             </div>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Update</button>
@@ -260,15 +218,7 @@ Production List
                             <input type="hidden" id="editidstandard" name="id" value="">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Standard:</label>
-                                <select class="custom-select" id="editstandard" name="standard" required>
-                                    <option value="">Select Standard</option>
-                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                    <option value="1">Best</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">Worst</option>
-                                </select>
+                                <input type="text" id="editstandard" name="standard" required class="form-control" placeholder="Enter Standard" />
                             </div>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Update</button>

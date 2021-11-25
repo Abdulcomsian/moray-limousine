@@ -23,6 +23,8 @@ class DocumentsController extends Controller
     public function saveDocuments(Request $request)
     {
         $request->validate([
+            'document_heading'=>'required|max:150',
+            'document_sub_heading'=>'required|max:50',
             'document_title' => 'required|max:50',
             'applied_on' => 'required|max:50'
         ]);
@@ -30,16 +32,30 @@ class DocumentsController extends Controller
         if ($id == null) {
             if (isset($request->expiry_date_input)) {
                 $request['expiry_date_input'] = 1;
+                $request['text_for_expiry']=$request->text_for_expiry;
             } else {
                 $request['expiry_date_input'] = 0;
+            }
+            if (isset($request->back_image)) {
+                $request['back_image'] = 1;
+                $request['image_below_text']=$request->image_below_text;
+            } else {
+                $request['back_image'] = 0;
             }
             Document::create($request->all());
         } else {
             $formData = $request->except('edit_id', '_token');
             if (isset($request->expiry_date_input)) {
                 $formData['expiry_date_input'] = 1;
+                $formData['text_for_expiry']=$request->text_for_expiry;
             } else {
                 $formData['expiry_date_input'] = 0;
+            }
+            if (isset($request->back_image)) {
+                $formData['back_image'] = 1;
+                $formData['image_below_text']=$request->image_below_text;
+            } else {
+                $formData['back_image'] = 0;
             }
             Document::where('id', $id)->update($formData);
         }

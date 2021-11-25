@@ -222,7 +222,7 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             });
             Route::get('info/company', function () {
                 $cities = DB::table('locations')->get();
-                $coutnrycode=DB::table('country')->get();
+                $coutnrycode=DB::table('country')->groupBy('phonecode')->orderBy('phonecode','asc')->get();
                 $legalform = DB::table('legal_form_of_company')->get();
                 return view('information.company', compact('cities', 'legalform','coutnrycode'));
             });
@@ -234,7 +234,7 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
                 $vehicle = Vehicle::where(['creator_id' => Auth::user()->id])->first();
                 $data['category'] = VehicleCategory::all();
                 $VehicleSubtype = VehicleSubtype::get();
-                $proudctionyear=DB::table('year_production')->get();
+                $proudctionyear=DB::table('year_production')->orderBy('production_year','asc')->get();
                 $standards=DB::table('standard')->get();
                 return view('information.vehicle', compact('vehicle', 'data', 'VehicleSubtype','standards','proudctionyear'));
             });
