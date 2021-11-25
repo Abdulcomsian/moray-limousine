@@ -50,10 +50,6 @@ Production List
                                             <label for="exampleInputEmail1">Year:</label>
                                             <input type="number" id="year" name="year" required class="form-control" placeholder="Enter year" />
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Label for Year:</label>
-                                            <input type="number" id="labelyear" name="labelyear" class="form-control" placeholder="Enter Label for year" />
-                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
