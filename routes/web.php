@@ -368,6 +368,9 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         Route::post('admin/standard-save', 'Admin\VehicleController@standardSave');
         Route::post('admin/update-standard', 'Admin\VehicleController@standardUpdate');
         Route::post('admin/standard-delete', 'Admin\VehicleController@standardDelete');
+        //work for label
+        Route::post('admin/label-save', 'Admin\VehicleController@labelSave');
+        Route::post('admin/update-label', 'Admin\VehicleController@labelUpdate');
         Route::post('admin/vehicle-save', 'Admin\VehicleController@saveVehicle')->name('vehicle.save');
         Route::get('admin/editVehicle/{id}', 'Admin\VehicleController@editVehicle');
         Route::post('admin/updateVehicle', 'Admin\VehicleController@update');

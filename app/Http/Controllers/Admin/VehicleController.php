@@ -334,7 +334,8 @@ class VehicleController extends Controller
     {
         $production_years = DB::table('year_production')->get();
         $standards = DB::table('standard')->get();
-        return view('admin.production.production-list', compact('production_years', 'standards'));
+        $labels = DB::table('labels')->get();
+        return view('admin.production.production-list', compact('production_years', 'standards', 'labels'));
     }
     public function productionSave(Request $request)
     {
@@ -365,6 +366,28 @@ class VehicleController extends Controller
     {
         DB::table('standard')->delete(['id' => $request->id]);
         return redirect('admin/production-list')->with('success', 'Standard Deleted Successfully ');
+    }
+    //work for label
+    public function labelSave(Request $request)
+    {
+        $check = DB::table('labels')->where('type', $request->labeltype)->count();
+        if ($check > 0) {
+            return redirect('admin/production-list')->with('success', 'Already Added');
+        } else {
+            DB::table('labels')->insert(['label_name' => $request->label, 'type' => $request->labeltype]);
+            return redirect('admin/production-list')->with('success', 'label Added for ' . $request->labeltype . ' Successfully ');
+        }
+    }
+    //update label
+    public function labelUpdate(Request $request)
+    {
+        $check = DB::table('labels')->where('type', $request->labeltype)->count();
+        if ($check > 0) {
+            return redirect('admin/production-list')->with('success', 'Already Added');
+        } else {
+            DB::table('labels')->where('id', $request->id)->update(['label_name' => $request->label, 'type' => $request->labeltype]);
+            return redirect('admin/production-list')->with('success', 'label Updated for ' . $request->labeltype . ' Successfully ');
+        }
     }
 
     protected $notifyvehicleapprovedMsg = [
