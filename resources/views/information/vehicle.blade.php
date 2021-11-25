@@ -177,7 +177,7 @@ Company Information
                             <option value="">Select Vehicle Type</option>
                             @if(count($data['category']) > 0){
                             @foreach($data['category'] as $c)
-                            <option value="{{$c->id}}" @if($vehicle->idc ?? ''==$c->id){{'selected'}}@endif>{{$c->name}}</option>
+                            <option value="{{$c->id}}" @if(isset($vehicle->vehicleCategory_id) && $vehicle->vehicleCategory_id==$c->id){{'selected'}}@endif>{{$c->name}}</option>
                             @endforeach
                             @endif
                         </select>

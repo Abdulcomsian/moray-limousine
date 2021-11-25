@@ -239,9 +239,9 @@ Company Information
     <div class="lsp-page">
         <div class="row lsp-page--header ">
            
-            <h1>{{$doc->document_heading}}</h1>
+            <h1>{{$doc->document_heading ?? ''}}</h1>
             <br>
-            <h2>{{$doc->document_sub_heading}}</h2>
+            <h2>{{$doc->document_sub_heading ?? ''}}</h2>
             <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" id="slug" name="slug" value="{{$doc->slug}}" />

@@ -812,7 +812,14 @@ class PartnerController extends Controller
     public function info_session(Request $request)
     {
         $documents = Document::where('applied_on', $request->type)->get();
-        return view('information.session', compact('documents'));
+        $driver = [];
+        $vehicle = [];
+        if ($request->type == "driver") {
+            $driver = User::where(['user_type' => 'driver', 'creator_id' => Auth::user()->id])->first();
+        } elseif ($request->type == "vehicle") {
+            $vehicle = Vehicle::where(['creator_id' => Auth::user()->id])->first();
+        }
+        return view('information.session', compact('documents', 'driver', 'vehicle'));
     }
     //upload view
     public function info_upload(Request $request)
