@@ -246,7 +246,7 @@ Company Information
                             <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             @foreach($proudctionyear as $year)
                             <option value="{{$year->production_year}}" 
-                                @if($vehicle->model_no==$year->production_year){{'selected'}}@endif>{{$year->production_year}}</option>
+                                @if(isset($vehicle->model_no)  && $vehicle->model_no==$year->production_year){{'selected'}}@endif>{{$year->production_year}}</option>
                             @endforeach
                         </select>
 
@@ -264,7 +264,7 @@ Company Information
                         <select class="form-control" id="standard" name="standard" required>
                             <option value="">Select Standard</option>
                             @foreach($standards as $standard)
-                            <option value="{{$standard->standard}}" @if($vehicle->standard==$standard->standard){{'selected'}}@endif>{{$standard->standard}}</option>
+                            <option value="{{$standard->standard}}" @if(isset($vehicle->standard) &&  $vehicle->standard==$standard->standard){{'selected'}}@endif>{{$standard->standard}}</option>
                             @endforeach
                         </select>
 
