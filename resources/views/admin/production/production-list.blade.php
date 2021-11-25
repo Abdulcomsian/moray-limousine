@@ -111,11 +111,11 @@ Production List
                                         <select class="custom-select" id="standard" name="standard" required>
                                             <option value="">Select Standard</option>
                                             <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                            <option value="1">Best</option>
+                                            <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
-                                            <option value="5">Worst</option>
+                                            <option value="5">5</option>
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
