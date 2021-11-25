@@ -191,12 +191,13 @@ Company Information
 
     .uploadDocuments img {
         width: 100%;
+        height: 300px;
     }
 
     .note {
         font-size: 21px;
         font-weight: 400;
-        color: #000;
+        color: gray;
     }
 
     .fileInput {
@@ -237,7 +238,10 @@ Company Information
     </div>
     <div class="lsp-page">
         <div class="row lsp-page--header ">
-            <h2 class="lsp-page--title">{{$doc->document_title}}</h2>
+           
+            <h1>{{$doc->document_heading}}</h1>
+            <br>
+            <h2>{{$doc->document_sub_heading}}</h2>
             <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" id="slug" name="slug" value="{{$doc->slug}}" />
@@ -255,8 +259,9 @@ Company Information
                 <input type="hidden" name="vehicleid" value="{{$vehicle->id}}" />
                 @endif
                 <div class="uploadDocuments">
+                     <h4 class="lsp-page--title">{{$doc->document_title}}</h4>
                     <img id="previewimg" src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_img}}@else{{asset('images/download.png')}}@endif" alt="">
-                    <p class="note">Please provide us with an image or scan of your valid document.</p>
+                    <p class="note">{{$doc->image_below_text?? ''}}</p>
                     <div class="inputDiv">
                         <input type="file" name="file" class="fileInput" accept="image/jpeg,image/png,application/pdf" onchange="loadFile(event)">
                         <div class="inputBtn">
@@ -266,12 +271,27 @@ Company Information
                         @if($errors->has('file'))
                         <div class="text-danger">{{ $errors->first('file') }}</div>
                         @endif
-                        <span>Maximum file size 30 MB</span>
                     </div>
+                    @if($doc->back_image==1)
+                    <img id="previewimgback" src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_backimage}}@else{{asset('images/download.png')}}@endif" alt="">
+                    <p class="note">{{$doc->image_below_text ?? ''}}</p>
+                     <div class="inputDiv">
+
+                        <input type="file" name="backimage" class="fileInput" accept="image/jpeg,image/png,application/pdf" onchange="loadFile1(event)">
+                        <div class="inputBtn">
+                            <input type="text" name="" id="backimage" placeholder="JPEG, PNG, PDF">
+                            <i class="fa fa-camera"></i>
+                        </div>
+                        @if($errors->has('file'))
+                        <div class="text-danger">{{ $errors->first('file') }}</div>
+                        @endif
+                    </div>
+                    @endif
                     @if($doc->expiry_date_input==1)
                     <div class="inputDiv">
                         <label>Expiry Date</label>
                         <input type="date" name="expiry_date" value="{{$uploadeddoc->expiry_date ?? ''}}" class="form-control" required>
+                        <span>{{$doc->text_for_expiry ?? ''}}</span>
                     </div>
                     @endif
                 </div>
@@ -291,6 +311,16 @@ Company Information
         var reader = new FileReader();
         reader.onload = function() {
             var output = document.getElementById('previewimg');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+
+     var loadFile1 = function(event) {
+        $("#backimage").val(event.target.files[0].name);
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('previewimgback');
             output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);

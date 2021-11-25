@@ -8,7 +8,7 @@ class UploadedDocument extends Model
 {
     protected $table = 'uploadeddocuments';
 
-    protected $fillable = ['document_title', 'document_img', 'document_value', 'user_id', 'vehicle_id', 'document_status', 'expiry_date','slug'];
+    protected $fillable = ['document_title', 'document_img','document_backimage','document_value', 'user_id', 'vehicle_id', 'document_status', 'expiry_date','slug'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

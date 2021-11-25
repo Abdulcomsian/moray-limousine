@@ -245,12 +245,9 @@ Company Information
                             <option value="">Please select</option>
                             <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             @foreach($proudctionyear as $year)
-                            <option value="{{$year->id}}" @if($vehicle->model_no ?? ''==$year->production_year){{'selected'}}@endif>{{$year->production_year}}</option>
+                            <option value="{{$year->production_year}}" 
+                                @if($vehicle->model_no==$year->production_year){{'selected'}}@endif>{{$year->production_year}}</option>
                             @endforeach
-
-                            <option value="2018" @if($vehicle->model_no ?? ''=="2018"){{'selected'}}@endif>2018</option>
-                            <option value="2017" @if($vehicle->model_no ?? ''=="2017"){{'selected'}}@endif>2017</option>
-                            <option value="2016" @if($vehicle->model_no ?? ''=="2016"){{'selected'}}@endif>2016</option>
                         </select>
 
                     </div>
@@ -267,7 +264,7 @@ Company Information
                         <select class="form-control" id="standard" name="standard" required>
                             <option value="">Select Standard</option>
                             @foreach($standards as $standard)
-                            <option value="{{$standard->id}}" @if($vehicle->standard ?? ''==$standard->id){{'selected'}}@endif>{{$standard->standard}}</option>
+                            <option value="{{$standard->standard}}" @if($vehicle->standard==$standard->standard){{'selected'}}@endif>{{$standard->standard}}</option>
                             @endforeach
                         </select>
 

@@ -343,7 +343,7 @@ class VehicleController extends Controller
     }
     public function productionUpdate(Request $request)
     {
-        DB::table('year_production')->update(['production_year' => $request->year]);
+        DB::table('year_production')->where('id', $request->id)->update(['production_year' => $request->year]);
         return redirect('admin/production-list')->with('success', 'Year Updated Successfully ');
     }
     public function productionDelete(Request $request)
@@ -358,7 +358,7 @@ class VehicleController extends Controller
     }
     public function standardUpdate(Request $request)
     {
-        DB::table('standard')->update(['standard' => $request->standard]);
+        DB::table('standard')->where('id', $request->id)->update(['standard' => $request->standard]);
         return redirect('admin/production-list')->with('success', 'Standard Updated Successfully ');
     }
     public function standardDelete(Request $request)
