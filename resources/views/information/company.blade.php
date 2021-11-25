@@ -285,7 +285,13 @@ Company Information
                             <label>Country</label>
                         </div>
                         <div class="input-field">
-                            <input id="country" name="country" value="{{\Auth::user()->partner->country ?? ''}}" type="text" class="form-control input-field__element" required>
+                            <select id="country" name="country"  required class="custom-select">
+                             <option value="">Select Country</option>
+                             <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                             @foreach($countries as $code)
+                            <option value="{{$code->name}}" @if(\Auth::user()->partner->country==$code->name){{'selected'}}@endif>{{$code->name}}</option>        
+                            @endforeach
+                            </select>
                         </div>
                         @if($errors->has('country'))
                         <div class="text-danger">{{ $errors->first('country') }}</div>
