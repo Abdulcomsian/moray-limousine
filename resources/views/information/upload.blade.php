@@ -244,14 +244,14 @@ Company Information
             <h2>{{$doc->document_sub_heading ?? ''}}</h2>
             <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" id="slug" name="slug" value="{{$doc->slug}}" />
+                <input type="hidden" id="slug" name="slug" value="{{$doc->slug ?? ''}}" />
                 @if(isset($uploadeddoc) && isset($uploadeddoc->document_img))
                 <input type="hidden" name="form_type" value="Edit" />
                 <input type="hidden" name="editid" value="{{$uploadeddoc->id}}" />
                 @else
                 <input type="hidden" name="form_type" value="Add" />
                 @endif
-                <input type="hidden" name="title" value="{{$doc->document_title}}" />
+                <input type="hidden" name="title" value="{{$doc->document_title ?? ''}}" />
                 <input type="hidden" name="type" value="{{$type}}" />
                 @if(isset($driver->id))
                 <input type="hidden" name="driverid" value="{{$driver->id}}" />
@@ -259,7 +259,7 @@ Company Information
                 <input type="hidden" name="vehicleid" value="{{$vehicle->id}}" />
                 @endif
                 <div class="uploadDocuments">
-                     <h4 class="lsp-page--title">{{$doc->document_title}}</h4>
+                     <h4 class="lsp-page--title">{{$doc->document_title ?? ''}}</h4>
                     <img id="previewimg" src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_img}}@else{{asset('images/download.png')}}@endif" alt="">
                     <p class="note">{{$doc->image_below_text?? ''}}</p>
                     <div class="inputDiv">
@@ -272,7 +272,7 @@ Company Information
                         <div class="text-danger">{{ $errors->first('file') }}</div>
                         @endif
                     </div>
-                    @if($doc->back_image==1)
+                    @if(isset($doc->back_image) && $doc->back_image==1)
                     <img id="previewimgback" src="@if(isset($uploadeddoc->document_img)){{asset('uploaded-user-images/partner-documents/').'/'.$uploadeddoc->document_backimage}}@else{{asset('images/download.png')}}@endif" alt="">
                     <p class="note">{{$doc->image_below_text ?? ''}}</p>
                      <div class="inputDiv">
@@ -287,7 +287,7 @@ Company Information
                         @endif
                     </div>
                     @endif
-                    @if($doc->expiry_date_input==1)
+                    @if(isset($doc->expiry_date_input) && $doc->expiry_date_input==1)
                     <div class="inputDiv">
                         <label>Expiry Date</label>
                         <input type="date" name="expiry_date" value="{{$uploadeddoc->expiry_date ?? ''}}" class="form-control" required>
