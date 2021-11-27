@@ -242,7 +242,7 @@ Company Information
             <h1>{{$doc->document_heading ?? ''}}</h1>
             <br>
             <h2>{{$doc->document_sub_heading ?? ''}}</h2>
-            <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data">
+            <form method="post" action="{{url('info/upload-document')}}" enctype="multipart/form-data" id="uploadform">
                 @csrf
                 <input type="hidden" id="slug" name="slug" value="{{$doc->slug ?? ''}}" />
                 @if(isset($uploadeddoc) && isset($uploadeddoc->document_img))
@@ -297,7 +297,7 @@ Company Information
                 </div>
                 <div class="d-flex btnDiv">
                     <a href="{{url('info/session?type='.$type.'')}}"><button type="button" style="margin-top:30px;">Cancel</button></a>
-                    <button type="submit" style="margin-top:30px;">Upload</button>
+                    <button type="submit" id="submitbtn" style="margin-top:30px;">Upload</button>
                 </div>
             </form>
         </div>
@@ -306,6 +306,9 @@ Company Information
 @endsection
 @section('js')
 <script>
+    $('#uploadform').on('submit', function() {
+        $('#submitbtn').attr('disabled', 'disabled');
+    });
     var loadFile = function(event) {
         $("#nameofimage").val(event.target.files[0].name);
         var reader = new FileReader();
