@@ -117,8 +117,8 @@ Production List
                                         <tr>
                                             <td>{{$loop->index+1}}</td>
                                             <td>{{$standard->standard}}</td>
-                                            <td>{{$year->created_at}}</td>
-                                            <td>{{$year->updated_at}}</td>
+                                            <td>{{$standard->created_at}}</td>
+                                            <td>{{$standard->updated_at}}</td>
                                             <td>
                                                 <span class="fa fa-trash" onclick="deletereqs('{{$standard->id}}')"></span>
                                                 <span class="fa fa-pencil" onclick="editreqs('{{json_encode($standard)}}')"></span>
