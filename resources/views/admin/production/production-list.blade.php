@@ -174,8 +174,8 @@ Production List
                                             <td>{{$loop->index+1}}</td>
                                             <td>{{$label->label_name}}</td>
                                             <td>{{$label->type}}</td>
-                                            <td>{{$year->created_at}}</td>
-                                            <td>{{$year->updated_at}}</td>
+                                            <td>{{$label->created_at}}</td>
+                                            <td>{{$label->updated_at}}</td>
                                             <td>
                                                 <span class="fa fa-pencil" onclick="editreql('{{json_encode($label)}}')"></span>
                                             </td>
