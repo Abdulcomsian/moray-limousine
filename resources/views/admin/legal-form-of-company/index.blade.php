@@ -49,7 +49,7 @@ Admin Dashboard
                                     @csrf
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">City:</label>
-                                        <select class="form-control" name="city_id" required>
+                                        <select class="form-control selectpicker" multiple name="city_id[]" required>
                                             <option value="">Select City</option>
                                             @foreach($cities as $city)
                                             <option value="{{$city->id}}">{{$city->location_city}}</option>
@@ -232,5 +232,6 @@ Admin Dashboard
         $(this).parent().parent().remove();
         x--;
     })
+    $('select').selectpicker();
 </script>
 @endsection

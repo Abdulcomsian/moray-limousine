@@ -634,8 +634,10 @@ class AdminController extends Controller
     //save partner req
     public function partner_req_save(Request $request)
     {
-        DB::table('operate_city_requirements')->insert(['city_id' => $request->city_id, 'main_heading' => $request->main_heading, 'requirements' => $request->requirements, 'doc_heading' => $request->doc_heading, 'documents' => $request->documents]);
-        return redirect('/partner-registration-req')->with('success', 'Requiremtns against city added Successfully!! ...');
+       foreach($request->city_id as $city_id){
+            DB::table('operate_city_requirements')->insert(['city_id' => $city_id, 'main_heading' => $request->main_heading, 'requirements' => $request->requirements, 'doc_heading' => $request->doc_heading, 'documents' => $request->documents]);
+        }     
+        return redirect('/partner-registration-req')->with('success', 'Requirements against city added Successfully.');
     }
     //delete partner req
     public function partner_req_delete(Request $request)
@@ -712,10 +714,11 @@ class AdminController extends Controller
     {
         // dd($request->all());
         $legal_form = $request->legal_form;
-        foreach ($legal_form as $data) {
-
-            DB::table('legal_form_of_company')->insert(['city_id' => $request->city_id, 'legal_form' => $data]);
-        }
+        foreach ($request->city_id as $city_id) {
+            foreach ($legal_form as $data) {
+                 DB::table('legal_form_of_company')->insert(['city_id' => $city_id, 'legal_form' => $data]);
+             }
+         } 
 
         return redirect('/legal-form-of-company')->with('success', 'Legal form against city added Successfully!! ...');
     }

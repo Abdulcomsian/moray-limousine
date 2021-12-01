@@ -49,7 +49,7 @@ Admin Dashboard
                                     @csrf
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">City:</label>
-                                        <select class="form-control" name="city_id" required>
+                                        <select class="form-control selectpicker" multiple name="city_id[]" required>
                                             <option value="">Select City</option>
                                             @foreach($cities as $city)
                                             <option value="{{$city->id}}">{{$city->location_city}}</option>
@@ -66,11 +66,11 @@ Admin Dashboard
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Document Heading:</label>
-                                        <input type="text" name="doc_heading" class="form-control" id="doc-heading" placeholder="Enter Requirement Heading" required>
+                                        <input type="text" name="doc_heading" class="form-control" id="doc-heading" placeholder="Enter Requirement Heading" >
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Documents:(Please Enter Document requirements comma seprated)</label>
-                                        <textarea class="form-control" name="documents" rows="5" required></textarea>
+                                        <textarea class="form-control" name="documents" rows="5" ></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
@@ -167,11 +167,11 @@ Admin Dashboard
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Document Heading:</label>
-                                <input type="text" id="editdocheading" name="doc_heading" class="form-control" id="req-heading" placeholder="Enter Requirement Heading" required>
+                                <input type="text" id="editdocheading" name="doc_heading" class="form-control" id="req-heading" placeholder="Enter Requirement Heading" >
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Documents:(Please Enter Documents requirements comma seprated)</label>
-                                <textarea class="form-control" id="editdocuments" name="documents" rows="5" required></textarea>
+                                <textarea class="form-control" id="editdocuments" name="documents" rows="5" ></textarea>
                             </div>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Update</button>
@@ -225,5 +225,6 @@ Admin Dashboard
         $("#deleteid").val(id);
         $("#deletemodal").modal();
     }
+    $('select').selectpicker();
 </script>
 @endsection

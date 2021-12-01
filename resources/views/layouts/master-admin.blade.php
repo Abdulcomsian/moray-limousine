@@ -19,6 +19,10 @@
   <!-- Plugins css -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
   <link rel="stylesheet" type="text/css" href="{{asset('js/DataTables/datatables.min.css')}}" />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+
   <!-- End plugin css for this page -->
   <!-- Layout styles -->
   <link rel="stylesheet" href="{{asset('css/style.css')}}">
@@ -321,6 +325,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <!-- End plugin js for this page -->
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
 <!-- inject:js -->
 <script src="{{asset('driver/js/off-canvas.js')}}"></script>
 <!-- endinject -->
