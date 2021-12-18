@@ -222,22 +222,23 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
             });
             Route::get('info/company', function () {
                 $cities = DB::table('locations')->get();
-                $coutnrycode=DB::table('country')->groupBy('phonecode')->orderBy('phonecode','asc')->get();
-                $countries=DB::table('country')->get();
+                $coutnrycode = DB::table('country')->groupBy('phonecode')->orderBy('phonecode', 'asc')->get();
+                $countries = DB::table('country')->get();
                 $legalform = DB::table('legal_form_of_company')->get();
-                return view('information.company', compact('cities', 'legalform','coutnrycode','countries'));
+                return view('information.company', compact('cities', 'legalform', 'coutnrycode', 'countries'));
             });
             Route::get('info/driver', function () {
                 $driver = User::where(['user_type' => 'driver', 'creator_id' => Auth::user()->id])->first();
-                return view('information.driver', compact('driver'));
+                $coutnrycode = DB::table('country')->groupBy('phonecode')->orderBy('phonecode', 'asc')->get();
+                return view('information.driver', compact('driver', 'coutnrycode'));
             });
             Route::get('info/vehicle', function () {
                 $vehicle = Vehicle::where(['creator_id' => Auth::user()->id])->first();
                 $data['category'] = VehicleCategory::all();
                 $VehicleSubtype = VehicleSubtype::get();
-                $proudctionyear=DB::table('year_production')->orderBy('production_year','asc')->get();
-                $standards=DB::table('standard')->orderBy('standard','asc')->get();
-                return view('information.vehicle', compact('vehicle', 'data', 'VehicleSubtype','standards','proudctionyear'));
+                $proudctionyear = DB::table('year_production')->orderBy('production_year', 'asc')->get();
+                $standards = DB::table('standard')->orderBy('standard', 'asc')->get();
+                return view('information.vehicle', compact('vehicle', 'data', 'VehicleSubtype', 'standards', 'proudctionyear'));
             });
             Route::get('info/payment', function () {
                 return view('information.payment');
