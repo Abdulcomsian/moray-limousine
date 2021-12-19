@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\HtmlString;
 use App\User;
+use DB;
 
 class Emailvarification extends Notification
 {
@@ -17,6 +18,7 @@ class Emailvarification extends Notification
     private $expire;
     private $email;
     private $user_type;
+    private $user_location;
     /**
      * Create a new notification instance.
      *
@@ -28,7 +30,16 @@ class Emailvarification extends Notification
         $this->token = $token;
         $this->expire = $expiration;
         $this->email = $email;
-        $this->user_type = User::where('email', $email)->first();
+        $user = User::where('email', $email)->first();
+        $this->user_type = $user;
+        $record = DB::table('user_location')
+            ->join('locations', 'locations.id', '=', 'user_location.location_id')
+            ->where('user_id',  $user->id)->first();
+        if ($record) {
+            $this->user_location = $record->location_city;
+        } else {
+            $this->user_location = '';
+        }
     }
 
     /**
@@ -53,7 +64,7 @@ class Emailvarification extends Notification
         return (new MailMessage)
             ->greeting("")
             ->subject("Email Verification")
-            ->view('mail.verifyemail', ['token' => $this->token, 'expiredate' => $this->expire, 'email' => $this->email, 'user' => $this->user_type]);
+            ->view('mail.verifyemail', ['token' => $this->token, 'expiredate' => $this->expire, 'email' => $this->email, 'user' => $this->user_type, 'location' => $this->user_location]);
     }
 
 

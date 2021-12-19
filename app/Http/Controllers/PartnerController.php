@@ -725,6 +725,7 @@ class PartnerController extends Controller
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
+        $user->country_code = $request->code;
         $user->user_type = 'driver';
         $user->creator_id = Auth::user()->id;
         $user->password = Hash::make('driver');
@@ -909,6 +910,8 @@ class PartnerController extends Controller
     //partner thanku page
     public function info_thanku()
     {
+        $users = User::where('user_type', 'admin')->get();
+        Notification::send($users, new MorayLimousineNotifications($this->notifyAdminMsg));
         return view('information.thankyou');
     }
     //check email
@@ -921,6 +924,14 @@ class PartnerController extends Controller
             echo "noexist";
         }
     }
+    protected $notifyAdminMsg = [
+        'greeting' => 'A New Partner On Moray Limousines is registered ',
+        'subject' => 'New Partner have Registered',
+        'body'   => 'A New Partner On Moray Limousines is registered please approved. For More Details visit web',
+        'thanks_text' => 'Thanks For Using Moray Limousines',
+        'action_text' => 'View My Site',
+        'action_url' => '/partner/dashboard'
+    ];
     private  $vehicle_added_partner = [
         'greeting' => "New Vehicle is Added Successfully",
         'subject' => 'New Vehicle Added Successfully',

@@ -48,7 +48,7 @@ Admin Dashboard
                                 <form method="post" action="{{url('partner-reg-req-save')}}">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">City:</label>
+                                        <label for="exampleInputEmail1">Select City:</label>
                                         <select class="form-control selectpicker" multiple name="city_id[]" required>
                                             <option value="">Select City</option>
                                             @foreach($cities as $city)
@@ -57,20 +57,20 @@ Admin Dashboard
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Requirement Heading:</label>
+                                        <label for="exampleInputPassword1">Enter Vehicle Class:</label>
                                         <input type="text" name="main_heading" class="form-control" id="req-heading" placeholder="Enter Requirement Heading" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Requirements:(Please Enter requirements comma seprated)</label>
+                                        <label for="exampleInputPassword1">Enter Vehicles Model:</label>
                                         <textarea class="form-control" name="requirements" rows="5" required></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Document Heading:</label>
-                                        <input type="text" name="doc_heading" class="form-control" id="doc-heading" placeholder="Enter Requirement Heading" >
+                                        <input type="text" name="doc_heading" class="form-control" id="doc-heading" placeholder="Enter Requirement Heading">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Documents:(Please Enter Document requirements comma seprated)</label>
-                                        <textarea class="form-control" name="documents" rows="5" ></textarea>
+                                        <textarea class="form-control" name="documents" rows="5"></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
@@ -167,11 +167,11 @@ Admin Dashboard
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Document Heading:</label>
-                                <input type="text" id="editdocheading" name="doc_heading" class="form-control" id="req-heading" placeholder="Enter Requirement Heading" >
+                                <input type="text" id="editdocheading" name="doc_heading" class="form-control" id="req-heading" placeholder="Enter Requirement Heading">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Documents:(Please Enter Documents requirements comma seprated)</label>
-                                <textarea class="form-control" id="editdocuments" name="documents" rows="5" ></textarea>
+                                <textarea class="form-control" id="editdocuments" name="documents" rows="5"></textarea>
                             </div>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Update</button>

@@ -218,7 +218,7 @@
                                                      <p style="font-family:'Roboto',arial,helvetica,sans-serif;font-size:18px;line-height:1.4em;color:#000001;text-align:left;font-weight:normal;text-decoration:none;margin:0;padding:0">
                                                          Dear {{$user->name}},<br>
                                                          <br>
-                                                         Great news, you meet the requirements to apply to work with Moray Limousine in Abu-Dhabi.<br>
+                                                         Great news, you meet the requirements to apply to work with Moray Limousine in {{$location}}.<br>
                                                          <br>
                                                          Our Partner Portal will guide you through the complete application process. If you want to start your registration now and complete it later, your information will be saved so you can always continue where you left off.<br>
                                                          <br>
@@ -245,7 +245,7 @@
                                                                  <td width="80%" style="border-collapse:collapse">
                                                                      <p valign="top" style="font-family:'Roboto',arial,helvetica,sans-serif;font-size:18px;line-height:1.4em;color:#000001;font-weight:normal;text-decoration:none;margin:15px">
                                                                          <strong>Step 2</strong><br>
-                                                                         Upload all required documents proving legal compliance in Abu-Dhabi. Moray Limousine only works with fully licensed partners operating in full compliance with local laws to ensure the safety of our guests.<br>
+                                                                         Upload all required documents proving legal compliance in {{$location}}. Moray Limousine only works with fully licensed partners operating in full compliance with local laws to ensure the safety of our guests.<br>
                                                                          &nbsp;
                                                                      </p>
                                                                  </td>

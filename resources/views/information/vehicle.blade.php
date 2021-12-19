@@ -245,8 +245,7 @@ Company Information
                             <option value="">Please select</option>
                             <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             @foreach($proudctionyear as $year)
-                            <option value="{{$year->production_year}}" 
-                                @if(isset($vehicle->model_no)  && $vehicle->model_no==$year->production_year){{'selected'}}@endif>{{$year->production_year}}</option>
+                            <option value="{{$year->production_year}}" @if(isset($vehicle->model_no) && $vehicle->model_no==$year->production_year){{'selected'}}@endif>{{$year->production_year}}</option>
                             @endforeach
                         </select>
 
@@ -264,7 +263,7 @@ Company Information
                         <select class="form-control" id="standard" name="standard" required>
                             <option value="">Select Standard</option>
                             @foreach($standards as $standard)
-                            <option value="{{$standard->standard}}" @if(isset($vehicle->standard) &&  $vehicle->standard==$standard->standard){{'selected'}}@endif>{{$standard->standard}}</option>
+                            <option value="{{$standard->standard}}" @if(isset($vehicle->standard) && $vehicle->standard==$standard->standard){{'selected'}}@endif>{{$standard->standard}}</option>
                             @endforeach
                         </select>
 
@@ -296,4 +295,34 @@ Company Information
         </div>
     </main>
 </form>
+@endsection
+@section('js')
+<script>
+    $('#vehicleCategory_id').change(function() {
+        let categoryUrl = '{{url('admin/get-categories-title')}}/';
+        let id = $(this).val();
+        if (id !== 0 || id !== '0') {
+            getTitlesList(categoryUrl, id);
+        } else {
+            $('#vehicletitle').children().remove().end();
+        }
+    });
+
+    function getTitlesList(categoryURl, id) {
+        $.ajax({
+            type: 'get',
+            url: categoryURl + id,
+            success: function(response) {
+                console.log(response);
+                let types = response;
+                $('#vehicletitle').children().remove().end();
+                for (let i = 0; i < types.length; i++) {
+                    $('#vehicletitle').append(`<option value="${types[i].title}">
+                    ${types[i].title}
+                    </option>`);
+                }
+            }
+        });
+    }
+</script>
 @endsection

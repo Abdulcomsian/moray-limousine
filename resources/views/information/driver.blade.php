@@ -170,7 +170,7 @@ Company Information
                         <label>First name</label>
                     </div>
                     <div class="input-field">
-                        <input id="first_name" name="first_name" type="text" required class="form-control input-field__element" value="{{$driver->first_name ?? ''}}">
+                        <input id="first_name" name="first_name" type="text" required class="form-control input-field__element" value="{{old('first_name', $driver->first_name ?? '')}}">
 
                     </div>
                     @if($errors->has('first_name'))
@@ -182,7 +182,7 @@ Company Information
                         <label>Last name</label>
                     </div>
                     <div class="input-field">
-                        <input id="last_name" name="last_name" type="text" required class="form-control input-field__element" value="{{$driver->last_name ?? ''}}">
+                        <input id="last_name" name="last_name" type="text" required class="form-control input-field__element" value="{{old('last_name', $driver->last_name ?? '')}}">
                     </div>
                     @if($errors->has('last_name'))
                     <div class="text-danger">{{ $errors->first('last_name') }}</div>
@@ -193,7 +193,7 @@ Company Information
                         <label>Email</label>
                     </div>
                     <div class="input-field">
-                        <input id="email" name="email" type="email" required class="form-control input-field__element" value="{{$driver->email ?? ''}}">
+                        <input id="email" name="email" type="email" required class="form-control input-field__element" value="{{old('email', $driver->email ?? '')}}">
 
                     </div>
                     @if($errors->has('email'))
@@ -205,12 +205,36 @@ Company Information
                         <label>Phone number</label>
                     </div>
                     <div class="input-field">
-                        <input id="phone_number" name="phone_number" type="number" required class="form-control input-field__element" value="{{$driver->phone_number ?? ''}}">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <select class="custom-select" name="code" style="height: 50px">
+                                    <option value="">Select Code</option>
+                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                    @php $i=1;@endphp
+                                    @foreach($coutnrycode as $code)
+                                    <option value="{{$code->phonecode}}" @if(isset($driver) && $driver->country_code==$code->phonecode){{'selected'}}@elseif($i==1){{'selected'}}@endif>{{$code->phonecode}}</option>
+                                    @php $i++ @endphp
+                                    @endforeach
+                                </select>
+                            </div>
+                            <input id="phone_number" name="phone_number" value="{{old('phone_number', $driver->phone_number ?? '')}}" type="text" required class="form-control input-field__element">
+                        </div>
                     </div>
                     @if($errors->has('phone_number'))
                     <div class="text-danger">{{ $errors->first('phone_number') }}</div>
                     @endif
                 </div>
+                <!-- <div class="apollo-input pt-3" style="width: 100%;">
+                    <div class="input-label">
+                        <label>Phone number</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="phone_number" name="phone_number" type="number" required class="form-control input-field__element" value="{{$driver->phone_number ?? ''}}">
+                    </div>
+                    @if($errors->has('phone_number'))
+                    <div class="text-danger">{{ $errors->first('phone_number') }}</div>
+                    @endif
+                </div> -->
 
                 <div class="actions pt-5">
                     <button type="submit" class="second-next-page">Next</button>

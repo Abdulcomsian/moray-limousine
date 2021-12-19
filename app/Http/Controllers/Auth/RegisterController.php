@@ -91,8 +91,8 @@ class RegisterController extends Controller
             $this->partnervalidator($request->all())->validate();
             event(new Registered($user = $this->partnercreate($request->all())));
             //send email to admin
-            $users = User::where('user_type', 'admin')->get();
-            Notification::send($users, new MorayLimousineNotifications($this->notifyAdminMsg));
+            // $users = User::where('user_type', 'admin')->get();
+            // Notification::send($users, new MorayLimousineNotifications($this->notifyAdminMsg));
             return $this->registered($request, $user)
                 ?: redirect($this->redirectPath());
         } else {
@@ -160,6 +160,7 @@ class RegisterController extends Controller
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ]);
+            $user->city = $data['city-select'];
             return $user;
         }
     }
