@@ -21,7 +21,7 @@ Extra Options
     label {
         font-weight: bold;
     }
-
+.checkbox label{    padding-left: 75px;}
     input[type="checkbox"] {
         top: 3px !important;
         left: auto !important;
