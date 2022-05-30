@@ -102,7 +102,7 @@
                                          <div class="col-md-7 pt-4">
                                              <div class="w-100 checkbox">
                                                   <input type="checkbox" name="accept" id="accept" required>
-                                                 <label for="accept">Ich akzeptiere die<span>AGB's</span> & die <span>Datenschutzbestimmungen</span> </label> 
+                                                 <label for="accept" style="padding-left:0px !important">Ich akzeptiere die <span>AGB's</span> & die <span>Datenschutzbestimmungen</span> </label> 
                                              </div>
                                          </div>
                                          <div class="col-md-5">
