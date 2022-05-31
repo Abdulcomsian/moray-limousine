@@ -153,9 +153,10 @@ class Booking extends Model
      */
     public function classesWithPriceByDistance($classes, $d, $form_data)
     {
+
         $tax_rate = 0.0;
         if (!empty(Configuration::first()->tax_rate)) {
-            $tax_rate = Configuration::first()->tax_rate;
+             $tax_rate = Configuration::first()->tax_rate;
         }
         $classesWithPrice = array();
         foreach ($classes as $class) {
@@ -197,14 +198,13 @@ class Booking extends Model
                     $class->setAttribute('tax_amount', number_format($tax_amount, 2));
                     $classesWithPrice[] = $class;
                 } else {
-                    $classPrice = $classPricing->first()->base_price;
-                    $classPrice = $classPrice * $d;
+                     $classPrice = $classPricing->first()->base_price;
+                     $classPrice = $classPrice * $d;
                     isset($discount_rate) ? $classPrice = $classPrice - ($classPrice * $discount_rate / 100) :
                         $classPrice = $classPrice + ($classPrice * $markup_rate / 100);
-
                     //Calculation and Adding tax amount
                     // $tax_amount = $classPrice * $tax_rate / (100 + (int)$tax_rate);
-                    $tax_amount = $classPrice * $tax_rate / (100);
+                     $tax_amount = $classPrice * $tax_rate / (100);
                     $classPrice += $tax_amount;
                     $class->setAttribute('class_price', number_format($classPrice, 2));
                     $class->setAttribute('tax_amount', number_format($tax_amount, 2));

@@ -63,7 +63,8 @@ class BookingController extends Controller
         $validated = $request->validated();
         $dist = (float)$request['total_distance'];
         $durationInHours = $this->durationInHour($request->total_duration);
-        $distance_in_km = $this->calculateDistance($dist);
+        $distance_in_km=$dist/1000;
+        //$distance_in_km = $this->calculateDistance($dist);
         $classes = $this->classes->all();
         //    Set Prices and also set the discounts & markup with classes
         $classes =  $this->booking->classesWithPriceByDistance($classes, $distance_in_km, $request->all());
@@ -770,26 +771,27 @@ class BookingController extends Controller
      * @param $dist
      * @return float|int
      */
-    public function calculateDistance($dist)
-    {
-        $dist = $dist / 1000;
-        if ($dist < 10 && $dist > 5) {
-            $dist = $dist - 3;
-        } elseif ($dist > 10 && $dist < 20) {
-            $dist = $dist - 4;
-        } elseif ($dist > 20 && $dist < 30) {
-            $dist = $dist - 5;
-        } elseif ($dist > 30 && $dist < 40) {
-            $dist = $dist - 6;
-        } elseif ($dist > 40 && $dist < 80) {
-            $dist = $dist - 7;
-        } elseif ($dist > 80 && $dist < 150) {
-            $dist = $dist - 8;
-        } elseif ($dist > 150) {
-            $dist = $dist - 8;
-        }
-        return $dist;
-    }
+
+    // public function calculateDistance($dist)
+    // {
+    //     $dist = $dist / 1000;
+    //     if ($dist < 10 && $dist > 5) {
+    //         $dist = $dist - 3;
+    //     } elseif ($dist > 10 && $dist < 20) {
+    //         $dist = $dist - 4;
+    //     } elseif ($dist > 20 && $dist < 30) {
+    //         $dist = $dist - 5;
+    //     } elseif ($dist > 30 && $dist < 40) {
+    //         $dist = $dist - 6;
+    //     } elseif ($dist > 40 && $dist < 80) {
+    //         $dist = $dist - 7;
+    //     } elseif ($dist > 80 && $dist < 150) {
+    //          $dist = $dist - 8;
+    //     } elseif ($dist > 150) {
+    //         $dist = $dist - 8;
+    //     }
+    //     return $dist;
+    // }
 
 
 
