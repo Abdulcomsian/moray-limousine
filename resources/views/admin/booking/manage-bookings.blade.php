@@ -141,6 +141,89 @@
         </footer>
         <!-- partial -->
     </div>
+    <div class="modal" id="approvemodal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Assign Driver</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="{{url('booking/adminapprove')}}" id="approvebookform" method="post">
+                @csrf
+                <input type="hidden" name="id" id="bookingapprovid">
+              <div class="form-group">
+                <label for="phone" class="col-form-label">Driver:</label>
+                <select class="form-control" name="driver" required>
+                    <option value="">Select Vehicle</option>
+                    @foreach($drivers as $driver)
+                    <option value="{{$driver->id}}">{{$driver->first_name}} {{$driver->last_name}}</option>
+                    @endforeach
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="phone" class="col-form-label">Vechicle:</label>
+                <select class="form-control" name="vehicle" required>
+                    <option value="">Select Vehicle</option>
+                    @foreach($vehicles as $vehicle)
+                    <option value="{{$vehicle->id}}">{{$vehicle->title}}</option>
+                    @endforeach
+                </select>
+              </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+           </form>
+        </div>
+      </div>
+    </div>
+
+     <div class="modal" id="editapprovemodal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Assign Driver</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="{{url('booking/editadminapprove')}}" id="approvebookform" method="post">
+                @csrf
+                 <input type="hidden" name="id" id="editbookingapprovid">
+             <div class="form-group">
+                <label for="phone" class="col-form-label">Driver:</label>
+                <select class="form-control" name="driver" required id="editdriver">
+                    <option value="">Select Driver</option>
+                    @foreach($drivers as $driver)
+                    <option value="{{$driver->id}}">{{$driver->first_name}} {{$driver->last_name}}</option>
+                    @endforeach
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="phone" class="col-form-label">Vechicle:</label>
+                <select class="form-control" name="vehicle" required id="editvehicle">
+                    <option value="">Select Vehicle</option>
+                    @foreach($vehicles as $vehicle)
+                    <option value="{{$vehicle->id}}">{{$vehicle->title}}</option>
+                    @endforeach
+                </select>
+              </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">update changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+           </form>
+        </div>
+      </div>
+    </div>
 @endsection
 @section('js')
     <script>
@@ -166,5 +249,23 @@
             ];
         }
     </script>
+    <script type="text/javascript">
+     $(document).on('click',".approvebooking",function(e){
+         e.preventDefault();
+         id=$(this).attr('data-id');
+         $("#bookingapprovid").val(id);
+         $("#approvemodal").modal('show');
+    })
+
+     $(document).on('click','.editdriver',function(e){
+        id=$(this).attr('data-id');
+        driver=$(this).attr('data-driver');
+        vehicle=$(this).attr('data-vehicle');
+        $("#editbookingapprovid").val(id);
+        $("#editdriver").val(driver);
+        $("#editvehicle").val(vehicle);
+        $("#editapprovemodal").modal('show');
+     })
+     </script>
     <script src="{{asset('js/admin/booking.js')}}"></script>
 @endsection

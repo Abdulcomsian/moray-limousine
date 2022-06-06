@@ -81,15 +81,19 @@ class AdminController extends Controller
      */
     public function manageBookings()
     {
-        $bookings = Booking::where('payment_status', 'paid')
+        $bookings = Booking::with('adminassign','vehicle')->where('payment_status', 'paid')
             ->orderBy('created_at', 'desc')->get();
-        $pending_bookings  = Booking::where('booking_status', 'pending')->get();
+        $vehicles=Vehicle::get();
+        $drivers=User::where('user_type','driver')->get();
+        $pending_bookings  = Booking::with('adminassign','vehicle')->where('booking_status', 'pending')->where('id',473)->get();
         $complete_bookings = Booking::where('booking_status', 'completed')->get();
         $pending_bookings = count($pending_bookings);
         $complete_bookings = count($complete_bookings);
         $data['pending_count'] = $pending_bookings;
         $data['bookings'] = $bookings;
         $data['completed_count'] = $complete_bookings;
+        $data['vehicles']= $vehicles;
+        $data['drivers']=$drivers;
         return view('admin.booking.manage-bookings', $data);
     }
 

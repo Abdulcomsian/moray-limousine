@@ -74,7 +74,19 @@ class Booking extends Model
             'booking_id',
             'user_id'
         )
-            ->withPivot('status', 'assigned_at', 'booking_date', 'commission', 'calculated_price', 'driver_status', 'assigned_to');
+            ->withPivot('status', 'assigned_at', 'booking_date', 'commission', 'calculated_price', 'driver_status', 'assigned_to','admin_assign');
+    }
+
+    public function adminassign()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'booking_user',
+            'booking_id',
+            'user_id'
+        )
+        ->where('admin_assign',1)
+            ->withPivot('status', 'assigned_at', 'booking_date', 'commission', 'calculated_price', 'driver_status', 'assigned_to','admin_assign');
     }
 
     /**
@@ -234,7 +246,7 @@ class Booking extends Model
                 ->where('to', '>=', $durationInHours)->get();
 
             if (count($classPricing) > 0) {
-                $pricing_type = $classPricing->first()->is_price_fixed;
+                 $pricing_type = $classPricing->first()->is_price_fixed;
                 if ($pricing_type == 1 or $pricing_type == true) {
                     $classPrice = $classPricing->first()->fixed_price;
 

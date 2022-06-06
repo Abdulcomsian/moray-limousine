@@ -10,6 +10,7 @@ use App\Rules\MatchOldPassword;
 use App\User;
 use App\UsersMedia;
 use Carbon\Carbon;
+use App\Booking;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -220,12 +221,28 @@ class UserController extends Controller
         $data['extended_booking'] = $data['booking']->extended_bookings->where('payment_status', 'paid')->first();
         if ($data['booking'] != null or isset($data['booking'])) {
             $data['taxrate'] = $tax_rate;
-            //echo"<pre>";print_r($data);exit;
+            
             return view('end-user.booking-details', $data);
         } else {
             return redirect()->back()->with('error', 'Error.. !  No Booking Found');
         }
     }
+
+    public function bookingConfirm($id)
+    {
+            $notify_booking_user =array_merge($this->confirm_booking_msg,['body' => 'Hello  !  booking is confirmed by  user.']);
+             $admin = User::where('user_type', 'admin')->get();
+             Notification::send($admin, new MorayLimousineNotifications($notify_booking_user));
+            return redirect()->back()->with('success', 'Sucess.. !  Booking Confirmed');
+    }
+
+    public $confirm_booking_msg = [
+        'greeting' => 'Booking Request is confirmed by User',
+        'subject' => 'Booking Request is Confirmed by user',
+        'thanks_text' => 'Thanks For Using Moray Limousine',
+        'action_text' => 'View My Site',
+        'action_url' => '/home',
+    ];
 
     /**
      * @param Request $request

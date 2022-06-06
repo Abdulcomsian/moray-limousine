@@ -26,7 +26,7 @@
                     {{-- @endif--}}
                 </td>
                 <td>
-                    @if($booking->booking_status == 'approved') <div class="badge badge-success p-2">Approved</div>
+                    @if($booking->booking_status == 'approved') <div class="badge badge-success p-2">Approved </div>&nbsp;&nbsp;@if(isset($booking->adminassign[0]->pivot))<span class="fa fa-edit editdriver" data-id="{{$booking->id}}" data-driver="{{$booking->adminassign[0]->id ?? ''}}" data-vehicle="{{$booking->vehicle[0]->id ?? ''}}"></span>  @endif
                     @elseif($booking->booking_status == 'pending') <div class="badge badge-warning p-2">Pending</div>
                     @elseif($booking->booking_status == 'disapproved') <div class="badge badge-dark p-2">Disapproved</div>
                     @elseif($booking->booking_status == 'canceled') <div class="badge badge-dark p-2">Canceled</div>
@@ -43,10 +43,11 @@
                     <a title="Dis Approve Booking" class="text-danger pr-2 disapprove-booking" href="{{url('/booking/disapprove/')}}/{{$booking->id}}"> <i class="fa fa-ban"></i> </a>
                     @endif
                     @if($booking->booking_status == 'disapproved')
-                    <a class="text-success pr-2" title="Approve Booking" href="{{url('/booking/approve/')}}/{{$booking->id}}"> <i class="fa fa-universal-access"></i> </a>
+                    <a class="text-success pr-2 approvebooking" data-id="{{$booking->id}}" title="Approve Booking obaid" href="#"> <i class="fa fa-universal-access"></i> </a>
+
                     @endif
                     @if($booking->booking_status == 'pending')
-                    <a class="text-success pr-2" title="Approve Booking" href="{{url('/booking/approve/')}}/{{$booking->id}}"> <i class="fa fa-universal-access"></i> </a>
+                    <a class="text-success pr-2 approvebooking" data-id="{{$booking->id}}" title="Approve Booking" href="#"> <i class="fa fa-universal-access"></i> </a>
 
                     <!--  $dattimearray=explode(" ",$booking->created_at);
                                  $today=date('Y-m-d');

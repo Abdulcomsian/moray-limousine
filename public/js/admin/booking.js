@@ -119,6 +119,8 @@ $(document).ready(function () {
         }
     });
 
+   
+
 
     function getBookingsByDate(url){
         let start_date = $('input[name="start_date"]').val();

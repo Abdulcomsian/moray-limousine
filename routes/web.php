@@ -71,6 +71,9 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
     Route::get('/booking/payment-form', 'BookingController@bookingPayment')->name('booking.payment');
     Route::post('/booking/store-booking', 'BookingController@storeBooking')->name('submit.booking');
     Route::get('/booking/approve/{id}', 'BookingController@bookingApprove');
+    Route::post('/booking/adminapprove', 'BookingController@adminbookingApprove');
+    Route::post('/booking/editadminapprove', 'BookingController@editadminbookingApprove');
+   
     Route::get('/booking/disapprove/{id}', 'BookingController@bookingDisapprove');
     Route::post('paypal-transaction-complete', 'BookingController@paypaltransactioncomplete');
     Route::get('booking/thanks-page/{id?}', 'BookingController@thanksPage')->name('thanks.page');
@@ -101,6 +104,7 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
 
         Route::get('user/filter-by-status', 'UserController@filterByStatus');
         Route::get('user/booking-details/{id}', 'UserController@bookingDetail');
+        Route::get('user/booking-confirm/{id}', 'UserController@bookingConfirm');
         Route::get('user/notifications', 'UserController@userNotifications');
         Route::get('booking/checkout/{id?}', 'BookingController@thanksHome');
         Route::post('user/booking-extend', 'UserController@saveExtendBooking')->name('extend_booking');

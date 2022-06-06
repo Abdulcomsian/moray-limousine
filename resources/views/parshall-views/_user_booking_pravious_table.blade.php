@@ -38,6 +38,8 @@ function checkDataAndTime1($time , $date ,$hour){
 
                     <a href="{{url('/user/booking-details/')}}/{{$booking->id}}" title="Booking Details" class="text-info booking-detail">
                         <i class="fa fa-eye"></i> </a>
+                    <a href="{{url('/user/booking-confirm/')}}/{{$booking->id}}" title="Confirm Booking" class="text-info booking-detail">
+                        <i class="fa fa-check"></i> </a>
 
                     @if(checkDataAndTime1($booking->pick_time , $booking->pick_date ,2) and $booking->booking_status !== 'canceled' and $booking->booking_status !== 'completed')
                         <a href="{{url('/user/cancel-booking/')}}/{{$booking->id}}" title="Cancel This Booking" class="text-danger cancel-bookings">

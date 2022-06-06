@@ -26,7 +26,8 @@ use Illuminate\View\View;
 use Session;
 use DB;
 use PDF;
-
+use Illuminate\Support\Facades\Hash;
+use App\AdminAssingBooking;
 class BookingController extends Controller
 {
     /**
@@ -225,7 +226,59 @@ class BookingController extends Controller
         $user->notify(new MorayLimousineNotifications($approve_msg));
         return redirect()->back();
     }
+    
 
+    public function adminbookingApprove(Request $request)
+    {
+            //assign to driver from admin side
+            
+            $vehicleId =$request->vehicle;
+            $bookingId = $request->id;
+            $driver =$request->driver; //array
+
+
+            $booking = Booking::find($bookingId);
+            $pickUpDate = $booking->pick_date;
+            
+            $booking->vehicle()->sync($vehicleId);
+            $booking->driver()->attach($driver, ['booking_date' => $pickUpDate, 'assigned_to' => 'driver','status'=>'approved','driver_status'=>'approved','admin_assign'=>1]);
+            $assign_msg = array_merge($this->notify_driver_assign, ['body' => 'You are assigned a new ride which booking address is : ' . $booking->pick_address . ' See yor dashboard for more details or click the button blow.. ', 'action_url' => '/driver/dashboard']);
+            $driveruser = User::find($driver);
+            $driveruser->notify(new MorayLimousineNotifications($assign_msg));
+            $booking  = Booking::find($request->id);
+            $booking->booking_status = 'approved';
+            $booking->save();
+            $user = $booking->user;
+            $approve_msg = array_merge($this->approve_booking_msg, ['body' => 'Your Booking Request is approved by Moray Limousine which ' .
+            $booking['pick_address'] .  ' And Pick Time is  ' . $booking['pick_time'] . ' is Assigned to '.$driveruser->first_name .' '.$driveruser->last_name.' having phone number is '.$driveruser->phone_number.' ! Enjoy With Us.  ']);
+            $user->notify(new MorayLimousineNotifications($approve_msg));
+            return redirect()->back();
+    }
+
+    public function editadminbookingApprove(Request $request)
+    {
+            $vehicleId =$request->vehicle;
+            $bookingId = $request->id;
+            $driver =$request->driver; //array
+
+
+            $booking = Booking::find($bookingId);
+            $pickUpDate = $booking->pick_date;
+            
+            $booking->vehicle()->sync($vehicleId);
+            $booking->driver()->updateExistingPivot($driver, ['booking_date' => $pickUpDate, 'assigned_to' => 'driver','status'=>'approved','driver_status'=>'approved','admin_assign'=>1]);
+            $assign_msg = array_merge($this->notify_driver_assign, ['body' => 'You are assigned a new ride which booking address is : ' . $booking->pick_address . ' See yor dashboard for more details or click the button blow.. ', 'action_url' => '/driver/dashboard']);
+            $driveruser = User::find($driver);
+            $driveruser->notify(new MorayLimousineNotifications($assign_msg));
+            $booking  = Booking::find($request->id);
+            $booking->booking_status = 'approved';
+            $booking->save();
+            $user = $booking->user;
+            $approve_msg = array_merge($this->approve_booking_msg, ['body' => 'Your Booking Request is updated by Moray Limousine which ' .
+            $booking['pick_address'] .  ' And Pick Time is  ' . $booking['pick_time'] . ' is Assigned to '.$driveruser->first_name .' '.$driveruser->last_name.' having phone number is '.$driveruser->phone_number.' ! Enjoy With Us.  ']);
+            $user->notify(new MorayLimousineNotifications($approve_msg));
+            return redirect()->back();
+    }
     /**
      * @param $id
      * @return RedirectResponse
@@ -327,7 +380,7 @@ class BookingController extends Controller
         } else {
             $enduser_billing_details = DB::table('endusers')
                 ->select(DB::raw('*'))
-                ->where('user_id', auth()->user()->id)
+                ->where('user_id', $booking->user_id)
                 ->get();
         }
         return view('booking.booking-details-page')->with([
