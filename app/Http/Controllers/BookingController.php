@@ -249,7 +249,7 @@ class BookingController extends Controller
             $booking->booking_status = 'approved';
             $booking->save();
             $user = $booking->user;
-            $approve_msg = array_merge($this->approve_booking_msg, ['body' => 'Your Booking Request is approved by Moray Limousine which ' .
+            $approve_msg = array_merge($this->approve_booking_msg_admin, ['body' => 'Your Booking Confirm is approved by Moray Limousine which ' .
             $booking['pick_address'] .  ' And Pick Time is  ' . $booking['pick_time'] . ' is Assigned to '.$driveruser->first_name .' '.$driveruser->last_name.' having phone number is '.$driveruser->phone_number.' ! Enjoy With Us.  ']);
             $user->notify(new MorayLimousineNotifications($approve_msg));
             return redirect()->back();
@@ -274,7 +274,7 @@ class BookingController extends Controller
             $booking->booking_status = 'approved';
             $booking->save();
             $user = $booking->user;
-            $approve_msg = array_merge($this->approve_booking_msg, ['body' => 'Your Booking Request is updated by Moray Limousine which ' .
+            $approve_msg = array_merge($this->approve_booking_msg_admin, ['body' => 'Your Booking Confirm is updated by Moray Limousine which ' .
             $booking['pick_address'] .  ' And Pick Time is  ' . $booking['pick_time'] . ' is Assigned to '.$driveruser->first_name .' '.$driveruser->last_name.' having phone number is '.$driveruser->phone_number.' ! Enjoy With Us.  ']);
             $user->notify(new MorayLimousineNotifications($approve_msg));
             return redirect()->back();
@@ -882,6 +882,14 @@ class BookingController extends Controller
     public $approve_booking_msg = [
         'greeting' => 'Your Booking Request is approved by Moray Limousine',
         'subject' => 'Booking Request is approved by Moray Limousine',
+        'thanks_text' => 'Thanks For Using Moray Limousine',
+        'action_text' => 'View My Site',
+        'action_url' => '/home',
+    ];
+
+    public $approve_booking_msg_admin = [
+        'greeting' => 'Your Booking Confirm is approved by Moray Limousine',
+        'subject' => 'Booking Confirm is approved by Moray Limousine',
         'thanks_text' => 'Thanks For Using Moray Limousine',
         'action_text' => 'View My Site',
         'action_url' => '/home',
