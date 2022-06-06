@@ -43,7 +43,8 @@
                     <a title="Dis Approve Booking" class="text-danger pr-2 disapprove-booking" href="{{url('/booking/disapprove/')}}/{{$booking->id}}"> <i class="fa fa-ban"></i> </a>
                     @endif
                     @if($booking->booking_status == 'disapproved')
-                    <a class="text-success pr-2 approvebooking" data-id="{{$booking->id}}" title="Approve Booking obaid" href="#"> <i class="fa fa-universal-access"></i> </a>
+                    <a class="text-success pr-2 approvebooking" data-id="{{$booking->id}}" title="Admin Approve Booking " href="#"> <i class="fa fa-user"></i> </a>
+                    <a class="text-success pr-2" data-id="{{$booking->id}}" title="Approve Booking" href="{{url('/booking/approve/')}}/{{$booking->id}}"> <i class="fa fa-universal-access"></i> </a>
 
                     @endif
                     @if($booking->booking_status == 'pending')
