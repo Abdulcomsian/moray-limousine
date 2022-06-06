@@ -230,7 +230,7 @@ class UserController extends Controller
 
     public function bookingConfirm($id)
     {
-            $notify_booking_user =array_merge($this->confirm_booking_msg,['body' => 'Hello  !  booking is confirmed by  user.']);
+            $notify_booking_user =array_merge($this->confirm_booking_msg,['body' => 'Hello  !  booking with booking '.$id.' is confirmed by  user.']);
              $admin = User::where('user_type', 'admin')->get();
              Notification::send($admin, new MorayLimousineNotifications($notify_booking_user));
             return redirect()->back()->with('success', 'Sucess.. !  Booking Confirmed');
