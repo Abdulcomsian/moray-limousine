@@ -14,7 +14,14 @@
         </thead>
         <tbody>
             @foreach($bookings as $booking )
-            <tr>
+            @php 
+               $style="";
+              if(isset($booking->checkdriverassign) && count($booking->checkdriverassign)>0)
+              {
+                $style="display:none";
+              }
+            @endphp
+            <tr style="{{$style}}">
                 <td>{{$booking->id}} </td>
                 <td>{{date('d - M - yy',strtotime($booking->pick_date))}}</td>
                 <td> &euro; {{$booking->net_amount}}</td>
@@ -40,6 +47,7 @@
                 </td>
                 <td style="font-size: 1.7rem">
                     @if($booking->booking_status == 'approved')
+                    <a class="text-success pr-2 approvebooking" data-id="{{$booking->id}}" title="Admin Approve Booking " href="#"> <i class="fa fa-user"></i> </a>
                     <a title="Dis Approve Booking" class="text-danger pr-2 disapprove-booking" href="{{url('/booking/disapprove/')}}/{{$booking->id}}"> <i class="fa fa-ban"></i> </a>
                     @endif
                     @if($booking->booking_status == 'disapproved')

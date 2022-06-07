@@ -6,6 +6,7 @@ $.ajaxSetup({
 let bookingUrl = bookingsUrl();
 let all_url = bookingUrl[0];
 let pending_url = bookingUrl[1];
+console.log(pending_url);
 let assigned_url = bookingUrl[2];
 let canceled_url = bookingUrl[3];
 let completed_url = bookingUrl[4];

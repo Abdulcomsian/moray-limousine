@@ -241,7 +241,7 @@ class BookingController extends Controller
             $pickUpDate = $booking->pick_date;
             
             $booking->vehicle()->sync($vehicleId);
-            $booking->driver()->attach($driver, ['booking_date' => $pickUpDate, 'assigned_to' => 'driver','status'=>'approved','driver_status'=>'approved','admin_assign'=>1]);
+            $booking->driver()->attach($driver, ['booking_date' => $pickUpDate, 'assigned_to' => 'driver','admin_assign'=>1]);
             $assign_msg = array_merge($this->notify_driver_assign, ['body' => 'You are assigned a new ride which booking address is : ' . $booking->pick_address . ' See yor dashboard for more details or click the button blow.. ', 'action_url' => '/driver/dashboard']);
             $driveruser = User::find($driver);
             $driveruser->notify(new MorayLimousineNotifications($assign_msg));
@@ -729,7 +729,9 @@ class BookingController extends Controller
      */
     public function pendingBookings()
     {
-        $data['bookings'] = Booking::where('booking_status', 'pending')->get();
+        //$data['bookings'] = Booking::where(['booking_status'=>'pending'])->get();
+        $data['bookings'] = Booking::with('checkdriverassign')->where(['booking_status'=>'approved','payment_status'=>'paid'])->get();
+        
         return view('parshall-views._booking-list-table', $data);
     }
     public function canceledBookings()

@@ -77,6 +77,17 @@ class Booking extends Model
             ->withPivot('status', 'assigned_at', 'booking_date', 'commission', 'calculated_price', 'driver_status', 'assigned_to','admin_assign');
     }
 
+   public function checkdriverassign()
+   {
+     return $this->belongsToMany(
+            User::class,
+            'booking_user',
+            'booking_id',
+            'user_id'
+        )->where(['driver_status'=>'accepted','assigned_to'=>'driver'])
+     ->withPivot('status', 'assigned_at', 'booking_date', 'commission', 'calculated_price', 'driver_status', 'assigned_to','admin_assign');
+   }
+
     public function adminassign()
     {
         return $this->belongsToMany(

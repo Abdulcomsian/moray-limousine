@@ -85,7 +85,7 @@ class AdminController extends Controller
             ->orderBy('created_at', 'desc')->get();
         $vehicles=Vehicle::get();
         $drivers=User::where('user_type','driver')->get();
-        $pending_bookings  = Booking::with('adminassign','vehicle')->where('booking_status', 'pending')->where('id',473)->get();
+        $pending_bookings  = Booking::with('adminassign','vehicle')->where('booking_status', 'pending')->get();
         $complete_bookings = Booking::where('booking_status', 'completed')->get();
         $pending_bookings = count($pending_bookings);
         $complete_bookings = count($complete_bookings);
