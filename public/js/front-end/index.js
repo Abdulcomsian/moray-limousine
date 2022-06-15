@@ -64,7 +64,7 @@ $('.btn-resurve').click(function (e) {
     var endDate= new Date(Date.parse(pick_date));
     if (endDate <= TodayDate) {
         //alert(hours);
-        if(hours<=10)
+        if(hours<=6)
         {
            $("#urgentbook").modal('show');
             return false;
@@ -165,7 +165,7 @@ function initMap() {
     //Auto complete for drop Location input
     var inputdrop = document.getElementById('drop-location');
     let auto = new google.maps.places.Autocomplete(inputdrop);
-    auto.setComponentRestrictions({'country': ['de']});
+    //auto.setComponentRestrictions({'country': ['de']});
     auto.setFields(['geometry']);
 
     google.maps.event.addListener(auto,'place_changed', function () {
@@ -259,7 +259,8 @@ function initMap() {
 
                     $.each(locations_list , function (index , value) {
                         let location_city =  value.location_city;
-                         if(location_city === pick_city){
+                        //new work here
+                        if(location_city != pick_city){
                             check_city = true;
                              $('.alert-wrong-city').hide();
                             return false;
@@ -268,6 +269,17 @@ function initMap() {
                              $('.alert-wrong-city').show();
                              $('#alert_box_text').html('<strong>Sorry.... !  </strong>  Service Is Not Available In This Area Or City');
                          }
+
+                        //old work here
+                         // if(location_city === pick_city){
+                         //    check_city = true;
+                         //     $('.alert-wrong-city').hide();
+                         //    return false;
+                         // }else {
+                         //     check_city = false;
+                         //     $('.alert-wrong-city').show();
+                         //     $('#alert_box_text').html('<strong>Sorry.... !  </strong>  Service Is Not Available In This Area Or City');
+                         // }
                     });
                 } else {
                     console.log("No results found");
