@@ -15,6 +15,7 @@ let paid_url = bookingUrl[6];
 let id_url = bookingUrl[7];
 let bookings_url_date = bookingUrl[8];
 let payout_bookings_url = bookingUrl[9];
+let payout_new_url = bookingUrl[10];
 
 
 $(document).ready(function () {
@@ -69,6 +70,10 @@ $(document).ready(function () {
     $('.pending-booking').click(function () {
         getBookings(pending_url);
     });
+    $('.new-booking').click(function () {
+        getBookings(payout_new_url);
+    });
+    
     $('.canceled-booking').click(function () {
         getBookings(canceled_url);
     });

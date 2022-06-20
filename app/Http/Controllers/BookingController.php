@@ -170,7 +170,7 @@ class BookingController extends Controller
         $booking->userDetail = json_encode($request->input('userDetail'), JSON_PRETTY_PRINT);
 
         $booking->payment_status = 'paid';
-        $booking->booking_status = 'approved';
+        $booking->booking_status = 'new';
         $booking->update();
 
         $notify_booking_user = array_merge($this->notify_booking_user, ['body' => 'Hello  ! Your booking request For Pick Address ' . $booking->pick_addess . ' Is Received We Will Let You Know When a Driver & Vehicle will be assigned to your booking. ']);
@@ -731,6 +731,12 @@ class BookingController extends Controller
     {
         //$data['bookings'] = Booking::where(['booking_status'=>'pending'])->get();
         $data['bookings'] = Booking::with('checkdriverassign')->where(['booking_status'=>'approved','payment_status'=>'paid'])->get();
+        
+        return view('parshall-views._booking-list-table', $data);
+    }
+    public function newBookings()
+    {
+        $data['bookings'] = Booking::with('checkdriverassign')->where(['booking_status'=>'new'])->get();
         
         return view('parshall-views._booking-list-table', $data);
     }

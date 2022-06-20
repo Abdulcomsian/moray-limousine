@@ -75,6 +75,9 @@
                             <button class="dropdown-item bg-dark text-white pending-booking" type="button">Pending
                                 Bookings
                             </button>
+                             <button class="dropdown-item bg-dark text-white new-booking" type="button">New
+                                Bookings
+                            </button>
                             <button class="dropdown-item admin-drivers-list bg-dark text-white approved-Booking"
                                     type="button">Approved Bookings
                             </button>
@@ -246,6 +249,7 @@
                 '{{url('admin/booking_by_id')}}/',
                 '{{url('admin/booking_by_date')}}',
                 '{{url('admin/payout-bookings')}}',
+                '{{url('admin/get-neww-bookings')}}',
             ];
         }
     </script>

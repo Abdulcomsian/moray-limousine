@@ -123,6 +123,8 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
     Route::get('/booking-assign-to-form', 'BookingController@assignToForm')->name('booking.assignToForm');
     Route::get('/admin/get-all-bookings', 'BookingController@allBookings');
     Route::get('/admin/get-pending-bookings', 'BookingController@pendingBookings');
+    Route::get('/admin/get-neww-bookings', 'BookingController@newBookings');
+    
     Route::get('/admin/get-assigned-bookings', 'BookingController@assignedBookings');
     Route::get('/admin/get-canceled-bookings', 'BookingController@canceledBookings');
     Route::get('/admin/get-completed-bookings', 'BookingController@completedBookings');

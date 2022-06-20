@@ -34,6 +34,7 @@
                 </td>
                 <td>
                     @if($booking->booking_status == 'approved') <div class="badge badge-success p-2">Approved </div>&nbsp;&nbsp;@if(isset($booking->adminassign[0]->pivot))<span class="fa fa-edit editdriver" data-id="{{$booking->id}}" data-driver="{{$booking->adminassign[0]->id ?? ''}}" data-vehicle="{{$booking->vehicle[0]->id ?? ''}}"></span>  @endif
+                    @elseif($booking->booking_status == 'new') <div class="badge badge-primary p-2">New</div>
                     @elseif($booking->booking_status == 'pending') <div class="badge badge-warning p-2">Pending</div>
                     @elseif($booking->booking_status == 'disapproved') <div class="badge badge-warning p-2">Disapproved</div>
                     @elseif($booking->booking_status == 'canceled') <div class="badge badge-danger p-2">Canceled</div>
