@@ -31,6 +31,7 @@ Route::post('register/verify/resend', 'Auth\RegisterController@resendVerificatio
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home/getLocations', 'BookingController@getAllowedCities');
+Route::get('/home/getLocationsbookinghours', 'BookingController@getLocationHours');
 Route::get('/booking-by-hours', 'BookingController@selectClassByHour')->name('select.booking.by.hour');
 
 Route::get('/ariport-transfer', 'HomeController@ariporttransfer');
@@ -426,11 +427,16 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
 
         //          Manage Locations Routes
         Route::get('admin/add-locations', 'LocationController@addLocations');
+        Route::get('admin/add-booking-hours', 'LocationController@addBookingHours');
         Route::get('admin/delete-location/{id}', 'LocationController@deleteLocation');
         Route::get('admin/edit-location/{id}', 'LocationController@editLocation');
         Route::get('admin/make-top-city/{id}', 'LocationController@makeTopCity');
         Route::get('admin/remove-top-city/{id}', 'LocationController@removeTopCity');
         Route::post('admin/save-location', 'LocationController@saveLocation')->name('admin.save.location');
+        Route::post('admin/save-booking-hours', 'LocationController@saveBookingHours')->name('admin.save.bookinghour');
+        Route::get('admin/delete-booking-hour/{id}', 'LocationController@deleteBookingHour');
+        Route::get('admin/edit-booking-hour/{id}', 'LocationController@editBookinghour');
+        
 
         //        Manage tax
         Route::post('admin/change-tax', 'Admin\AdminController@changeTax')->name('changeTax');

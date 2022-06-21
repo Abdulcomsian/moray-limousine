@@ -192,13 +192,26 @@
         </ul>
       </div>
     </li>
-
+    
     <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#managelocation" aria-expanded="false" aria-controls="ui-basic">
+        <span class="menu-title">Manage Locations</span>
+        <i class="icon-paypal menu-icon"></i>
+      </a>
+      <div class="collapse" id="managelocation">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{url('admin/add-locations')}}">Add Locations</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{url('admin/add-booking-hours')}}">Add Booking Hours</a></li>
+        </ul>
+      </div>
+    </li>
+
+   <!--  <li class="nav-item">
       <a class="nav-link" href="{{url('admin/add-locations')}}" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">Manage Locations</span>
         <i class="icon-note menu-icon"></i>
       </a>
-    </li>
+    </li> -->
 
     <li class="nav-item">
       <a class="nav-link" href="{{url('admin/add-documents')}}" aria-expanded="false" aria-controls="ui-basic">

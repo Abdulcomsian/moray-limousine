@@ -166,7 +166,7 @@ Home
                         </ul>
                         <div id="bk-1" class="schedule-booking">
                             <h1 class="text-over">Preis berechnen</h1>
-                            <form class="form-booking" method="GET" action="{{route('get.booking')}}" validate="true">
+                            <form id="formfromto" class="form-booking" method="GET" action="{{route('get.booking')}}" validate="true">
                                 <input type="hidden" name="lat_pck" class="lat_pck">
                                 <input type="hidden" name="long_pck" class="long_pck">
                                 <input type="hidden" name="lat_drop" class="lat_drop">
@@ -208,7 +208,7 @@ Home
 {{--                                    <hr class="m-0">--}}
                                 </div>
                                 <div class="btn-submit">
-                                    <button type="submit"  class="btn btn-resurve register_now">Preis berechnen
+                                    <button type="submit" id="fromto" class="btn btn-resurve register_now">Preis berechnen
                                         <img src="{{asset('images/icon/arrow-white.png')}}" alt="">
                                     </button>
                                 </div>
@@ -216,7 +216,7 @@ Home
                         </div>
                         <div id="bk-2" class="schedule-booking">
                             <h1 class="text-over">Preis berechnen</h1>
-                            <form class="form-booking" method="GET" action="{{route('select.booking.by.hour')}}" validate="true">
+                            <form id="formfrom" class="form-booking" method="GET" action="{{route('select.booking.by.hour')}}" validate="true">
                                 <input type="hidden" name="lat_pck" class="lat_pck">
                                 <input type="hidden" name="long_pck" class="long_pck">
                                 <input type="hidden" name="booking_by" value="time">
@@ -276,7 +276,7 @@ Home
                                     <input type="hidden" name="pick_time" id="dtp_input4" value="" /><br/>
                                 </div>
                                 <div class="btn-submit">
-                                    <button type="submit"  class="btn-resurve">Preis berechnen<img src="{{asset('images/icon/arrow-white.png')}}" alt=""></button>
+                                    <button type="submit"  id="from" class="btn-resurve">Preis berechnen<img src="{{asset('images/icon/arrow-white.png')}}" alt=""></button>
                                 </div>
                             </form>
                         </div>
@@ -659,7 +659,7 @@ Home
             </button>
           </div>
           <div class="modal-body">
-		  <p class="text-primary" style="color: #000000!important">Your selected time is less then 6 hours. </p>
+		  <p class="text-primary" style="color: #000000!important">Your selected time is less then <span id="selecthour"></span> hours. </p>
             <p style="color: #000000!important" class="text-primary">For Urgent Booking Please Contact Us +49 (0) 15906406598</p>
           </div>
           <div class="modal-footer">
@@ -674,6 +674,9 @@ Home
     <script type="text/javascript">
         function locationsUrl(){
             return '{{url('home/getLocations')}}';
+        }
+         function bookinghoururl(){
+            return '{{url('home/getLocationsbookinghours')}}';
         }
     </script>
     <script src="{{asset('js/front-end/index.js')}}"></script>

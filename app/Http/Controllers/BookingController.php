@@ -9,6 +9,7 @@ use App\Model\Enduser;
 use App\Http\Requests\BookingRequest;
 use App\invoice;
 use App\Location;
+use App\BookingHour;
 use App\Notifications\BookingNotification;
 use App\Notifications\MorayLimousineNotifications;
 use App\Notifications\InvoiceNotifications;
@@ -826,6 +827,33 @@ class BookingController extends Controller
     {
         $locations = Location::all();
         return response()->json($locations);
+    }
+    public function getLocationHours(Request $request)
+    {
+        $country=$request->country;
+        
+        $cityresult=BookingHour::where('city',$request->pick_city)->first();
+        if($cityresult)
+        {
+            $hours=$cityresult->hours;
+            return response()->json($hours);
+        }
+        //check if country wise is hours is exist or not
+        $countryresult=BookingHour::where('country',$country)->first();
+        if($countryresult)
+        {
+            $hours=$countryresult->hours;
+             return response()->json($hours);
+        }
+       
+        $config = Configuration::first();
+        if($config)
+        {
+            $hours=$config->master_hour;
+             return response()->json($hours);
+        }
+
+
     }
 
     /**

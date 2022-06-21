@@ -29,6 +29,15 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="map_key">
+                                            Master Hour
+                                        </label>
+                                        <input class="form-control" id="master_hour" type="text" placeholder="Set Booking Hour" name="master_hour" value="{{$config->master_hour}}">
+                                    </div>
+                                </div>
+
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="tax2">

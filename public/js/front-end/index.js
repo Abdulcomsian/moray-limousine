@@ -36,7 +36,8 @@ $('#pick-time2').change(function () {
 });
 
 $('.btn-resurve').click(function (e) {
-
+    e.preventDefault();
+    id=$(this).attr('id');
     validateAddress();
     if ($('.pick-address').val() !== "" && $('.lat_pck').val() === ""){
     if (check_city === false){
@@ -45,10 +46,9 @@ $('.btn-resurve').click(function (e) {
         $('#alert_box_text').html('<strong>Sorry.... !  </strong>  Service Is Not Available In This Area Or City');
     }
     }
-     // var time=moment().tz('Europe/London').format('H:mm');
-     // alert("current time is "+time);
+    if(id=="fromto")
+    {
      var currenttime=moment().tz('Europe/Berlin').format('H:mm');
-//     alert("you can check germany time from google ===> current time in germany is "+ currenttime)
      var time_start = new Date();
      var time_end = new Date();
      var value_start = $("#dtp_input3").val().split(':');
@@ -58,18 +58,38 @@ $('.btn-resurve').click(function (e) {
      time_start.setHours(value_end[0], value_end[1], 0)
      var secs=time_end - time_start;
      var  hours = Math.floor((secs / (1000 * 60 * 60)) % 24);
-     //pick date is 
-    var pick_date=$("#dtp_input2").val();
-    var TodayDate = new Date();
-    var endDate= new Date(Date.parse(pick_date));
-    if (endDate <= TodayDate) {
-        //alert(hours);
-        if(hours<=6)
-        {
-           $("#urgentbook").modal('show');
-            return false;
-         }
+     
+     var pick_date=$("#dtp_input2").val();
+     var TodayDate = new Date();
+     var endDate= new Date(Date.parse(pick_date));
+     var bookinghoursurl=bookinghoururl();
+     $.ajax({
+        type: 'get',
+        url: bookinghoursurl,
+        data:{country,pick_city},
+        success: function (response) {
+           if (endDate <= TodayDate) {
+                //alert(hours+"     id"+response);
+                if(hours<=response)
+                {
+                   $("#selecthour").html(response);
+                   $("#urgentbook").modal('show');
+                    return false;
+                 }
+                 else{
+                    alert();
+                    $("#form"+id).submit();
+                 }
+             }
+        }});
     }
+    else{
+         $("#form"+id).submit();
+    }
+ 
+     
+     
+     
 });
 
 function validateAddress(){
@@ -239,9 +259,10 @@ function initMap() {
         geocoder.geocode({'latLng': latlng}, function(results, status,timeZoneId) {
             console.log(timeZoneId);
             if (status === google.maps.GeocoderStatus.OK) {
-                // let length = results.length - 1;
-                // country = results[length].formatted_address;
+                let length = results.length - 1;
+                country = results[length].formatted_address;
                 if (results[1]) {
+                    console.log(results);
                     //find city name
                     for (var i=0; i<results[0].address_components.length; i++) {
                         for (var b=0;b<results[0].address_components[i].types.length;b++) {
@@ -254,7 +275,7 @@ function initMap() {
                         }
                     }
                     //city data
-                    let pick_city = booking_city.long_name;
+                    pick_city = booking_city.long_name;
                     $('input[name="booking_city"]').val(pick_city);
 
                     $.each(locations_list , function (index , value) {

@@ -17,7 +17,8 @@ class Configuration extends Model
         'our_fleet_img',
         'cancel_hour',
         'extend_hour_limit',
-        'extra_column'   //this is used for hours before user can book a ride
+        'extra_column',//this is used for hours before user can book a ride
+        'master_hour',   
     ];
 
 }
