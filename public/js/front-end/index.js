@@ -36,9 +36,9 @@ $('#pick-time2').change(function () {
 });
 
 $('.btn-resurve').click(function (e) {
-    e.preventDefault();
     id=$(this).attr('id');
     validateAddress();
+     e.preventDefault();
     if ($('.pick-address').val() !== "" && $('.lat_pck').val() === ""){
     if (check_city === false){
         e.preventDefault();

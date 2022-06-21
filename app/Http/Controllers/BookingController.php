@@ -831,13 +831,6 @@ class BookingController extends Controller
     public function getLocationHours(Request $request)
     {
         $country=$request->country;
-        
-        $cityresult=BookingHour::where('city',$request->pick_city)->first();
-        if($cityresult)
-        {
-            $hours=$cityresult->hours;
-            return response()->json($hours);
-        }
         //check if country wise is hours is exist or not
         $countryresult=BookingHour::where('country',$country)->first();
         if($countryresult)
@@ -845,7 +838,12 @@ class BookingController extends Controller
             $hours=$countryresult->hours;
              return response()->json($hours);
         }
-       
+        $cityresult=BookingHour::where('city',$request->pick_city)->first();
+        if($cityresult)
+        {
+            $hours=$cityresult->hours;
+            return response()->json($hours);
+        }
         $config = Configuration::first();
         if($config)
         {

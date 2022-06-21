@@ -659,7 +659,7 @@ Home
             </button>
           </div>
           <div class="modal-body">
-		  <p class="text-primary" style="color: #000000!important">Your selected time is less then <span id="selecthour"></span> hours. </p>
+		  <p class="text-primary" style="color: #000000!important">Your selected time is less then  <span id="selecthour"></span>  hours. </p>
             <p style="color: #000000!important" class="text-primary">For Urgent Booking Please Contact Us +49 (0) 15906406598</p>
           </div>
           <div class="modal-footer">
