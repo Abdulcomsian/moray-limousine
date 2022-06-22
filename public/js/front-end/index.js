@@ -69,8 +69,7 @@ $('.btn-resurve').click(function (e) {
         url: bookinghoursurl,
         data:{country,pick_city},
         success: function (response) {
-              console.log(endDate+"  is  "+ TodayDate);
-           // if (endDate >= TodayDate) {
+           if (endDate.getDate() == TodayDate.getDate()) {
               
                 if(hours<=response)
                 {
@@ -81,7 +80,7 @@ $('.btn-resurve').click(function (e) {
                  else{
                     $("#form"+id).submit();
                  }
-             //}
+             }
         }});
     }
     else{
