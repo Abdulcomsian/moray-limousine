@@ -48,29 +48,40 @@ $('.btn-resurve').click(function (e) {
     }
     if(id=="fromto")
     {
+      // var date1 = new Date($('#d1').val() + " " + $('#t1').val()).getTime();
+      // var date2 = new Date($('#d2').val() + " " + $('#t2').val()).getTime();
 
-     var currenttime=moment().tz('Europe/Berlin').format('H:mm');
-     var time_start = new Date();
-     var time_end = new Date();
-     var value_start = $("#dtp_input3").val().split(':');
-     var value_end = currenttime;
-     value_end=value_end.split(':');
-     time_end.setHours(value_start[0], value_start[1], 0)
-     time_start.setHours(value_end[0], value_end[1], 0)
-     var secs=time_end - time_start;
-     var  hours = Math.floor((secs / (1000 * 60 * 60)) % 24);
+      var currenttime=moment().tz('Europe/Berlin').format('YYYY-MM-DD H:mm');
+      var date1 = new Date(currenttime).getTime();
+      var pick_date=$("#pick-date").val();
+      var nexttime=pick_date.split(" ");
+      var monthnumber=moment().month(nexttime[1]).format("M");
+      nexttime=nexttime[2]+"-"+monthnumber+"-"+nexttime[0]+" "+$("#dtp_input3").val();
+      var date2 = new Date(nexttime).getTime();
+      var msec = date2 - date1;
+      var mins = Math.floor(msec / 60000);
+      var hours = Math.floor(mins / 60);
+     // var time_start = new Date();
+     // var time_end = new Date();
+     // var value_start = $("#dtp_input3").val().split(':');
+     // var value_end = currenttime;
+     // value_end=value_end.split(':');
+     // time_end.setHours(value_start[0], value_start[1], 0)
+     // time_start.setHours(value_end[0], value_end[1], 0)
+     // var secs=time_end - time_start;
+     // var  hours = Math.floor((secs / (1000 * 60 * 60)) % 24);
      
-     var pick_date=$("#dtp_input2").val();
-     var TodayDate = new Date();
-     var endDate= new Date(Date.parse(pick_date));
+     // var pick_date=$("#dtp_input2").val();
+     // var TodayDate = new Date();
+     // var endDate= new Date(Date.parse(pick_date));
      var bookinghoursurl=bookinghoururl();
      $.ajax({
         type: 'get',
         url: bookinghoursurl,
         data:{country,pick_city},
         success: function (response) {
-              console.log(TodayDate.getDate()+"  is  "+ endDate.getDate());
-           if (endDate.getDate() == TodayDate.getDate()) {
+           //    console.log(TodayDate.getDate()+"  is  "+ endDate.getDate());
+           // if (endDate.getDate() == TodayDate.getDate()) {
               
                 if(hours<=response)
                 {
@@ -81,9 +92,9 @@ $('.btn-resurve').click(function (e) {
                  else{
                     $("#form"+id).submit();
                  }
-             }else{
-                $("#form"+id).submit();
-             }
+             // }else{
+             //    $("#form"+id).submit();
+             // }
         }});
     }
     else{
