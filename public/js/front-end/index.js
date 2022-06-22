@@ -48,6 +48,7 @@ $('.btn-resurve').click(function (e) {
     }
     if(id=="fromto")
     {
+
      var currenttime=moment().tz('Europe/Berlin').format('H:mm');
      var time_start = new Date();
      var time_end = new Date();
@@ -68,8 +69,9 @@ $('.btn-resurve').click(function (e) {
         url: bookinghoursurl,
         data:{country,pick_city},
         success: function (response) {
-           if (endDate <= TodayDate) {
-                //alert(hours+"     id"+response);
+              console.log(endDate+"  is  "+ TodayDate);
+           if (endDate >= TodayDate) {
+              
                 if(hours<=response)
                 {
                    $("#selecthour").html(response);
@@ -77,7 +79,6 @@ $('.btn-resurve').click(function (e) {
                     return false;
                  }
                  else{
-                    alert();
                     $("#form"+id).submit();
                  }
              }
