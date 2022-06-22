@@ -69,6 +69,7 @@ $('.btn-resurve').click(function (e) {
         url: bookinghoursurl,
         data:{country,pick_city},
         success: function (response) {
+              console.log(TodayDate.getDate()+"  is  "+ endDate.getDate());
            if (endDate.getDate() == TodayDate.getDate()) {
               
                 if(hours<=response)

@@ -235,11 +235,13 @@ class Booking extends Model
                 }
                  
                 //working for city wise price
-                $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city']])->first();
+                $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city'],'type'=>'fixed'])->first();
                 if($result)
                 {
-                    $percetageprice=(($class->class_price/100)*$result->price);
-
+                    if($result->type=="fixed")
+                    {
+                        $percetageprice=(($class->class_price/100)*$result->price);
+                    }
                     $class->class_price += $percetageprice;
                     $class->setAttribute('class_price', number_format($class->class_price, 2));
                    
@@ -255,7 +257,7 @@ class Booking extends Model
      * @param $durationInHours
      * @return array
      */
-    public function classesWithPriceByDuration($classes, $durationInHours)
+    public function classesWithPriceByDuration($classes, $durationInHours,$form_data=null)
     {
         $classesWithPrice = array();
         $tax_rate = 0.0;
@@ -290,6 +292,17 @@ class Booking extends Model
                     $class->setAttribute('class_price', number_format($classPrice, 2));
                     $class->setAttribute('tax_amount', number_format($tax_amount, 2));
                     $classesWithPrice[] = $class;
+                }
+                $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city'],'type'=>'hour'])->first();
+                if($result)
+                {
+                    if($result->type=="hour")
+                    {
+                        $percetageprice=(($class->class_price/100)*$result->price);
+                    }
+                    $class->class_price += $percetageprice;
+                    $class->setAttribute('class_price', number_format($class->class_price, 2));
+                   
                 }
             }
         }

@@ -87,7 +87,7 @@ class BookingController extends Controller
         $classes = $this->classes->all();
         $selected_hour = $request['selected_hour'];
         //           set prices and set discounts or markup with given classes
-        $classes = $this->booking->classesWithPriceByDuration($classes, $selected_hour);
+        $classes = $this->booking->classesWithPriceByDuration($classes, $selected_hour,$request->all());
         $data['booking_type'] = 'time';
         $data['form_data'] = array_merge($request->except('_token'), ['drop_address' => "This Booking Is For " . $selected_hour . " Hours  : "]);
         $data['classes'] = $classes;
