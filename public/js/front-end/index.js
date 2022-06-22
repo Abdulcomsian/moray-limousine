@@ -81,6 +81,8 @@ $('.btn-resurve').click(function (e) {
                  else{
                     $("#form"+id).submit();
                  }
+             }else{
+                $("#form"+id).submit();
              }
         }});
     }
