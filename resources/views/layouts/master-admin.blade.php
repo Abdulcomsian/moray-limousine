@@ -189,6 +189,7 @@
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{url('admin/vehiclePricing')}}">Pricing List</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{url('admin/manage-discount')}}">Manage Discounts</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{url('admin/manage-city-pricing')}}">City Wise Pricing</a></li>
         </ul>
       </div>
     </li>

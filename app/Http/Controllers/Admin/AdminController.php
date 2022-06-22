@@ -426,6 +426,50 @@ class AdminController extends Controller
         return view('admin.discounts.add-discount', $data);
     }
 
+    public function manageCityPricing()
+    {
+         $data['city']=DB::table('city_wise_pricing')->get();
+         $data['vehicleCategories'] = VehicleCategory::all();
+         return view('admin.city-wise-pricing.index',$data);
+    }
+
+    public function saveCityPricing(Request $request)
+    {
+        $edit_id = $request->edit_id;
+        if ($edit_id == null){
+            DB::table('city_wise_pricing')->insert(
+                 array(
+                        'city'   =>   $request->location_city,
+                        'type'   =>   $request->type,
+                        'price'  =>   $request->price,
+                        'category'=>  $request->category,
+                 )
+            );
+        }
+        else{
+            DB::table('city_wise_pricing')->where('id',$edit_id)->update(
+                 array(
+                        'city'   =>   $request->location_city,
+                        'type'   =>   $request->type,
+                        'price'  =>   $request->price,
+                        'category'=>  $request->category,
+                 )
+            );
+        }
+         return redirect('admin/manage-city-pricing')->with('success','Success .. !  Record save Successfully .');
+        
+    }
+    public function editCityPricing($id)
+    {
+        $result=DB::table('city_wise_pricing')->where('id',$id)->first();
+         return response()->json($result);
+    }
+    public function deleteCityPrice($id)
+    {
+        DB::table('city_wise_pricing')->where('id',$id)->delete();
+        return redirect('admin/manage-city-pricing')->with('success','Success .. !  Record Deleted Successfully .');
+    }
+
     /**
      * @return Factory|\Illuminate\View\View
      */

@@ -233,6 +233,18 @@ class Booking extends Model
                     $class->setAttribute('tax_amount', number_format($tax_amount, 2));
                     $classesWithPrice[] = $class;
                 }
+                
+                //working for city wise price
+                $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city']])->first();
+                if($result)
+                {
+                    $percetageprice=(($result->price/$class->class_price)*100);
+
+                    $class->class_price += $percetageprice;
+                    $class->setAttribute('class_price', number_format($class->class_price, 2));
+                   
+                }
+                
             }
         }
         return $classesWithPrice;

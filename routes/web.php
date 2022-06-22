@@ -416,6 +416,12 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         Route::get('admin/discount-disactive/{id}', 'DiscountController@discountDisActive');
         Route::get('admin/discount-active/{id}', 'DiscountController@discountActive');
         Route::get('admin/discount-delete/{id}', 'DiscountController@discountDelete');
+        //city wise percentage
+        Route::get('admin/manage-city-pricing', 'Admin\AdminController@manageCityPricing')->name('manage-city-pricing');
+        Route::post('admin/save-manage-city-pricing', 'Admin\AdminController@saveCityPricing')->name('admin.save.city.price');
+        Route::get('admin/edit-city-price/{id}','Admin\AdminController@editCityPricing');
+        Route::get('admin/delete-city-price/{id}', 'Admin\AdminController@deleteCityPrice');
+        
         //        Documents Routes
         Route::get('admin/add-documents', 'DocumentsController@addDocuments');
         Route::get('admin/document-delete/{id}', 'DocumentsController@deleteDocument');

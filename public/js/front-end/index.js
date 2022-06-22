@@ -70,7 +70,7 @@ $('.btn-resurve').click(function (e) {
         data:{country,pick_city},
         success: function (response) {
               console.log(endDate+"  is  "+ TodayDate);
-           if (endDate >= TodayDate) {
+           // if (endDate >= TodayDate) {
               
                 if(hours<=response)
                 {
@@ -81,7 +81,7 @@ $('.btn-resurve').click(function (e) {
                  else{
                     $("#form"+id).submit();
                  }
-             }
+             //}
         }});
     }
     else{
