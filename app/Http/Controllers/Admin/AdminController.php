@@ -440,6 +440,28 @@ class AdminController extends Controller
         {
             return redirect('admin/manage-city-pricing')->with('error','Error .. !  Please Select City or country.');
         }
+        elseif($request->country && $request->location_city)
+        {
+            return redirect('admin/manage-city-pricing')->with('error','Error .. !  Please Select only City or country.');
+        }
+
+        if($request->country)
+        {
+             $countryexist=DB::table('city_wise_pricing')->where('country',$request->country)->first();
+             if($countryexist)
+             {
+                 return redirect('admin/manage-city-pricing')->with('error','Error .. !  Record Already Exist.');
+             }
+        }
+
+        if($request->location_city)
+        {
+            $cityexist=DB::table('city_wise_pricing')->where('city',$request->location_city)->first();
+             if($cityexist)
+             {
+                 return redirect('admin/manage-city-pricing')->with('error','Error .. !  Record Already Exist.');
+             }
+        }
         $edit_id = $request->edit_id;
         if ($edit_id == null){
             DB::table('city_wise_pricing')->insert(
