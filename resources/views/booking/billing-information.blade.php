@@ -347,63 +347,63 @@
 	</script>
 
 <script>
-    $(document).ready(function (){
-        var stripe = Stripe('pk_test_51H6zNfDIr4vVZ16GTMYDTcZb9IJpNuGaqT6b7oED9QQQ8cCtNqk0Nphoxo2p1YTT8ze35JGrjrtpiIOPIFxB2t22008OeJYgig');
-        var elements = stripe.elements();
-        // Custom styling can be passed to options when creating an Element.
-        var style = {
-            base: {
-                color: "#32325d",
-                fontFamily: 'Arial, sans-serif',
-                fontSmoothing: "antialiased",
-                fontSize: "16px",
-                "::placeholder": {
-                    color: "#32325d"
-                }
-            },
-            invalid: {
-                fontFamily: 'Arial, sans-serif',
-                color: "#fa755a",
-                iconColor: "#fa755a"
-            }
-        };
+    // $(document).ready(function (){
+    //     var stripe = Stripe('pk_test_51H6zNfDIr4vVZ16GTMYDTcZb9IJpNuGaqT6b7oED9QQQ8cCtNqk0Nphoxo2p1YTT8ze35JGrjrtpiIOPIFxB2t22008OeJYgig');
+    //     var elements = stripe.elements();
+    //     // Custom styling can be passed to options when creating an Element.
+    //     var style = {
+    //         base: {
+    //             color: "#32325d",
+    //             fontFamily: 'Arial, sans-serif',
+    //             fontSmoothing: "antialiased",
+    //             fontSize: "16px",
+    //             "::placeholder": {
+    //                 color: "#32325d"
+    //             }
+    //         },
+    //         invalid: {
+    //             fontFamily: 'Arial, sans-serif',
+    //             color: "#fa755a",
+    //             iconColor: "#fa755a"
+    //         }
+    //     };
 
-        // Create an instance of the card Element.
-        var card = elements.create('card', {style: style});
+    //     // Create an instance of the card Element.
+    //     var card = elements.create('card', {style: style});
 
-        // Add an instance of the card Element into the `card-element` <div>.
-        card.mount('#paypal-button-container');
+    //     // Add an instance of the card Element into the `card-element` <div>.
+    //     card.mount('#paypal-button-container');
 
-        // Create a token or display an error when the form is submitted.
-        var form = document.getElementById('payment-form');
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
+    //     // Create a token or display an error when the form is submitted.
+    //     var form = document.getElementById('payment-form');
+    //     form.addEventListener('submit', function (event) {
+    //         event.preventDefault();
 
-            stripe.createToken(card).then(function (result) {
-                if (result.error) {
-                    // Inform the customer that there was an error.
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    // Send the token to your server.
-                    stripeTokenHandler(result.token);
-                }
-            });
-        });
+    //         stripe.createToken(card).then(function (result) {
+    //             if (result.error) {
+    //                 // Inform the customer that there was an error.
+    //                 var errorElement = document.getElementById('card-errors');
+    //                 errorElement.textContent = result.error.message;
+    //             } else {
+    //                 // Send the token to your server.
+    //                 stripeTokenHandler(result.token);
+    //             }
+    //         });
+    //     });
 
-        function stripeTokenHandler(token) {
-            // Insert the token ID into the form so it gets submitted to the server
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            hiddenInput.setAttribute('style', "border:1px");
-            form.appendChild(hiddenInput);
-            // Submit the form
-            form.submit();
-        }
-    })
+    //     function stripeTokenHandler(token) {
+    //         // Insert the token ID into the form so it gets submitted to the server
+    //         var form = document.getElementById('payment-form');
+    //         var hiddenInput = document.createElement('input');
+    //         hiddenInput.setAttribute('type', 'hidden');
+    //         hiddenInput.setAttribute('name', 'stripeToken');
+    //         hiddenInput.setAttribute('value', token.id);
+    //         hiddenInput.setAttribute('style', "border:1px");
+    //         form.appendChild(hiddenInput);
+    //         // Submit the form
+    //         form.submit();
+    //     }
+    // })
 </script>
     
 @endsection
