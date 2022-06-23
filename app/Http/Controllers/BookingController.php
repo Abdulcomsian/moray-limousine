@@ -70,6 +70,7 @@ class BookingController extends Controller
         //$distance_in_km = $this->calculateDistance($dist);
         $classes = $this->classes->all();
         //    Set Prices and also set the discounts & markup with classes
+        dd($classes);
         $classes =  $this->booking->classesWithPriceByDistance($classes, $distance_in_km, $request->all());
         $data['booking_type'] = 'distance';
         $data['form_data'] = $request->except('_token');
