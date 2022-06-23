@@ -235,17 +235,20 @@ class Booking extends Model
                 }
                  
                 //working for city wise price
-                $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city'],'type'=>'fixed'])->first();
-                if($result)
+                $countrywiseprice=DB::table('city_wise_pricing')->where(['category'=>$class->name,'country'=>$form_data['booking_country'],'type'=>'fixed'])->first();
+                if($countrywiseprice)
                 {
-                    if($result->type=="fixed")
-                    {
-                        $percetageprice=(($class->class_price/100)*$result->price);
-                    }
-                    $class->class_price += $percetageprice;
-                    $class->setAttribute('class_price', number_format($class->class_price, 2));
-                   
+                    $percetageprice=(($class->class_price/100)*$countrywiseprice->price);
                 }
+                else{
+                    $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city'],'type'=>'fixed'])->first();
+                    if($result)
+                    {
+                        $percetageprice=(($class->class_price/100)*$result->price);  
+                    }
+                }
+                $class->class_price += $percetageprice;
+                $class->setAttribute('class_price', number_format($class->class_price, 2));
                 
             }
         }
@@ -293,17 +296,21 @@ class Booking extends Model
                     $class->setAttribute('tax_amount', number_format($tax_amount, 2));
                     $classesWithPrice[] = $class;
                 }
-                $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city'],'type'=>'hour'])->first();
-                if($result)
+                //check first country wise price
+                $countrywiseprice=DB::table('city_wise_pricing')->where(['category'=>$class->name,'country'=>$form_data['booking_country'],'type'=>'hour'])->first();
+                if($countrywiseprice)
                 {
-                    if($result->type=="hour")
-                    {
-                        $percetageprice=(($class->class_price/100)*$result->price);
-                    }
-                    $class->class_price += $percetageprice;
-                    $class->setAttribute('class_price', number_format($class->class_price, 2));
-                   
+                    $percetageprice=(($class->class_price/100)*$countrywiseprice->price);
                 }
+                else{
+                    $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city'],'type'=>'hour'])->first();
+                    if($result)
+                    {
+                        $percetageprice=(($class->class_price/100)*$result->price);  
+                    }
+                }
+                $class->class_price += $percetageprice;
+                $class->setAttribute('class_price', number_format($class->class_price, 2));
             }
         }
         return $classesWithPrice;

@@ -428,18 +428,24 @@ class AdminController extends Controller
 
     public function manageCityPricing()
     {
+         $data['country'] = DB::table('country')->get();
          $data['city']=DB::table('city_wise_pricing')->get();
          $data['vehicleCategories'] = VehicleCategory::all();
          return view('admin.city-wise-pricing.index',$data);
     }
 
     public function saveCityPricing(Request $request)
-    {
+    {  
+        if(!$request->country && !$request->location_city)
+        {
+            return redirect('admin/manage-city-pricing')->with('error','Error .. !  Please Select City or country.');
+        }
         $edit_id = $request->edit_id;
         if ($edit_id == null){
             DB::table('city_wise_pricing')->insert(
                  array(
                         'city'   =>   $request->location_city,
+                        'country'=>   $request->country ?? NULL,
                         'type'   =>   $request->type,
                         'price'  =>   $request->price,
                         'category'=>  $request->category,
@@ -450,6 +456,7 @@ class AdminController extends Controller
             DB::table('city_wise_pricing')->where('id',$edit_id)->update(
                  array(
                         'city'   =>   $request->location_city,
+                        'country'=>   $request->country ?? NULL,
                         'type'   =>   $request->type,
                         'price'  =>   $request->price,
                         'category'=>  $request->category,

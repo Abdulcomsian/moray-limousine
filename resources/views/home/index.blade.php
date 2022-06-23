@@ -175,6 +175,7 @@ Home
                                 <input type="hidden" name="total_duration" class="total_duration">
                                 <input type="hidden" name="booking_by" value="distance">
                                 <input type="hidden" name="booking_city" value="">
+                                <input type="hidden" name="booking_country" value="">
                                 <div class="pick-address">
                                     <label for="pick">Von</label>
                                     <input type="text" class="pick-address" data-validation="required" id="pick-location" name="pick_address" style="text-align: inherit;" placeholder="Adresse, Flughafen, Hotel, ...">
@@ -221,6 +222,7 @@ Home
                                 <input type="hidden" name="long_pck" class="long_pck">
                                 <input type="hidden" name="booking_by" value="time">
                                 <input type="hidden" name="booking_city" value="">
+                                <input type="hidden" name="booking_country" value="">
                                 <div class="pick-address">
                                     <label for="pick-location-hour">Von</label>
                                     <input type="text" class="pick-address" data-validation="required" id="pick-location-hour" name="pick_address" style="text-align: inherit;" placeholder="From: address, airport, hotel, ...">

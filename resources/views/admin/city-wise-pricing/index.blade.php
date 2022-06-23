@@ -39,14 +39,26 @@
                     @csrf
                     <div class="col-md-4">
                         <div class="form-group validate">
+                            <label for="country">Location Country : </label>
+                            <select id="country" name="country">
+                                <option value="">Select Country</option>
+                                @foreach($country as $cn)
+                                <option>{{$cn->nicename}}</option>
+                                @endforeach
+                            </select>
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group validate">
                             <label for="default_location"> Add Locations : </label>
-                            <input id="default_location" type="text" required maxlength="120" name="default_location" placeholder="Default Location" class="form-control">
+                            <input id="default_location" type="text"  maxlength="120" name="default_location" placeholder="Default Location" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group validate">
                             <label for="country">City : </label>
-                            <input id="city" type="text" readonly required maxlength="50" name="location_city" placeholder="City" class="form-control">
+                            <input id="city" type="text" readonly  maxlength="50" name="location_city" placeholder="City" class="form-control">
                         </div>
                     </div>
                      <div class="col-md-4">
@@ -94,7 +106,8 @@
          <table id="datatable-buttons1" class="table table-striped dt-responsive nowrap w-100">
             <thead class="thead-dark">
             <tr>
-                <th>City</th>
+                 <th>Country</th>
+                 <th>City</th>
                  <th>Type</th>
                  <th>Category</th>
                  <th>Price</th>
@@ -105,6 +118,7 @@
             @if(count($city) > 0)
                 @foreach($city as $ct)
                     <tr>
+                        <td class="py-1">{{$ct->country}}</td>
                         <td class="py-1">
                             {{$ct->city}}
                         </td>
@@ -112,7 +126,7 @@
                             {{$ct->type}}
                         </td>
                         <td class="py-1">{{$ct->category}}</td>
-                        <td class="py-1">{{$ct->price}}</td>
+                        <td class="py-1">{{$ct->price}}%</td>
 
                         <td>
                             <div class="btn-group p-0" style="font-size: 1.6rem;">
@@ -170,6 +184,7 @@
                         console.log(response);
                         $('#edit_id1').val(id);
                         $("#city").val(location.city);
+                        $("#country").val(location.country);
                         $("#type").val(location.type);
                         $("#price").val(location.price);
                         $("#category").val(location.category);
@@ -187,6 +202,7 @@
             function onCancelClick1() {
                 $('#edit_id1').val(null);
                 $("#city").val('');
+                $("#country").val('');
                 $("#type").val('');
                 $("#price").val('');
                 $("#category").val('');

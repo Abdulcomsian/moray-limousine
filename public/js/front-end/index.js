@@ -139,6 +139,7 @@ let longitude_pick;
 let latitude_drop ;
 let longitude_drop ;
 let booking_city;
+let booking_country;
 let check_city = false;
 let locations_url = locationsUrl();
 let locations_list;
@@ -275,6 +276,7 @@ function initMap() {
             if (status === google.maps.GeocoderStatus.OK) {
                 let length = results.length - 1;
                 country = results[length].formatted_address;
+                booking_country=country;
                 if (results[1]) {
                     console.log(results);
                     //find city name
@@ -291,7 +293,7 @@ function initMap() {
                     //city data
                     pick_city = booking_city.long_name;
                     $('input[name="booking_city"]').val(pick_city);
-
+                    $('input[name="booking_country"]').val(country);
                     $.each(locations_list , function (index , value) {
                         let location_city =  value.location_city;
                         //new work here
