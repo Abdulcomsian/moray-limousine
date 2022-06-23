@@ -234,7 +234,7 @@ class Booking extends Model
                     $class->setAttribute('tax_amount', number_format($tax_amount, 2));
                     $classesWithPrice[] = $class;
                 }
-                dd($class->class_price);
+               
                  //working for city wise price
 //                 $countrywiseprice=DB::table('city_wise_pricing')->where(['category'=>$class->name,'country'=>$form_data['booking_country'],'type'=>'fixed'])->where('status', 'active')
 //                     ->whereDate('start_date', '<=', $form_data['pick_date'])
