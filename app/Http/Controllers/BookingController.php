@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 use Session;
+use Stripe;
 use DB;
 use PDF;
 use Illuminate\Support\Facades\Hash;
@@ -180,6 +181,42 @@ class BookingController extends Controller
         $admin = User::where('user_type', 'admin')->get();
         $user->notify(new MorayLimousineNotifications($notify_booking_user));
         Notification::send($admin, new BookingNotification($notify_booking_admin));
+    }
+    //stripe submit action
+    public function storeBooking(Request $request)
+    {
+         $booking_id = $request->input('bookingId');
+         $booking = Booking::find($booking_id);
+         $amount=$booking->extra_options_amount+$booking->travel_amount;
+       try{
+             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+             $stripedata=Stripe\Charge::create ([
+                    "amount" => $amount*100,
+                    "currency" => "eur",
+                    "source" => $request->stripeToken,
+                    "description" => "This payment is for tested purpose"
+            ]);
+           
+           
+            $booking->orderId = $stripedata->id;
+            $booking->userDetail = json_encode($stripedata, JSON_PRETTY_PRINT);
+            $booking->payment_status = 'paid';
+            $booking->booking_status = 'new';
+            $booking->update();
+
+            $notify_booking_user = array_merge($this->notify_booking_user, ['body' => 'Hello  ! Your booking request For Pick Address ' . $booking->pick_addess . ' Is Received We Will Let You Know When a Driver & Vehicle will be assigned to your booking. ']);
+            $notify_booking_admin = $this->notificationMsg($booking);
+            $user = $booking->user;
+            $admin = User::where('user_type', 'admin')->get();
+            $user->notify(new MorayLimousineNotifications($notify_booking_user));
+            Notification::send($admin, new BookingNotification($notify_booking_admin));
+             return view('booking.thanks')->with('booking', $booking);
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('error','ERROR .. !  '.$exception->getMessage().'.');;
+        }
+        
+   
+        
     }
 
     /**
@@ -344,7 +381,7 @@ class BookingController extends Controller
                 'Pick Date'   =>   $booking->pick_date,
                 'Pick Address'   =>   $booking->pick_address,
                 'Drop Address'   =>   $booking->drop_address,
-                'Selected Class'   =>  $class->name,
+                'Selected Class'   =>  $class->name ?? '',
                 'Travel Amount'   =>  $booking->travel_amount,
                 'Net Amount'     =>  $booking->net_amount,
                 'Payment Status'   =>  $booking->payment_status,

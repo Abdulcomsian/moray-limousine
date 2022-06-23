@@ -127,6 +127,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+                     @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                            <strong>{{session('success')}}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                                    @endif
+                        @if(session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                <strong>{{session('error')}}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                     <div class="check-out">
                         <div class="middle p-4">
                             <div class="row">
@@ -174,24 +190,33 @@
                                             <p>voraussichtlich : {{$form_data->estimated_time}} <br>Strecke : {{$form_data->estimated_distance}} km </p>
                                         </li>
                                     </ul>
-                                  <!--   <form action="{{route('submit.booking')}}" method="post">
-                                        @csrf -->
+                                         
+                                    <form id="payment-form" action="{{route('submit.booking')}}" method="post">
+                                        @csrf
                                         <input type="hidden" name="FormData" value="{{json_encode($form_data)}}">
+                                        <input type="hidden" name="bookingId" value="{{json_encode($form_data->id)}}">
                                         <input type="hidden" name="selected_category" value="{{json_encode($class)}}">
                                         <input type="hidden" name="selected_category" value="{{json_encode($options_data)}}">
                                         <input type="hidden" name="optionsData" value="{{json_encode($options_data)}}">
                                         <div class="bottom p-5">
-                                            <!-- <button type="submit" class="btn btn-lg"> Check Out </button> -->
+                                            <div id="paypal-button-container">
+                                            </div>
+                                            <br>
+                                            <button>Pay With Credit Card</button>
+                                            <p><img src="{{ asset('images/creditcard.png') }}" alt="credit card icons" style="width:30%;" /></p>
                                             @if($form_data->orderId == '' || $form_data->orderId == null)
-                                            <div id="paypal-button-container"></div>
+                                            <!-- <div id="paypal-button-container">
+                                            </div> 
+                                            <br>
 											
 											<p><img src="{{ asset('images/creditcard.png') }}" alt="credit card icons" style="width:30%;" /></p>
-											<p style="padding:5px;margin-top:30px;color: #000;font-size: 16px;border-radius:50px;background: #fff;border: 1px solid goldenrod !important;">Mit Kreditkarte ohne Paypal direkt bezahlen uber den Paypal Button oben! </p>
+											<p style="padding:5px;margin-top:30px;color: #000;font-size: 16px;border-radius:50px;background: #fff;border: 1px solid goldenrod !important;">Mit Kreditkarte ohne Paypal direkt bezahlen uber den Paypal Button oben! </p>-->
                                             @else
                                             <h4>Betrag Bezahlt!</h4>
                                             @endif
                                         </div>
-                                   <!--  </form> -->
+
+                                    </form>
                                 </div>
                                 <div class="col-md-6 pr-0">
                                     <h2>Übersicht</h2>
@@ -264,11 +289,11 @@
 @endsection
 @section('js')
 
-    <script src="https://www.paypal.com/sdk/js?client-id=Aae4GB5knrVLrqV6EpSXQMJkNbM3kaa6bGLTbGX0vkRUWn19sH-pDWUgmY72qhsGBuU402gTwIppueK1&currency=EUR"></script>
-	
+    <!-- <script src="https://www.paypal.com/sdk/js?client-id=Aae4GB5knrVLrqV6EpSXQMJkNbM3kaa6bGLTbGX0vkRUWn19sH-pDWUgmY72qhsGBuU402gTwIppueK1&currency=EUR"></script> -->
+	<script src="https://js.stripe.com/v3/"></script>
 <!-- &disable-funding=credit,card <script src="https://www.paypal.com/sdk/js?client-id=AUXGCQW8WwUWqay1Zsmf6zCxdtcGMUqeCPbV0HqW5jqd7MurPnPBsRJIbtFi-_3K2tqlgtl0ZQjqaOdb&currency=EUR"></script> -->
 
-    <script>
+    <!-- <script>
         paypal.Buttons({
 	style: {
 	 layout: 'horizontal',
@@ -288,8 +313,6 @@
             });
             },
             onApprove: function(data, actions) {
-                console.log('data');
-                console.log(data);
             return actions.order.capture().then(function(details) {
                 console.log(details);
                 // Call your server to save the transaction
@@ -321,5 +344,66 @@
              }
         });
         
-	</script>
+	</script> -->
+
+<script>
+    $(document).ready(function (){
+        var stripe = Stripe('pk_test_51H6zNfDIr4vVZ16GTMYDTcZb9IJpNuGaqT6b7oED9QQQ8cCtNqk0Nphoxo2p1YTT8ze35JGrjrtpiIOPIFxB2t22008OeJYgig');
+        var elements = stripe.elements();
+        // Custom styling can be passed to options when creating an Element.
+        var style = {
+            base: {
+                color: "#32325d",
+                fontFamily: 'Arial, sans-serif',
+                fontSmoothing: "antialiased",
+                fontSize: "16px",
+                "::placeholder": {
+                    color: "#32325d"
+                }
+            },
+            invalid: {
+                fontFamily: 'Arial, sans-serif',
+                color: "#fa755a",
+                iconColor: "#fa755a"
+            }
+        };
+
+        // Create an instance of the card Element.
+        var card = elements.create('card', {style: style});
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#paypal-button-container');
+
+        // Create a token or display an error when the form is submitted.
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // Inform the customer that there was an error.
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            hiddenInput.setAttribute('style', "border:1px");
+            form.appendChild(hiddenInput);
+            // Submit the form
+            form.submit();
+        }
+    })
+</script>
+    
 @endsection

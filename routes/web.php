@@ -107,7 +107,7 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         Route::get('user/booking-details/{id}', 'UserController@bookingDetail');
         Route::get('user/booking-confirm/{id}', 'UserController@bookingConfirm');
         Route::get('user/notifications', 'UserController@userNotifications');
-        Route::get('booking/checkout/{id?}', 'BookingController@thanksHome');
+        Route::get('booking/checkout/{id?}', 'BookingController@thanksHome')->name('thankshome');
         Route::post('user/booking-extend', 'UserController@saveExtendBooking')->name('extend_booking');
         Route::post('user/paypal-transaction-complete', 'UserController@paypaltransactioncomplete');
 

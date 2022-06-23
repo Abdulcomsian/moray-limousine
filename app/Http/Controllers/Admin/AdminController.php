@@ -23,6 +23,8 @@ use App\Contactus;
 use App\Booking;
 use PHPUnit\Framework\Constraint\Count;
 use DB;
+use Carbon\Carbon;
+use Faker\Provider\DateTime;
 
 class AdminController extends Controller
 {
@@ -430,12 +432,21 @@ class AdminController extends Controller
     {
          $data['country'] = DB::table('country')->get();
          $data['city']=DB::table('city_wise_pricing')->get();
-         $data['vehicleCategories'] = VehicleCategory::all();
+         $data['categories'] = VehicleCategory::all();
          return view('admin.city-wise-pricing.index',$data);
+    }
+
+     public function timeFormat($time){
+        $stripped = str_replace(' ', '', $time);;
+        $dateTime = new Carbon($stripped);
+        $s=$dateTime->parse($dateTime);
+        $military_time =$s->format('G:i:s');
+        return $military_time;
     }
 
     public function saveCityPricing(Request $request)
     {  
+        //dd($request->all());
         if(!$request->country && !$request->location_city)
         {
             return redirect('admin/manage-city-pricing')->with('error','Error .. !  Please Select City or country.');
@@ -444,26 +455,27 @@ class AdminController extends Controller
         {
             return redirect('admin/manage-city-pricing')->with('error','Error .. !  Please Select only City or country.');
         }
-
-        if($request->country)
-        {
-             $countryexist=DB::table('city_wise_pricing')->where('country',$request->country)->first();
-             if($countryexist)
-             {
-                 return redirect('admin/manage-city-pricing')->with('error','Error .. !  Record Already Exist.');
-             }
-        }
-
-        if($request->location_city)
-        {
-            $cityexist=DB::table('city_wise_pricing')->where('city',$request->location_city)->first();
-             if($cityexist)
-             {
-                 return redirect('admin/manage-city-pricing')->with('error','Error .. !  Record Already Exist.');
-             }
-        }
+        $start_time = $this->timeFormat($request->start_time);
+        $end_time = $this->timeFormat($request->end_time);
         $edit_id = $request->edit_id;
         if ($edit_id == null){
+            if($request->country)
+            {
+                 $countryexist=DB::table('city_wise_pricing')->where('country',$request->country)->first();
+                 if($countryexist)
+                 {
+                     return redirect('admin/manage-city-pricing')->with('error','Error .. !  Record Already Exist.');
+                 }
+            }
+
+            if($request->location_city)
+            {
+                $cityexist=DB::table('city_wise_pricing')->where('city',$request->location_city)->first();
+                 if($cityexist)
+                 {
+                     return redirect('admin/manage-city-pricing')->with('error','Error .. !  Record Already Exist.');
+                 }
+            }
             DB::table('city_wise_pricing')->insert(
                  array(
                         'city'   =>   $request->location_city,
@@ -471,6 +483,10 @@ class AdminController extends Controller
                         'type'   =>   $request->type,
                         'price'  =>   $request->price,
                         'category'=>  $request->category,
+                        'start_date'=>$request->start_date,
+                        'end_date'=>$request->end_date,
+                        'start_time'=>$start_time,
+                        'end_time'=>$end_time,
                  )
             );
         }
@@ -482,6 +498,10 @@ class AdminController extends Controller
                         'type'   =>   $request->type,
                         'price'  =>   $request->price,
                         'category'=>  $request->category,
+                        'start_date'=>$request->start_date,
+                        'end_date'=>$request->end_date,
+                        'start_time'=>$start_time,
+                        'end_time'=>$end_time,
                  )
             );
         }
