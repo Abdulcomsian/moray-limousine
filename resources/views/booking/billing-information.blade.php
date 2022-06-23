@@ -199,18 +199,18 @@
                                         <input type="hidden" name="selected_category" value="{{json_encode($options_data)}}">
                                         <input type="hidden" name="optionsData" value="{{json_encode($options_data)}}">
                                         <div class="bottom p-5">
-                                            <div id="paypal-button-container">
+                                            <!-- <div id="paypal-button-container">
                                             </div>
                                             <br>
                                             <button>Pay With Credit Card</button>
-                                            <p><img src="{{ asset('images/creditcard.png') }}" alt="credit card icons" style="width:30%;" /></p>
+                                            <p><img src="{{ asset('images/creditcard.png') }}" alt="credit card icons" style="width:30%;" /></p> -->
                                             @if($form_data->orderId == '' || $form_data->orderId == null)
-                                            <!-- <div id="paypal-button-container">
+                                             <div id="paypal-button-container">
                                             </div> 
                                             <br>
 											
 											<p><img src="{{ asset('images/creditcard.png') }}" alt="credit card icons" style="width:30%;" /></p>
-											<p style="padding:5px;margin-top:30px;color: #000;font-size: 16px;border-radius:50px;background: #fff;border: 1px solid goldenrod !important;">Mit Kreditkarte ohne Paypal direkt bezahlen uber den Paypal Button oben! </p>-->
+											<p style="padding:5px;margin-top:30px;color: #000;font-size: 16px;border-radius:50px;background: #fff;border: 1px solid goldenrod !important;">Mit Kreditkarte ohne Paypal direkt bezahlen uber den Paypal Button oben! </p>
                                             @else
                                             <h4>Betrag Bezahlt!</h4>
                                             @endif
@@ -289,11 +289,11 @@
 @endsection
 @section('js')
 
-    <!-- <script src="https://www.paypal.com/sdk/js?client-id=Aae4GB5knrVLrqV6EpSXQMJkNbM3kaa6bGLTbGX0vkRUWn19sH-pDWUgmY72qhsGBuU402gTwIppueK1&currency=EUR"></script> -->
+    <script src="https://www.paypal.com/sdk/js?client-id=Aae4GB5knrVLrqV6EpSXQMJkNbM3kaa6bGLTbGX0vkRUWn19sH-pDWUgmY72qhsGBuU402gTwIppueK1&currency=EUR"></script>
 	<script src="https://js.stripe.com/v3/"></script>
 <!-- &disable-funding=credit,card <script src="https://www.paypal.com/sdk/js?client-id=AUXGCQW8WwUWqay1Zsmf6zCxdtcGMUqeCPbV0HqW5jqd7MurPnPBsRJIbtFi-_3K2tqlgtl0ZQjqaOdb&currency=EUR"></script> -->
 
-    <!-- <script>
+    <script>
         paypal.Buttons({
 	style: {
 	 layout: 'horizontal',
@@ -344,7 +344,7 @@
              }
         });
         
-	</script> -->
+	</script>
 
 <script>
     $(document).ready(function (){
