@@ -174,8 +174,8 @@
                                             <p>voraussichtlich : {{$form_data->estimated_time}} <br>Strecke : {{$form_data->estimated_distance}} km </p>
                                         </li>
                                     </ul>
-                                  <!--   <form action="{{route('submit.booking')}}" method="post">
-                                        @csrf -->
+                                    <form action="{{route('submit.booking')}}" method="post">
+                                        @csrf 
                                         <input type="hidden" name="FormData" value="{{json_encode($form_data)}}">
                                         <input type="hidden" name="selected_category" value="{{json_encode($class)}}">
                                         <input type="hidden" name="selected_category" value="{{json_encode($options_data)}}">
@@ -191,7 +191,7 @@
                                             <h4>Betrag Bezahlt!</h4>
                                             @endif
                                         </div>
-                                   <!--  </form> -->
+                                   </form> 
                                 </div>
                                 <div class="col-md-6 pr-0">
                                     <h2>Übersicht</h2>
