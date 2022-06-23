@@ -187,7 +187,7 @@ class Booking extends Model
                 ->where('pricing_type', 'per_km')
                 ->where('from', '<=', $d)
                 ->where('to', '>=', $d);
-
+dd($classPricing);
             if (count($classPricing) > 0) {
                 //             Add Discount or Markup in Price
                 // $classDiscount =  $class->discount()->where('status', 'active')
