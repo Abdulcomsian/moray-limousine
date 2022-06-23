@@ -187,7 +187,6 @@ class Booking extends Model
                 ->where('pricing_type', 'per_km')
                 ->where('from', '<=', $d)
                 ->where('to', '>=', $d);
-dd($classPricing);
             if (count($classPricing) > 0) {
                 //             Add Discount or Markup in Price
                 // $classDiscount =  $class->discount()->where('status', 'active')
@@ -236,31 +235,31 @@ dd($classPricing);
                 }
                
                  //working for city wise price
-//                 $countrywiseprice=DB::table('city_wise_pricing')->where(['category'=>$class->name,'country'=>$form_data['booking_country'],'type'=>'fixed'])->where('status', 'active')
-//                     ->whereDate('start_date', '<=', $form_data['pick_date'])
-//                     ->whereDate('end_date', '>', $form_data['pick_date'])
-//                     ->whereTime('start_time', '<=', $form_data['pick_time'])
-//                     ->first();
+                $countrywiseprice=DB::table('city_wise_pricing')->where(['category'=>$class->name,'country'=>$form_data['booking_country'],'type'=>'fixed'])->where('status', 'active')
+                    ->whereDate('start_date', '<=', $form_data['pick_date'])
+                    ->whereDate('end_date', '>', $form_data['pick_date'])
+                    ->whereTime('start_time', '<=', $form_data['pick_time'])
+                    ->first();
               
-//                 if($countrywiseprice)
-//                 {
-//                     $percetageprice=($class->class_price/100)*$countrywiseprice->price;
-//                     $class->class_price += $percetageprice;
-//                     $class->setAttribute('class_price', number_format($class->class_price, 2));
-//                 }
-//                 else{
-//                     $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city'],'type'=>'fixed'])->where('status', 'active')
-//                     ->whereDate('start_date', '<=', $form_data['pick_date'])
-//                     ->whereDate('end_date', '>', $form_data['pick_date'])
-//                     ->whereTime('start_time', '<=', $form_data['pick_time'])
-//                     ->first();
-//                     if($result)
-//                     {
-//                         $percetageprice=(($class->class_price/100)*$result->price);  
-//                         $class->class_price += $percetageprice;
-//                        $class->setAttribute('class_price', number_format($class->class_price, 2));
-//                     }
-//                 }
+                if($countrywiseprice)
+                {
+                    $percetageprice=($class->class_price/100)*$countrywiseprice->price;
+                    $class->class_price += $percetageprice;
+                    $class->setAttribute('class_price', number_format($class->class_price, 2));
+                }
+                else{
+                    $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city'],'type'=>'fixed'])->where('status', 'active')
+                    ->whereDate('start_date', '<=', $form_data['pick_date'])
+                    ->whereDate('end_date', '>', $form_data['pick_date'])
+                    ->whereTime('start_time', '<=', $form_data['pick_time'])
+                    ->first();
+                    if($result)
+                    {
+                        $percetageprice=(($class->class_price/100)*$result->price);  
+                        $class->class_price += $percetageprice;
+                       $class->setAttribute('class_price', number_format($class->class_price, 2));
+                    }
+                }
                  
                
                 
