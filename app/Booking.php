@@ -223,7 +223,7 @@ class Booking extends Model
                     $classesWithPrice[] = $class;
                 } else {
                      $classPrice = $classPricing->first()->base_price;
-                    //  $classPrice = $classPrice * $d;
+                     $classPrice = $classPrice * $d;
                     // isset($discount_rate) ? $classPrice = $classPrice - ($classPrice * $discount_rate / 100) :
                     //     $classPrice = $classPrice + ($classPrice * $markup_rate / 100);
                     //Calculation and Adding tax amount
