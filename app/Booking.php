@@ -301,16 +301,19 @@ class Booking extends Model
                 if($countrywiseprice)
                 {
                     $percetageprice=(($class->class_price/100)*$countrywiseprice->price);
+                    $class->class_price += $percetageprice;
+                    $class->setAttribute('class_price', number_format($class->class_price, 2));
                 }
                 else{
                     $result=DB::table('city_wise_pricing')->where(['category'=>$class->name,'city'=>$form_data['booking_city'],'type'=>'hour'])->first();
                     if($result)
                     {
-                        $percetageprice=(($class->class_price/100)*$result->price);  
+                        $percetageprice=(($class->class_price/100)*$result->price); 
+                        $class->class_price += $percetageprice;
+                        $class->setAttribute('class_price', number_format($class->class_price, 2)); 
                     }
                 }
-                $class->class_price += $percetageprice;
-                $class->setAttribute('class_price', number_format($class->class_price, 2));
+                
             }
         }
         return $classesWithPrice;
