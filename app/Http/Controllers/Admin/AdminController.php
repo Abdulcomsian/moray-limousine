@@ -519,6 +519,34 @@ class AdminController extends Controller
         return redirect('admin/manage-city-pricing')->with('success','Success .. !  Record Deleted Successfully .');
     }
 
+    public function cityPriceDisActive($id)
+    {
+         $result = DB::table('city_wise_pricing')->where('id',$id)->update([
+            'status'=>'dis_active',
+         ]);
+
+        if ($result){
+           
+            return redirect('admin/manage-city-pricing')->with('success','Success ! Status  DeActivated Successfully');
+        }else{
+            return redirect('admin/manage-city-pricing')->with('error','Error ! No Record Found ..');
+        }
+    }
+
+    public function cityPriceActive($id)
+    {
+         $result = DB::table('city_wise_pricing')->where('id',$id)->update([
+            'status'=>'active',
+         ]);
+         
+        if ($result){
+           
+            return redirect('admin/manage-city-pricing')->with('success','Success ! Status  Activated Successfully');
+        }else{
+            return redirect('admin/manage-city-pricing')->with('error','Error ! No Record Found ..');
+        }
+    }
+
     /**
      * @return Factory|\Illuminate\View\View
      */

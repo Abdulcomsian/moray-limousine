@@ -29,7 +29,7 @@
                             @csrf
                             <input type="hidden" name="edit_id" id="edit_id" value="">
                             <fieldset>
-                                <legend class="text-center header mb-4 create-discount">Create Discounts and Up Price</legend>
+                                <legend class="text-center header mb-4 create-discount">Create Price Up Down</legend>
                                 <div class="row justify-content-center">
                                     <div class="col-md-4">
                                         <div class="form-group validate">
@@ -147,11 +147,11 @@
                 </div>
             @endif
                 <div class="card-header">
-                    <h4 class="text-center">Discounts & MarkUp Rate</h4>
+                    <h4 class="text-center">Price Up & Down Rate</h4>
                 </div>
                 <div class="card-body pr-0">
                 <div class="col-md-12 pt-2">
-                    <button type="button" class="btn btn-dark w-25  pull-right" data-toggle="modal" data-target="#myModal">Add New Discounts</button>
+                    <button type="button" class="btn btn-dark w-25  pull-right" data-toggle="modal" data-target="#myModal">Add New Rate</button>
                    <table id="datatable-buttons1" class="table table-striped dt-responsive nowrap w-100">
             <thead class="thead-dark">
             <tr>
@@ -191,7 +191,7 @@
                        
                         <td class="py-1">{{$ct->price}}%</td>
                         <td>
-                        <div class="btn-group p-0" style="font-size: 1.6rem;">
+                        <div class="btn-group p-0">
                              @if($ct->status == 'active')
                                 <label class="text-uppercase badge badge-success">{{$ct->status}}</label>
                             @elseif($ct->status == 'dis_active')
@@ -209,11 +209,11 @@
                                    
                                 <a id="{{$ct->id}}"  title="Delete" href="{{url('admin/delete-city-price/')}}/{{$ct->id}}" class="p-1 text-dark"  style="cursor: pointer"><i class="fa fa-trash"></i></a>
                             @if($ct->status !== 'dis_active')
-                                <a id="{{$ct->id}}" title="Inactive"  class="p-1 text-danger" style="cursor: pointer"><i class="fa fa-ban"></i></a>
+                                <a id="{{$ct->id}}" title="Inactive" href="{{url('admin/city-price-disactive/')}}/{{$ct->id}}"  class="p-1 text-danger" style="cursor: pointer"><i class="fa fa-ban"></i></a>
                             @endif
                            
                             @if($ct->status == 'dis_active')
-                                <a id="{{$ct->id}}" title="Active"  class="p-1 text-success" style="cursor: pointer">
+                                <a id="{{$ct->id}}" title="Active"  href="{{url('admin/city-price-active/')}}/{{$ct->id}}" class="p-1 text-success" style="cursor: pointer">
                                     <i class="fa fa-universal-access">
                                     </i></a>
                             @endif

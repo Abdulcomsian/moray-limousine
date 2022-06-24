@@ -421,6 +421,9 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         Route::post('admin/save-manage-city-pricing', 'Admin\AdminController@saveCityPricing')->name('admin.save.city.price');
         Route::get('admin/edit-city-price/{id}','Admin\AdminController@editCityPricing');
         Route::get('admin/delete-city-price/{id}', 'Admin\AdminController@deleteCityPrice');
+        Route::get('admin/city-price-disactive/{id}', 'Admin\AdminController@cityPriceDisActive');
+        Route::get('admin/city-price-active/{id}', 'Admin\AdminController@cityPriceActive');
+        
         
         //        Documents Routes
         Route::get('admin/add-documents', 'DocumentsController@addDocuments');
