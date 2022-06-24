@@ -199,11 +199,11 @@
                                         <input type="hidden" name="selected_category" value="{{json_encode($options_data)}}">
                                         <input type="hidden" name="optionsData" value="{{json_encode($options_data)}}">
                                         <div class="bottom p-5">
-                                            <!-- <div id="strip-button-container">
+                                            <div id="strip-button-container">
                                             </div>
                                             <br>
                                             <button>Pay With Credit Card</button>
-                                            <p><img src="{{ asset('images/creditcard.png') }}" alt="credit card icons" style="width:30%;" /></p> -->
+                                            <p><img src="{{ asset('images/creditcard.png') }}" alt="credit card icons" style="width:30%;" /></p>
                                             @if($form_data->orderId == '' || $form_data->orderId == null)
                                              <div id="paypal-button-container">
                                             </div> 
