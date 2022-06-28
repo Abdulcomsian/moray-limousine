@@ -211,6 +211,42 @@ class BookingController extends Controller
             $admin = User::where('user_type', 'admin')->get();
             $user->notify(new MorayLimousineNotifications($notify_booking_user));
             Notification::send($admin, new BookingNotification($notify_booking_admin));
+
+            //invoice work here
+            $users = user::find($user_id);
+            $result = invoice::create([
+                'booking_id' => $booking->id,
+                'invoice_number' => 'ML- ' . mt_rand(100000, 999999)
+            ]);
+            $invoice_number = $result->invoice_number;
+            //GENERATE PDF FILE AND SEND TO IN EMAIL
+            $pdf = PDF::loadView('invoicepdf', ['booking' => $booking, 'invoice_number' => $invoice_number]);
+            $path = public_path('pdf');
+            $fileName =  'invoice' . $booking_id . '.' . 'pdf';
+            $pdf->save($path . '/' . $fileName);
+            //send invoice using email
+            $notify_admins_msg = [
+                'greeting' => 'Invoice',
+                'subject' => 'Booking Invoice',
+                'body' => [
+                    'booking' => 'BOOKING DETAILS',
+                    'Pick Date'   =>   $booking->pick_date,
+                    'Pick Address'   =>   $booking->pick_address,
+                    'Drop Address'   =>   $booking->drop_address,
+                    'Selected Class'   =>   $booking->drop_address,
+                    'Travel Amount'   =>  $booking->travel_amount,
+                    'extra Amount'     =>  $booking->extra_options_amount,
+                    'Payment Status'   =>  $booking->payment_status,
+                    'invoicenumber' => $invoice_number,
+                    'bookingid' => $booking_id,
+                    'pendingamount' =>'',
+                    'filename' => $fileName,
+                ],
+                'thanks_text' => 'Thanks For Using Moray Limousines',
+                'action_text' => '',
+                'action_url' => '',
+            ];
+            Notification::send($users, new InvoiceNotifications($notify_admins_msg));
              return view('booking.thanks')->with('booking', $booking);
         } catch (\Exception $exception) {
             return redirect()->back()->with('error','ERROR .. !  '.$exception->getMessage().'.');;
