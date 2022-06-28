@@ -86,8 +86,6 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
     Route::get('/booking/delete/{id}', 'BookingController@bookingDelete');
 
     Route::group(['middleware' => 'end_user'], function () {
-
-
         Route::get('user/build-profile', 'UserController@buildProfile')->name('build-user-profile');
         Route::post('user/store-profile', 'UserController@storeProfile')->name('store-profile');
         Route::get('user/update-profile/{id}', 'UserController@updateProfile')->name('update-user-profile');
@@ -97,12 +95,10 @@ Route::group(['middleware' => ['web', 'auth', 'isEmailVerified']], function () {
         Route::get('user/reservation', 'UserController@userReservation')->name('user.reservation');
         Route::get('user/cancel-booking/{id}', 'UserController@cancelBooking');
         Route::get('user/extend-booking/{id}', 'UserController@extendBooking');
-
         Route::get('user/completed-bookings', 'UserController@completedBookings');
         Route::get('user/canceled-bookings', 'UserController@canceledBookings');
         Route::get('user/all-bookings', 'UserController@allBookings');
         Route::get('user/filter-by-date', 'UserController@filterByDate');
-
         Route::get('user/filter-by-status', 'UserController@filterByStatus');
         Route::get('user/booking-details/{id}', 'UserController@bookingDetail');
         Route::get('user/booking-confirm/{id}', 'UserController@bookingConfirm');
