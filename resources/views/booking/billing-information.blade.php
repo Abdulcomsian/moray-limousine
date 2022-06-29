@@ -199,11 +199,11 @@
                                         <input type="hidden" name="selected_category" value="{{json_encode($options_data)}}">
                                         <input type="hidden" name="optionsData" value="{{json_encode($options_data)}}">
                                         <div class="bottom p-5">
-                                            <div id="strip-button-container">
+                                           <!--  <div id="strip-button-container">
                                             </div>
                                             <br>
                                             <button>Pay With Credit Card</button>
-                                            <p><img src="{{ asset('images/creditcard.png') }}" alt="credit card icons" style="width:30%;" /></p>
+                                            <p><img src="{{ asset('images/creditcard.png') }}" alt="credit card icons" style="width:30%;" /></p> -->
                                             @if($form_data->orderId == '' || $form_data->orderId == null)
                                              <div id="paypal-button-container">
                                             </div> 
@@ -347,63 +347,63 @@
 	</script>
 
 <script>
-    $(document).ready(function (){
-        var stripe = Stripe('pk_live_51H6zNfDIr4vVZ16GxaXBB2DdZCn1iPb4YUpfZL1mdM4Xy4OycK3oalYPhWTtL6OHq4Sabh5b3nkxxJRUmZUZqJEN00CNiPT8as');
-        var elements = stripe.elements();
-        // Custom styling can be passed to options when creating an Element.
-        var style = {
-            base: {
-                color: "#32325d",
-                fontFamily: 'Arial, sans-serif',
-                fontSmoothing: "antialiased",
-                fontSize: "16px",
-                "::placeholder": {
-                    color: "#32325d"
-                }
-            },
-            invalid: {
-                fontFamily: 'Arial, sans-serif',
-                color: "#fa755a",
-                iconColor: "#fa755a"
-            }
-        };
+    // $(document).ready(function (){
+    //     var stripe = Stripe('pk_live_51H6zNfDIr4vVZ16GxaXBB2DdZCn1iPb4YUpfZL1mdM4Xy4OycK3oalYPhWTtL6OHq4Sabh5b3nkxxJRUmZUZqJEN00CNiPT8as');
+    //     var elements = stripe.elements();
+    //     // Custom styling can be passed to options when creating an Element.
+    //     var style = {
+    //         base: {
+    //             color: "#32325d",
+    //             fontFamily: 'Arial, sans-serif',
+    //             fontSmoothing: "antialiased",
+    //             fontSize: "16px",
+    //             "::placeholder": {
+    //                 color: "#32325d"
+    //             }
+    //         },
+    //         invalid: {
+    //             fontFamily: 'Arial, sans-serif',
+    //             color: "#fa755a",
+    //             iconColor: "#fa755a"
+    //         }
+    //     };
 
-        // Create an instance of the card Element.
-        var card = elements.create('card', {style: style});
+    //     // Create an instance of the card Element.
+    //     var card = elements.create('card', {style: style});
 
-        // Add an instance of the card Element into the `card-element` <div>.
-        card.mount('#strip-button-container');
+    //     // Add an instance of the card Element into the `card-element` <div>.
+    //     card.mount('#strip-button-container');
 
-        // Create a token or display an error when the form is submitted.
-        var form = document.getElementById('payment-form');
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
+    //     // Create a token or display an error when the form is submitted.
+    //     var form = document.getElementById('payment-form');
+    //     form.addEventListener('submit', function (event) {
+    //         event.preventDefault();
 
-            stripe.createToken(card).then(function (result) {
-                if (result.error) {
-                    // Inform the customer that there was an error.
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    // Send the token to your server.
-                    stripeTokenHandler(result.token);
-                }
-            });
-        });
+    //         stripe.createToken(card).then(function (result) {
+    //             if (result.error) {
+    //                 // Inform the customer that there was an error.
+    //                 var errorElement = document.getElementById('card-errors');
+    //                 errorElement.textContent = result.error.message;
+    //             } else {
+    //                 // Send the token to your server.
+    //                 stripeTokenHandler(result.token);
+    //             }
+    //         });
+    //     });
 
-        function stripeTokenHandler(token) {
-            // Insert the token ID into the form so it gets submitted to the server
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            hiddenInput.setAttribute('style', "border:1px");
-            form.appendChild(hiddenInput);
-            // Submit the form
-            form.submit();
-        }
-    })
+    //     function stripeTokenHandler(token) {
+    //         // Insert the token ID into the form so it gets submitted to the server
+    //         var form = document.getElementById('payment-form');
+    //         var hiddenInput = document.createElement('input');
+    //         hiddenInput.setAttribute('type', 'hidden');
+    //         hiddenInput.setAttribute('name', 'stripeToken');
+    //         hiddenInput.setAttribute('value', token.id);
+    //         hiddenInput.setAttribute('style', "border:1px");
+    //         form.appendChild(hiddenInput);
+    //         // Submit the form
+    //         form.submit();
+    //     }
+    // })
 </script>
     
 @endsection
